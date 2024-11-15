@@ -49,8 +49,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.bookTitle = new System.Windows.Forms.TextBox();
             this.author = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.BQuantityTXT = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.BQuantityTXT = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel2.SuspendLayout();
@@ -177,8 +177,8 @@
             // 
             this.panel2.BackColor = System.Drawing.Color.White;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel2.Controls.Add(this.textBox1);
             this.panel2.Controls.Add(this.BQuantityTXT);
+            this.panel2.Controls.Add(this.label4);
             this.panel2.Controls.Add(this.BookNumTxt);
             this.panel2.Controls.Add(this.label3);
             this.panel2.Controls.Add(this.StopBtn);
@@ -292,22 +292,22 @@
             this.author.Size = new System.Drawing.Size(154, 26);
             this.author.TabIndex = 18;
             // 
-            // textBox1
+            // label4
             // 
-            this.textBox1.Location = new System.Drawing.Point(143, 389);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(154, 26);
-            this.textBox1.TabIndex = 26;
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(61, 395);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(83, 22);
+            this.label4.TabIndex = 25;
+            this.label4.Text = "Quantity:";
             // 
             // BQuantityTXT
             // 
-            this.BQuantityTXT.AutoSize = true;
-            this.BQuantityTXT.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BQuantityTXT.Location = new System.Drawing.Point(56, 393);
+            this.BQuantityTXT.Location = new System.Drawing.Point(144, 395);
             this.BQuantityTXT.Name = "BQuantityTXT";
-            this.BQuantityTXT.Size = new System.Drawing.Size(77, 22);
-            this.BQuantityTXT.TabIndex = 25;
-            this.BQuantityTXT.Text = "Quantity";
+            this.BQuantityTXT.Size = new System.Drawing.Size(154, 26);
+            this.BQuantityTXT.TabIndex = 26;
             // 
             // IssueBook
             // 
@@ -350,7 +350,7 @@
         private System.Windows.Forms.Button StartBtn;
         private System.Windows.Forms.ComboBox Camera;
         private System.Windows.Forms.PictureBox CameraFrame;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label BQuantityTXT;
+        private System.Windows.Forms.TextBox BQuantityTXT;
+        private System.Windows.Forms.Label label4;
     }
 }

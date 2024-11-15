@@ -117,6 +117,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BookData.cs" />
+    <Compile Include="BookTransaction.cs" />
     <Compile Include="BorrowBook.cs">
       <SubType>UserControl</SubType>
     </Compile>

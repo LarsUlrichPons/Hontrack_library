@@ -12,7 +12,7 @@ namespace Hontrack_library
         public string Author { get; set; }
         public DateTime Published { get; set; }
         public string Status { get; set; }
-        public int Book_Quantity { get; set; }
+      public int Book_Quantity { get; set; }
 
         private readonly string connectionString = "server=127.0.0.1; user=root; database=hontrack; password=";
 

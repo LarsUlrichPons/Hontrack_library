@@ -2,22 +2,21 @@
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using ZXing;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Hontrack_library
 {
     public partial class IssueBook : UserControl
     {
-        // Update connection string for MySQL
+       
         string connect = "server=127.0.0.1; user=root; database=hontrack; password=";
         private FilterInfoCollection filterInfoCollection;
         private VideoCaptureDevice videoCaptureDevice;
         private bool isCameraRunning = false;
+        private Timer refreshTimer;  // Declare a Timer
 
         public IssueBook()
         {
@@ -40,33 +39,29 @@ namespace Hontrack_library
                 MessageBox.Show("No camera devices found.");
             }
 
-            // Handle form visibility changes
+          
+            refreshTimer = new Timer();
+            refreshTimer.Interval = 5000; 
+            refreshTimer.Tick += RefreshTimer_Tick; 
+
+           
             this.VisibleChanged += BorrowBook_VisibleChanged;
         }
 
-        // Display book data in DataGridView
+      
+        private void RefreshTimer_Tick(object sender, EventArgs e)
+        {
+            displayBookData();  
+        }
+
+      
         public void displayBookData()
         {
             BookData bookData = new BookData();
             List<BookData> listdata = bookData.BookListData();
-
-            dataGridView1.AutoGenerateColumns = false;
-            dataGridView1.Columns.Clear();
-
-            // Create columns for each property
-            dataGridView1.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "ID", HeaderText = "ID" });
-            dataGridView1.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "BookNumber", HeaderText = "Book Number" });
-            dataGridView1.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "BookTitle", HeaderText = "Book Title" });
-            dataGridView1.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Author", HeaderText = "Author" });
-            dataGridView1.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Published", HeaderText = "Published Date" });
-            dataGridView1.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "Status", HeaderText = "Status" });
-            dataGridView1.Columns.Add(new DataGridViewTextBoxColumn { DataPropertyName = "BookQuantity", HeaderText = "Quantity" });  // Add BookQuantity column
-            dataGridView1.DataSource = null;
-
             dataGridView1.DataSource = listdata;
             dataGridView1.Refresh();
         }
-
 
         private void StartBtn_Click(object sender, EventArgs e)
         {
@@ -77,12 +72,11 @@ namespace Hontrack_library
         {
             if (filterInfoCollection.Count > 0)
             {
-                // Stop any running camera before starting a new one
                 StopCamera();
 
                 videoCaptureDevice = new VideoCaptureDevice(filterInfoCollection[Camera.SelectedIndex].MonikerString);
 
-                // Set the desired resolution (choose one supported by your camera)
+               
                 if (videoCaptureDevice.VideoCapabilities.Length > 0)
                 {
                     var highestResolution = videoCaptureDevice.VideoCapabilities
@@ -106,7 +100,7 @@ namespace Hontrack_library
             if (videoCaptureDevice != null && videoCaptureDevice.IsRunning)
             {
                 videoCaptureDevice.SignalToStop();
-                videoCaptureDevice.WaitForStop(); // Ensure camera stops completely
+                videoCaptureDevice.WaitForStop();
                 videoCaptureDevice.NewFrame -= VideoCaptureDevice_NewFrame;
                 isCameraRunning = false;
             }
@@ -117,10 +111,12 @@ namespace Hontrack_library
             if (this.Visible && !isCameraRunning)
             {
                 StartCamera();
+                refreshTimer.Start();  
             }
             else if (!this.Visible && isCameraRunning)
             {
                 StopCamera();
+                refreshTimer.Stop();
             }
         }
 
@@ -141,7 +137,7 @@ namespace Hontrack_library
             }
             else
             {
-                // Add a log or message to show that the barcode wasn't recognized
+               
                 Console.WriteLine("Barcode not recognized or empty.");
             }
 
@@ -162,16 +158,16 @@ namespace Hontrack_library
                     {
                         conn.Open();
 
-                       string insertData = "INSERT INTO book (book_num, bookTitle, author, published, status, book_stock, insert_date) VALUES (@book_num, @bookTitle, @author, @publishedDate, @status, @BQuantity, @insertDate)";
+                        string insertData = "INSERT INTO book (book_num, bookTitle, author, published, status, book_stock, insert_date) VALUES (@book_num, @bookTitle, @author, @publishedDate, @status, @BQuantity, @insertDate)";
 
                         using (MySqlCommand cmd = new MySqlCommand(insertData, conn))
                         {
-                            cmd.Parameters.AddWithValue("@book_num", BookNumTxt.Text.Trim());  // Ensure BookNum is not empty
+                            cmd.Parameters.AddWithValue("@book_num", BookNumTxt.Text.Trim()); 
                             cmd.Parameters.AddWithValue("@bookTitle", bookTitle.Text.Trim());
                             cmd.Parameters.AddWithValue("@author", author.Text.Trim());
                             cmd.Parameters.AddWithValue("@publishedDate", publishedDate.Value);
                             cmd.Parameters.AddWithValue("@status", Status.Text.Trim());
-                            cmd.Parameters.AddWithValue("@BQuantity",BQuantityTXT.Text.Trim());
+                            cmd.Parameters.AddWithValue("@BQuantity", BQuantityTXT.Text.Trim());
                             cmd.Parameters.AddWithValue("@insertDate", DateTime.Now);
 
                             cmd.ExecuteNonQuery();
@@ -206,17 +202,17 @@ namespace Hontrack_library
                         {
                             conn.Open();
 
-                            // Corrected query with table name 'book'
+                          
                             string updateData = "UPDATE book SET bookTitle = @bookTitle, author = @author, published = @publishedDate, status = @status,book_stock = @BQuantity ,update_date = @updateDate WHERE book_num = @book_num";
 
                             using (MySqlCommand cmd = new MySqlCommand(updateData, conn))
                             {
-                                cmd.Parameters.AddWithValue("@book_num",BookNumTxt.Text.Trim());
+                                cmd.Parameters.AddWithValue("@book_num", BookNumTxt.Text.Trim());
                                 cmd.Parameters.AddWithValue("@bookTitle", bookTitle.Text.Trim());
                                 cmd.Parameters.AddWithValue("@author", author.Text.Trim());
                                 cmd.Parameters.AddWithValue("@publishedDate", publishedDate.Value);
                                 cmd.Parameters.AddWithValue("@status", Status.Text.Trim());
-                                cmd.Parameters.AddWithValue("@BQuantity",BQuantityTXT.Text.Trim());
+                                cmd.Parameters.AddWithValue("@BQuantity", BQuantityTXT.Text.Trim());
                                 cmd.Parameters.AddWithValue("@updateDate", DateTime.Now);
 
                                 cmd.ExecuteNonQuery();
@@ -245,7 +241,7 @@ namespace Hontrack_library
             if (e.RowIndex >= 0)
             {
                 DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
-                BookID = (int)row.Cells[0].Value;  // Ensure the ID column is the first column
+                BookID = (int)row.Cells[0].Value;  
                 BookNumTxt.Text = row.Cells[1].Value.ToString();
                 bookTitle.Text = row.Cells[2].Value.ToString();
                 author.Text = row.Cells[3].Value.ToString();
@@ -258,15 +254,17 @@ namespace Hontrack_library
                     publishedDate.Value = DateTime.Now;
                 }
                 Status.Text = row.Cells[5].Value.ToString();
-               // BQuantityTXT.Text = row.Cells[6].Value.ToString();
+                BQuantityTXT.Text = row.Cells[6].Value.ToString();
             }
         }
 
         public void clearField()
         {
-            bookTitle.Text = "";
-            author.Text = "";
+            bookTitle.Clear();
+            author.Clear();
             Status.SelectedIndex = -1;
+            BookNumTxt.Clear();
+            BQuantityTXT.Clear();
         }
 
         private void RemoveBtn_Click(object sender, EventArgs e)
@@ -280,11 +278,11 @@ namespace Hontrack_library
                     {
                         conn.Open();
 
-                        string deleteQuery = "DELETE FROM book WHERE bookTitle = @bookTitle";
+                        string deleteQuery = "DELETE FROM book WHERE book_num = @book_num";
 
                         using (MySqlCommand cmd = new MySqlCommand(deleteQuery, conn))
                         {
-                            cmd.Parameters.AddWithValue("@bookTitle", bookTitle.Text.Trim());
+                            cmd.Parameters.AddWithValue("@book_num", BookNumTxt.Text.Trim());
                             cmd.ExecuteNonQuery();
                             MessageBox.Show("Deleted Successfully!", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
