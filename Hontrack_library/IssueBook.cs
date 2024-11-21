@@ -24,6 +24,12 @@ namespace Hontrack_library
             displayBookData();
             Status.DropDownStyle = ComboBoxStyle.DropDownList;
 
+            refreshTimer = new Timer();
+            refreshTimer.Interval = 5000; // 5 seconds
+            refreshTimer.Tick += RefreshTimer_Tick;
+
+           
+
             filterInfoCollection = new FilterInfoCollection(FilterCategory.VideoInputDevice);
 
             if (filterInfoCollection != null && filterInfoCollection.Count > 0)
@@ -40,9 +46,7 @@ namespace Hontrack_library
             }
 
           
-            refreshTimer = new Timer();
-            refreshTimer.Interval = 5000; 
-            refreshTimer.Tick += RefreshTimer_Tick; 
+           
 
            
             this.VisibleChanged += BorrowBook_VisibleChanged;
@@ -65,7 +69,14 @@ namespace Hontrack_library
 
         private void StartBtn_Click(object sender, EventArgs e)
         {
-            StartCamera();
+            if (!isCameraRunning)
+            {
+                StartCamera();
+            }
+            else
+            {
+                StopCamera();
+            }
         }
 
         private void StartCamera()
@@ -88,6 +99,7 @@ namespace Hontrack_library
                 videoCaptureDevice.NewFrame += VideoCaptureDevice_NewFrame;
                 videoCaptureDevice.Start();
                 isCameraRunning = true;
+                StartBtn.Text = "Start";
             }
             else
             {
@@ -103,6 +115,7 @@ namespace Hontrack_library
                 videoCaptureDevice.WaitForStop();
                 videoCaptureDevice.NewFrame -= VideoCaptureDevice_NewFrame;
                 isCameraRunning = false;
+                StartBtn.Text = "Stop";
             }
         }
 
@@ -111,12 +124,12 @@ namespace Hontrack_library
             if (this.Visible && !isCameraRunning)
             {
                 StartCamera();
-                refreshTimer.Start();  
+                //refreshTimer.Start();  
             }
             else if (!this.Visible && isCameraRunning)
             {
                 StopCamera();
-                refreshTimer.Stop();
+               // refreshTimer.Stop();
             }
         }
 
@@ -302,9 +315,22 @@ namespace Hontrack_library
 
         }
 
-        private void StopBtn_Click(object sender, EventArgs e)
+      
+
+        private void refreshBtn_Click(object sender, EventArgs e)
         {
-            StopCamera();
+            try
+            {
+                // Refresh data instantly
+                displayBookData();
+                MessageBox.Show("Data refreshed successfully.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error refreshing data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+
+
     }
 }

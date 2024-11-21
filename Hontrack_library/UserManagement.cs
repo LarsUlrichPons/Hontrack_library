@@ -5,19 +5,29 @@ using MySql.Data.MySqlClient;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 
+
 namespace Hontrack_library
 {
     public partial class UserManagement : UserControl
     {
         string connect = "server=127.0.0.1; user=root; database=hontrack; password=";
+        private Timer refreshTimer; // Declare Timer here
+
 
         public UserManagement()
         {
             InitializeComponent();
             displayEmployeeData();
             addEmployee_UT.DropDownStyle = ComboBoxStyle.DropDownList;
+            refreshTimer = new Timer();
+            refreshTimer.Interval = 5000; // 1 second
+            refreshTimer.Tick += RefreshTimer_Tick; // Event handler
         }
-
+        private void RefreshTimer_Tick(object sender, EventArgs e)
+        {
+            // Refresh the book data every second
+            displayEmployeeData();
+        }
         public void displayEmployeeData()
         {
             EmployeeData employeeData = new EmployeeData();
@@ -189,14 +199,14 @@ namespace Hontrack_library
         private void RemoveBtn_Click(object sender, EventArgs e)
         {
             // Check if a row is selected
-            if (dataGridView1.SelectedRows.Count == 0)
+            if (dataGridView1.SelectedCells.Count == 0)
             {
                 MessageBox.Show("Please select an employee to delete", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             // Check if the selected row is the first row
-            int selectedRowIndex = dataGridView1.SelectedRows[0].Index;
+            int selectedRowIndex = dataGridView1.SelectedCells[0].RowIndex;
             if (selectedRowIndex == 0)
             {
                 MessageBox.Show("The first row cannot be deleted.", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -226,6 +236,20 @@ namespace Hontrack_library
                 {
                     MessageBox.Show("Error: " + ex.Message, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+        }
+
+        private void refreshBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Refresh data instantly
+                displayEmployeeData();
+                MessageBox.Show("Data refreshed successfully.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error refreshing data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

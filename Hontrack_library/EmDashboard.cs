@@ -16,5 +16,44 @@ namespace Hontrack_library
         {
             InitializeComponent();
         }
+
+        private void DbButton_Click(object sender, EventArgs e)
+        {
+            dashMain1.Visible = true;
+            borrowBook1.Visible = false;
+            returnbook1.Visible = false;
+            borrowingHistory1.Visible = false;
+            
+        }
+
+        private void BbButton_Click(object sender, EventArgs e)
+        {
+            dashMain1.Visible = false;
+            borrowBook1.Visible = true;
+            returnbook1.Visible = false;
+            borrowingHistory1.Visible = false;
+
+        }
+
+        private void RbButton_Click(object sender, EventArgs e)
+        {
+            dashMain1.Visible = false;
+            borrowBook1.Visible = false;
+            returnbook1.Visible = true;
+            borrowingHistory1.Visible = false;
+        }
+
+        private void BhButton_Click(object sender, EventArgs e)
+        {
+            dashMain1.Visible = false;
+            borrowBook1.Visible = false;
+            returnbook1.Visible = false;
+            borrowingHistory1.Visible = true;
+        }
+
+        private void LogoutBtn_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

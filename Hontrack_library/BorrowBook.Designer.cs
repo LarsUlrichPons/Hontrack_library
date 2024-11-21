@@ -37,13 +37,11 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.refreshBtn = new System.Windows.Forms.Button();
             this.NameTXT = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.Status = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.CameraBtn = new System.Windows.Forms.Button();
-            this.Camera = new System.Windows.Forms.ComboBox();
-            this.CameraFrame = new System.Windows.Forms.PictureBox();
             this.BQuantity = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.Author = new System.Windows.Forms.TextBox();
@@ -53,7 +51,6 @@
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.CameraFrame)).BeginInit();
             this.SuspendLayout();
             // 
             // ClearBtn
@@ -63,9 +60,9 @@
             this.ClearBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ClearBtn.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ClearBtn.ForeColor = System.Drawing.Color.White;
-            this.ClearBtn.Location = new System.Drawing.Point(167, 489);
+            this.ClearBtn.Location = new System.Drawing.Point(106, 489);
             this.ClearBtn.Name = "ClearBtn";
-            this.ClearBtn.Size = new System.Drawing.Size(124, 55);
+            this.ClearBtn.Size = new System.Drawing.Size(89, 55);
             this.ClearBtn.TabIndex = 16;
             this.ClearBtn.Text = "Clear";
             this.ClearBtn.UseVisualStyleBackColor = false;
@@ -80,7 +77,7 @@
             this.BorrowButton.ForeColor = System.Drawing.Color.White;
             this.BorrowButton.Location = new System.Drawing.Point(11, 489);
             this.BorrowButton.Name = "BorrowButton";
-            this.BorrowButton.Size = new System.Drawing.Size(124, 55);
+            this.BorrowButton.Size = new System.Drawing.Size(89, 55);
             this.BorrowButton.TabIndex = 15;
             this.BorrowButton.Text = "Borrow";
             this.BorrowButton.UseVisualStyleBackColor = false;
@@ -150,16 +147,14 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.refreshBtn);
             this.panel1.Controls.Add(this.NameTXT);
             this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.Status);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.BQuantity);
             this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.CameraBtn);
-            this.panel1.Controls.Add(this.Camera);
             this.panel1.Controls.Add(this.ClearBtn);
-            this.panel1.Controls.Add(this.CameraFrame);
             this.panel1.Controls.Add(this.BorrowButton);
             this.panel1.Controls.Add(this.label7);
             this.panel1.Controls.Add(this.Author);
@@ -172,6 +167,21 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(321, 567);
             this.panel1.TabIndex = 2;
+            // 
+            // refreshBtn
+            // 
+            this.refreshBtn.BackColor = System.Drawing.Color.SeaGreen;
+            this.refreshBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.refreshBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.refreshBtn.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.refreshBtn.ForeColor = System.Drawing.Color.White;
+            this.refreshBtn.Location = new System.Drawing.Point(201, 489);
+            this.refreshBtn.Name = "refreshBtn";
+            this.refreshBtn.Size = new System.Drawing.Size(89, 55);
+            this.refreshBtn.TabIndex = 25;
+            this.refreshBtn.Text = "Refresh";
+            this.refreshBtn.UseVisualStyleBackColor = false;
+            this.refreshBtn.Click += new System.EventHandler(this.refreshBtn_Click);
             // 
             // NameTXT
             // 
@@ -208,34 +218,6 @@
             this.label4.Size = new System.Drawing.Size(58, 19);
             this.label4.TabIndex = 20;
             this.label4.Text = "Status:";
-            // 
-            // CameraBtn
-            // 
-            this.CameraBtn.Location = new System.Drawing.Point(196, 201);
-            this.CameraBtn.Name = "CameraBtn";
-            this.CameraBtn.Size = new System.Drawing.Size(75, 33);
-            this.CameraBtn.TabIndex = 2;
-            this.CameraBtn.Text = "Start";
-            this.CameraBtn.UseVisualStyleBackColor = true;
-            this.CameraBtn.Click += new System.EventHandler(this.CameraBtn_Click);
-            // 
-            // Camera
-            // 
-            this.Camera.FormattingEnabled = true;
-            this.Camera.Location = new System.Drawing.Point(11, 204);
-            this.Camera.Name = "Camera";
-            this.Camera.Size = new System.Drawing.Size(179, 28);
-            this.Camera.TabIndex = 2;
-            // 
-            // CameraFrame
-            // 
-            this.CameraFrame.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.CameraFrame.Location = new System.Drawing.Point(11, 12);
-            this.CameraFrame.Name = "CameraFrame";
-            this.CameraFrame.Size = new System.Drawing.Size(292, 183);
-            this.CameraFrame.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.CameraFrame.TabIndex = 2;
-            this.CameraFrame.TabStop = false;
             // 
             // BQuantity
             // 
@@ -304,7 +286,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.CameraFrame)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -312,15 +293,12 @@
         #endregion
         private System.Windows.Forms.Button ClearBtn;
         private System.Windows.Forms.Button BorrowButton;
-        private System.Windows.Forms.PictureBox CameraFrame;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox IDTextBox;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button CameraBtn;
-        private System.Windows.Forms.ComboBox Camera;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.TextBox Status;
         private System.Windows.Forms.Label label4;
@@ -332,5 +310,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox BookTitle;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button refreshBtn;
     }
 }

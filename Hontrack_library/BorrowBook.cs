@@ -11,9 +11,8 @@ namespace Hontrack_library
 {
     public partial class BorrowBook : UserControl
     {
-        private FilterInfoCollection filterInfoCollection;
-        private VideoCaptureDevice videoCaptureDevice;
-        private bool isCameraRunning = false;
+       
+       
         string connect = "server=127.0.0.1; user=root; database=hontrack; password=";
         private Timer refreshTimer; // Declare Timer here
 
@@ -23,29 +22,18 @@ namespace Hontrack_library
 
             displayBookData();
 
-            filterInfoCollection = new FilterInfoCollection(FilterCategory.VideoInputDevice);
-
-            if (filterInfoCollection != null && filterInfoCollection.Count > 0)
-            {
-                foreach (FilterInfo device in filterInfoCollection)
-                {
-                    Camera.Items.Add(device.Name);
-                }
-                Camera.SelectedIndex = 0;
-            }
-            else
-            {
-                MessageBox.Show("No camera devices found.");
-            }
-
-            // Handle form visibility changes
-            this.VisibleChanged += BorrowBook_VisibleChanged;
 
             // Initialize and start the timer to refresh every 1 second
             refreshTimer = new Timer();
             refreshTimer.Interval = 5000; // 1 second
             refreshTimer.Tick += RefreshTimer_Tick; // Event handler
-            refreshTimer.Start(); // Start the timer
+
+            IDTextBox.ReadOnly = true;
+            BookTitle.ReadOnly = true;
+            Author.ReadOnly = true;
+            BQuantity.ReadOnly = true;
+            Status.ReadOnly = true;
+           
         }
 
         private void RefreshTimer_Tick(object sender, EventArgs e)
@@ -61,94 +49,9 @@ namespace Hontrack_library
             Author.Clear();
         }
 
-        private void CameraBtn_Click(object sender, EventArgs e)
-        {
-            if (!isCameraRunning)
-            {
-                StartCamera();
-            }
-            else
-            {
-                StopCamera();
-            }
-        }
+     
 
-        private void StartCamera()
-        {
-            if (filterInfoCollection.Count > 0)
-            {
-                // Stop any running camera before starting a new one
-                StopCamera();
-
-                videoCaptureDevice = new VideoCaptureDevice(filterInfoCollection[Camera.SelectedIndex].MonikerString);
-
-                // Set the desired resolution (choose one supported by your camera)
-                if (videoCaptureDevice.VideoCapabilities.Length > 0)
-                {
-                    var highestResolution = videoCaptureDevice.VideoCapabilities
-                        .OrderByDescending(vc => vc.FrameSize.Width * vc.FrameSize.Height)
-                        .First();
-                    videoCaptureDevice.VideoResolution = highestResolution;
-                }
-
-                videoCaptureDevice.NewFrame += VideoCaptureDevice_NewFrame;
-                videoCaptureDevice.Start();
-                isCameraRunning = true;
-            }
-            else
-            {
-                MessageBox.Show("No camera selected.");
-            }
-        }
-
-        private void StopCamera()
-        {
-            if (videoCaptureDevice != null && videoCaptureDevice.IsRunning)
-            {
-                videoCaptureDevice.SignalToStop();
-                videoCaptureDevice.WaitForStop(); // Ensure camera stops completely
-                videoCaptureDevice.NewFrame -= VideoCaptureDevice_NewFrame;
-                isCameraRunning = false;
-            }
-        }
-
-        private void BorrowBook_VisibleChanged(object sender, EventArgs e)
-        {
-            // Only start/stop camera if the form is visible
-            if (this.Visible && !isCameraRunning)
-            {
-                StartCamera();
-            }
-            else if (!this.Visible && isCameraRunning)
-            {
-                StopCamera();
-            }
-        }
-
-        private void VideoCaptureDevice_NewFrame(object sender, AForge.Video.NewFrameEventArgs eventArgs)
-        {
-            Bitmap bitmap = (Bitmap)eventArgs.Frame.Clone();
-            BarcodeReader reader = new BarcodeReader();
-
-            Bitmap resizedBitmap = new Bitmap(bitmap, new Size(640, 480));
-
-            var result = reader.Decode(resizedBitmap);
-            if (result != null)
-            {
-                IDTextBox.Invoke(new MethodInvoker(delegate
-                {
-                    IDTextBox.Text = result.Text;
-                }));
-            }
-
-            CameraFrame.Image = resizedBitmap;
-        }
-
-        private void BorrowBook_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            StopCamera();
-        }
-
+      
         public void displayBookData()
         {
             BookData bookData = new BookData();
@@ -180,6 +83,7 @@ namespace Hontrack_library
             Status.Clear();
             IDTextBox.Clear();
             BQuantity.Clear();
+            NameTXT.Clear();
         }
 
         private void BorrowButton_Click(object sender, EventArgs e)
@@ -202,9 +106,9 @@ namespace Hontrack_library
                             transaction = conn.BeginTransaction();
 
                             // Retrieve the current book stock and status from the database
-                            string getStockQuery = "SELECT book_stock, status FROM book WHERE ID = @book_num";
+                            string getStockQuery = "SELECT book_stock, status FROM book WHERE book_num = @book_num";
                             MySqlCommand getStockCmd = new MySqlCommand(getStockQuery, conn, transaction);
-                            getStockCmd.Parameters.AddWithValue("@book_num", BookID);
+                            getStockCmd.Parameters.AddWithValue("@book_num", IDTextBox.Text.Trim());
 
                             using (MySqlDataReader reader = getStockCmd.ExecuteReader())
                             {
@@ -222,18 +126,19 @@ namespace Hontrack_library
                                         reader.Close();
 
                                         // Update the book stock in the database
-                                        string updateStockQuery = "UPDATE book SET book_stock = @newStock WHERE ID = @book_num";
+                                        string updateStockQuery = "UPDATE book SET book_stock = @newStock WHERE book_num = @book_num";
                                         MySqlCommand updateStockCmd = new MySqlCommand(updateStockQuery, conn, transaction);
                                         updateStockCmd.Parameters.AddWithValue("@newStock", newStock);
-                                        updateStockCmd.Parameters.AddWithValue("@book_num", BookID);
+                                        updateStockCmd.Parameters.AddWithValue("@book_num", IDTextBox.Text.Trim());
                                         updateStockCmd.ExecuteNonQuery();
 
                                         // If the stock reaches zero, set the status to 'Unavailable'
                                         if (newStock == 0)
                                         {
-                                            string updateStatusQuery = "UPDATE book SET status = 'Unavailable' WHERE ID = @book_num";
+                                            string updateStatusQuery = "UPDATE book SET status = 'Unavailable' WHERE book_num = @book_num";
                                             MySqlCommand updateStatusCmd = new MySqlCommand(updateStatusQuery, conn, transaction);
-                                            updateStatusCmd.Parameters.AddWithValue("@book_num", BookID);
+                                            updateStatusCmd.Parameters.AddWithValue("@book_num", IDTextBox.Text.Trim());
+
                                             updateStatusCmd.ExecuteNonQuery();
                                         }
 
@@ -285,6 +190,18 @@ namespace Hontrack_library
             }
         }
 
-
+        private void refreshBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Refresh data instantly
+                displayBookData();
+                MessageBox.Show("Data refreshed successfully.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error refreshing data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

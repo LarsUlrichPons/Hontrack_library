@@ -28,118 +28,67 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.AddBtn = new System.Windows.Forms.Button();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.label8 = new System.Windows.Forms.Label();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.searchBtn = new System.Windows.Forms.Button();
+            this.UserNametxt = new System.Windows.Forms.TextBox();
+            this.IDtxt = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.status = new System.Windows.Forms.TextBox();
+            this.returndate = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.borrowdate = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.label9 = new System.Windows.Forms.Label();
+            this.searchBox = new System.Windows.Forms.TextBox();
+            this.refreshBtn = new System.Windows.Forms.Button();
+            this.PdfBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // AddBtn
+            // searchBtn
             // 
-            this.AddBtn.BackColor = System.Drawing.Color.SeaGreen;
-            this.AddBtn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.AddBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.AddBtn.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.AddBtn.ForeColor = System.Drawing.Color.White;
-            this.AddBtn.Location = new System.Drawing.Point(14, 143);
-            this.AddBtn.Name = "AddBtn";
-            this.AddBtn.Size = new System.Drawing.Size(102, 48);
-            this.AddBtn.TabIndex = 14;
-            this.AddBtn.Text = "Sort";
-            this.AddBtn.UseVisualStyleBackColor = false;
+            this.searchBtn.BackColor = System.Drawing.Color.SeaGreen;
+            this.searchBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.searchBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.searchBtn.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.searchBtn.ForeColor = System.Drawing.Color.White;
+            this.searchBtn.Location = new System.Drawing.Point(318, 10);
+            this.searchBtn.Name = "searchBtn";
+            this.searchBtn.Size = new System.Drawing.Size(90, 36);
+            this.searchBtn.TabIndex = 14;
+            this.searchBtn.Text = "Search";
+            this.searchBtn.UseVisualStyleBackColor = false;
+            this.searchBtn.Click += new System.EventHandler(this.searchBtn_Click);
             // 
-            // dateTimePicker1
+            // UserNametxt
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(381, 101);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(272, 26);
-            this.dateTimePicker1.TabIndex = 13;
+            this.UserNametxt.Location = new System.Drawing.Point(99, 123);
+            this.UserNametxt.Name = "UserNametxt";
+            this.UserNametxt.Size = new System.Drawing.Size(155, 26);
+            this.UserNametxt.TabIndex = 3;
             // 
-            // label8
+            // IDtxt
             // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(306, 101);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(68, 22);
-            this.label8.TabIndex = 12;
-            this.label8.Text = "Issued:";
-            // 
-            // comboBox2
-            // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(381, 58);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(165, 28);
-            this.comboBox2.TabIndex = 10;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(306, 59);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(69, 22);
-            this.label6.TabIndex = 9;
-            this.label6.Text = "Author:";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(381, 11);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(165, 28);
-            this.comboBox1.TabIndex = 8;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(290, 11);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(96, 22);
-            this.label5.TabIndex = 6;
-            this.label5.Text = "Book Title:";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(100, 58);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(144, 26);
-            this.textBox2.TabIndex = 3;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(100, 15);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(144, 26);
-            this.textBox1.TabIndex = 1;
+            this.IDtxt.Location = new System.Drawing.Point(96, 80);
+            this.IDtxt.Name = "IDtxt";
+            this.IDtxt.Size = new System.Drawing.Size(158, 26);
+            this.IDtxt.TabIndex = 1;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(10, 15);
+            this.label2.Location = new System.Drawing.Point(9, 80);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(93, 22);
+            this.label2.Size = new System.Drawing.Size(81, 22);
             this.label2.TabIndex = 0;
-            this.label2.Text = "Issued ID:";
+            this.label2.Text = "Book ID:";
             // 
             // label1
             // 
@@ -160,23 +109,25 @@
             this.dataGridView1.RowTemplate.Height = 28;
             this.dataGridView1.Size = new System.Drawing.Size(824, 240);
             this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.White;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel2.Controls.Add(this.comboBox3);
-            this.panel2.Controls.Add(this.label9);
-            this.panel2.Controls.Add(this.AddBtn);
-            this.panel2.Controls.Add(this.dateTimePicker1);
-            this.panel2.Controls.Add(this.label8);
-            this.panel2.Controls.Add(this.comboBox2);
-            this.panel2.Controls.Add(this.label6);
-            this.panel2.Controls.Add(this.comboBox1);
+            this.panel2.Controls.Add(this.PdfBtn);
+            this.panel2.Controls.Add(this.refreshBtn);
+            this.panel2.Controls.Add(this.searchBox);
+            this.panel2.Controls.Add(this.status);
+            this.panel2.Controls.Add(this.searchBtn);
+            this.panel2.Controls.Add(this.returndate);
             this.panel2.Controls.Add(this.label5);
-            this.panel2.Controls.Add(this.textBox2);
+            this.panel2.Controls.Add(this.borrowdate);
+            this.panel2.Controls.Add(this.label4);
+            this.panel2.Controls.Add(this.label9);
+            this.panel2.Controls.Add(this.UserNametxt);
             this.panel2.Controls.Add(this.label3);
-            this.panel2.Controls.Add(this.textBox1);
+            this.panel2.Controls.Add(this.IDtxt);
             this.panel2.Controls.Add(this.label2);
             this.panel2.Cursor = System.Windows.Forms.Cursors.Default;
             this.panel2.Location = new System.Drawing.Point(20, 333);
@@ -184,15 +135,66 @@
             this.panel2.Size = new System.Drawing.Size(857, 229);
             this.panel2.TabIndex = 3;
             // 
+            // status
+            // 
+            this.status.Location = new System.Drawing.Point(96, 164);
+            this.status.Name = "status";
+            this.status.Size = new System.Drawing.Size(158, 26);
+            this.status.TabIndex = 25;
+            // 
+            // returndate
+            // 
+            this.returndate.Location = new System.Drawing.Point(382, 123);
+            this.returndate.Name = "returndate";
+            this.returndate.Size = new System.Drawing.Size(195, 26);
+            this.returndate.TabIndex = 24;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(271, 123);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(110, 22);
+            this.label5.TabIndex = 23;
+            this.label5.Text = "Return Date:";
+            // 
+            // borrowdate
+            // 
+            this.borrowdate.Location = new System.Drawing.Point(382, 80);
+            this.borrowdate.Name = "borrowdate";
+            this.borrowdate.Size = new System.Drawing.Size(195, 26);
+            this.borrowdate.TabIndex = 22;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(271, 80);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(114, 22);
+            this.label4.TabIndex = 21;
+            this.label4.Text = "Borrow Date:";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(9, 164);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(65, 22);
+            this.label9.TabIndex = 19;
+            this.label9.Text = "Status:";
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(10, 58);
+            this.label3.Location = new System.Drawing.Point(9, 123);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(61, 22);
+            this.label3.Size = new System.Drawing.Size(100, 22);
             this.label3.TabIndex = 2;
-            this.label3.Text = "Name:";
+            this.label3.Text = "User name:";
             // 
             // panel1
             // 
@@ -205,27 +207,43 @@
             this.panel1.Size = new System.Drawing.Size(857, 311);
             this.panel1.TabIndex = 2;
             // 
-            // comboBox3
+            // searchBox
             // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Items.AddRange(new object[] {
-            "Available",
-            "Unavailale",
-            "Borrowed"});
-            this.comboBox3.Location = new System.Drawing.Point(100, 99);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(144, 28);
-            this.comboBox3.TabIndex = 20;
+            this.searchBox.Location = new System.Drawing.Point(14, 16);
+            this.searchBox.Name = "searchBox";
+            this.searchBox.Size = new System.Drawing.Size(298, 26);
+            this.searchBox.TabIndex = 26;
+            this.searchBox.TextChanged += new System.EventHandler(this.searchBox_TextChanged);
             // 
-            // label9
+            // refreshBtn
             // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(10, 99);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(65, 22);
-            this.label9.TabIndex = 19;
-            this.label9.Text = "Status:";
+            this.refreshBtn.BackColor = System.Drawing.Color.SeaGreen;
+            this.refreshBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.refreshBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.refreshBtn.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.refreshBtn.ForeColor = System.Drawing.Color.White;
+            this.refreshBtn.Location = new System.Drawing.Point(275, 164);
+            this.refreshBtn.Name = "refreshBtn";
+            this.refreshBtn.Size = new System.Drawing.Size(90, 37);
+            this.refreshBtn.TabIndex = 28;
+            this.refreshBtn.Text = "Refresh";
+            this.refreshBtn.UseVisualStyleBackColor = false;
+            this.refreshBtn.Click += new System.EventHandler(this.refreshBtn_Click);
+            // 
+            // PdfBtn
+            // 
+            this.PdfBtn.BackColor = System.Drawing.Color.SeaGreen;
+            this.PdfBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.PdfBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.PdfBtn.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PdfBtn.ForeColor = System.Drawing.Color.White;
+            this.PdfBtn.Location = new System.Drawing.Point(371, 164);
+            this.PdfBtn.Name = "PdfBtn";
+            this.PdfBtn.Size = new System.Drawing.Size(155, 37);
+            this.PdfBtn.TabIndex = 29;
+            this.PdfBtn.Text = "Generate PDF";
+            this.PdfBtn.UseVisualStyleBackColor = false;
+            this.PdfBtn.Click += new System.EventHandler(this.PdfBtn_Click);
             // 
             // BorrowingHistory
             // 
@@ -245,22 +263,23 @@
         }
 
         #endregion
-        private System.Windows.Forms.Button AddBtn;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button searchBtn;
+        private System.Windows.Forms.TextBox UserNametxt;
+        private System.Windows.Forms.TextBox IDtxt;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.ComboBox comboBox3;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox returndate;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox borrowdate;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox status;
+        private System.Windows.Forms.TextBox searchBox;
+        private System.Windows.Forms.Button refreshBtn;
+        private System.Windows.Forms.Button PdfBtn;
     }
 }

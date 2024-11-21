@@ -1,28 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.SqlClient;
 using MySql.Data.MySqlClient;
 
 namespace Hontrack_library
 {
-
     internal class BookTransaction
     {
         public int ID { get; set; }
         public long BookNumber { get; set; }
         public string User_name { get; set; }
-      //  public DateTime Published { get; set; }
-       // public DateTime Borrow { get; set; }
-       // public DateTime Return { get; set; }
+       // public DateTime Published { get; set; }
+        public string Borrow { get; set; }
+        public string Return { get; set; }  // Store return date as string for easy checking
         public string Status { get; set; }
-      
 
         private readonly string connectionString = "server=127.0.0.1; user=root; database=hontrack; password=";
 
-        public List<BookTransaction> BookListTransaction()
+        public List<BookTransaction> BookListTransaction(string userNameFilter = null)
         {
             List<BookTransaction> listdata = new List<BookTransaction>();
 
@@ -31,25 +25,36 @@ namespace Hontrack_library
                 try
                 {
                     mysql.Open();
+
                     string selectData = "SELECT * FROM book_transactions WHERE delete_date IS NULL";
+                    if (!string.IsNullOrEmpty(userNameFilter))
+                    {
+                        selectData += " AND user_name LIKE @userNameFilter";
+                    }
 
                     using (MySqlCommand cmd = new MySqlCommand(selectData, mysql))
                     {
+                        if (!string.IsNullOrEmpty(userNameFilter))
+                        {
+                            cmd.Parameters.AddWithValue("@userNameFilter", "%" + userNameFilter + "%");
+                        }
+
                         using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())
                             {
-                                Console.WriteLine($"ID: {reader["transaction_id"]}, BookNum: {reader["book_num"]}, User: {reader["user_name"]}");
                                 BookTransaction bookTransaction = new BookTransaction
                                 {
                                     ID = reader.GetInt32("transaction_id"),
                                     BookNumber = reader.GetInt64("book_num"),
                                     User_name = reader.GetString("user_name"),
-                                   // Borrow = reader.GetDateTime("borrow_date"),
-                                    //Return = reader.GetDateTime("return_date"),
-                                   // Published = reader.GetDateTime("issue_date"),
+                                    Borrow = reader.GetDateTime("borrow_date").ToString("yyyy-MM-dd"),
                                     Status = reader.GetString("status"),
+                                    Return = reader.IsDBNull(reader.GetOrdinal("return_date"))
+                                        ? "Not yet returned"
+                                        : reader.GetDateTime("return_date").ToString("yyyy-MM-dd")
                                 };
+
                                 listdata.Add(bookTransaction);
                             }
                         }
@@ -63,7 +68,5 @@ namespace Hontrack_library
             return listdata;
         }
 
-
-
-        }
     }
+}

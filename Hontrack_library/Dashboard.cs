@@ -44,7 +44,7 @@ namespace Hontrack_library
         private void button1_Click(object sender, EventArgs e)
         {
           dashMain1.Visible = true;
-            borrowBook2.Visible = true;
+            borrowBook2.Visible = false;
             returnbook2.Visible = false;
             borrowingHistory2.Visible = false;
             issueBook2.Visible = false;

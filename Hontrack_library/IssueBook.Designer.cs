@@ -39,9 +39,10 @@
             this.UpdateBtn = new System.Windows.Forms.Button();
             this.RemoveBtn = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.BQuantityTXT = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.BookNumTxt = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.StopBtn = new System.Windows.Forms.Button();
             this.StartBtn = new System.Windows.Forms.Button();
             this.Camera = new System.Windows.Forms.ComboBox();
             this.CameraFrame = new System.Windows.Forms.PictureBox();
@@ -49,8 +50,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.bookTitle = new System.Windows.Forms.TextBox();
             this.author = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.BQuantityTXT = new System.Windows.Forms.TextBox();
+            this.refreshBtn = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel2.SuspendLayout();
@@ -177,11 +177,11 @@
             // 
             this.panel2.BackColor = System.Drawing.Color.White;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel2.Controls.Add(this.refreshBtn);
             this.panel2.Controls.Add(this.BQuantityTXT);
             this.panel2.Controls.Add(this.label4);
             this.panel2.Controls.Add(this.BookNumTxt);
             this.panel2.Controls.Add(this.label3);
-            this.panel2.Controls.Add(this.StopBtn);
             this.panel2.Controls.Add(this.StartBtn);
             this.panel2.Controls.Add(this.Camera);
             this.panel2.Controls.Add(this.CameraFrame);
@@ -202,6 +202,23 @@
             this.panel2.Size = new System.Drawing.Size(366, 546);
             this.panel2.TabIndex = 1;
             // 
+            // BQuantityTXT
+            // 
+            this.BQuantityTXT.Location = new System.Drawing.Point(144, 395);
+            this.BQuantityTXT.Name = "BQuantityTXT";
+            this.BQuantityTXT.Size = new System.Drawing.Size(154, 26);
+            this.BQuantityTXT.TabIndex = 26;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(61, 395);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(83, 22);
+            this.label4.TabIndex = 25;
+            this.label4.Text = "Quantity:";
+            // 
             // BookNumTxt
             // 
             this.BookNumTxt.Location = new System.Drawing.Point(144, 223);
@@ -218,16 +235,6 @@
             this.label3.Size = new System.Drawing.Size(124, 22);
             this.label3.TabIndex = 23;
             this.label3.Text = "Book Number:";
-            // 
-            // StopBtn
-            // 
-            this.StopBtn.Location = new System.Drawing.Point(269, 181);
-            this.StopBtn.Name = "StopBtn";
-            this.StopBtn.Size = new System.Drawing.Size(75, 33);
-            this.StopBtn.TabIndex = 2;
-            this.StopBtn.Text = "Stop";
-            this.StopBtn.UseVisualStyleBackColor = true;
-            this.StopBtn.Click += new System.EventHandler(this.StopBtn_Click);
             // 
             // StartBtn
             // 
@@ -292,22 +299,20 @@
             this.author.Size = new System.Drawing.Size(154, 26);
             this.author.TabIndex = 18;
             // 
-            // label4
+            // refreshBtn
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(61, 395);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(83, 22);
-            this.label4.TabIndex = 25;
-            this.label4.Text = "Quantity:";
-            // 
-            // BQuantityTXT
-            // 
-            this.BQuantityTXT.Location = new System.Drawing.Point(144, 395);
-            this.BQuantityTXT.Name = "BQuantityTXT";
-            this.BQuantityTXT.Size = new System.Drawing.Size(154, 26);
-            this.BQuantityTXT.TabIndex = 26;
+            this.refreshBtn.BackColor = System.Drawing.Color.SeaGreen;
+            this.refreshBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.refreshBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.refreshBtn.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.refreshBtn.ForeColor = System.Drawing.Color.White;
+            this.refreshBtn.Location = new System.Drawing.Point(132, 481);
+            this.refreshBtn.Name = "refreshBtn";
+            this.refreshBtn.Size = new System.Drawing.Size(102, 48);
+            this.refreshBtn.TabIndex = 27;
+            this.refreshBtn.Text = "Refresh";
+            this.refreshBtn.UseVisualStyleBackColor = false;
+            this.refreshBtn.Click += new System.EventHandler(this.refreshBtn_Click);
             // 
             // IssueBook
             // 
@@ -346,11 +351,11 @@
         private System.Windows.Forms.ComboBox Status;
         private System.Windows.Forms.TextBox BookNumTxt;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button StopBtn;
         private System.Windows.Forms.Button StartBtn;
         private System.Windows.Forms.ComboBox Camera;
         private System.Windows.Forms.PictureBox CameraFrame;
         private System.Windows.Forms.TextBox BQuantityTXT;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button refreshBtn;
     }
 }
