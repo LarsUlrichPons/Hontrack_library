@@ -48,6 +48,8 @@
             this.label6 = new System.Windows.Forms.Label();
             this.BookTitle = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.ReturnDue = new System.Windows.Forms.DateTimePicker();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
@@ -147,6 +149,8 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.ReturnDue);
+            this.panel1.Controls.Add(this.label9);
             this.panel1.Controls.Add(this.refreshBtn);
             this.panel1.Controls.Add(this.NameTXT);
             this.panel1.Controls.Add(this.label8);
@@ -186,7 +190,7 @@
             // NameTXT
             // 
             this.NameTXT.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.NameTXT.Location = new System.Drawing.Point(121, 250);
+            this.NameTXT.Location = new System.Drawing.Point(121, 203);
             this.NameTXT.Name = "NameTXT";
             this.NameTXT.Size = new System.Drawing.Size(182, 32);
             this.NameTXT.TabIndex = 23;
@@ -195,7 +199,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(44, 263);
+            this.label8.Location = new System.Drawing.Point(44, 216);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(56, 19);
             this.label8.TabIndex = 24;
@@ -273,6 +277,24 @@
             this.label5.TabIndex = 8;
             this.label5.Text = "Book Title:";
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(14, 250);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(99, 19);
+            this.label9.TabIndex = 27;
+            this.label9.Text = "Return Date:";
+            this.label9.Click += new System.EventHandler(this.label9_Click);
+            // 
+            // ReturnDue
+            // 
+            this.ReturnDue.Location = new System.Drawing.Point(121, 245);
+            this.ReturnDue.Name = "ReturnDue";
+            this.ReturnDue.Size = new System.Drawing.Size(182, 26);
+            this.ReturnDue.TabIndex = 2;
+            // 
             // BorrowBook
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -311,5 +333,7 @@
         private System.Windows.Forms.TextBox BookTitle;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button refreshBtn;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.DateTimePicker ReturnDue;
     }
 }

@@ -144,12 +144,15 @@ namespace Hontrack_library
 
                                         // Insert the transaction into the book_transaction table
                                         string insertTransactionQuery = @"
-    INSERT INTO book_transactions (book_num, issue_date, status, user_name, borrow_date)
-    VALUES (@book_num, NOW(), 'Borrowed', @user_name, NOW())";
+    INSERT INTO book_transactions (bookTitle, book_num, issue_date, status, user_name, borrow_date,return_due)
+    VALUES (@bookTitle, @book_num, NOW(), 'Borrowed', @user_name, NOW(), @return_due)";
 
                                         MySqlCommand insertTransactionCmd = new MySqlCommand(insertTransactionQuery, conn, transaction);
+                                        insertTransactionCmd.Parameters.AddWithValue("@bookTitle", BookTitle.Text.Trim());
                                         insertTransactionCmd.Parameters.AddWithValue("@book_num", IDTextBox.Text.Trim());
                                         insertTransactionCmd.Parameters.AddWithValue("@user_name", NameTXT.Text.Trim());
+                                        insertTransactionCmd.Parameters.AddWithValue("@return_due", ReturnDue.Value);
+
                                         insertTransactionCmd.ExecuteNonQuery();
 
                                         // Commit the transaction
@@ -202,6 +205,11 @@ namespace Hontrack_library
             {
                 MessageBox.Show("Error refreshing data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

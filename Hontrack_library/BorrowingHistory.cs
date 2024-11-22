@@ -64,12 +64,14 @@ namespace Hontrack_library
 
 
                 DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
-
-                IDtxt.Text = row.Cells[1].Value.ToString();
-                UserNametxt.Text = row.Cells[2].Value.ToString();
-                borrowdate.Text = row.Cells[3].Value.ToString();
-                returndate.Text = row.Cells[4].Value.ToString();
-                status.Text = row.Cells[5].Value.ToString();
+                
+                bookTitle.Text = row.Cells[1].Value.ToString();
+                IDtxt.Text = row.Cells[2].Value.ToString();
+               
+                UserNametxt.Text = row.Cells[3].Value.ToString();
+                borrowdate.Text = row.Cells[4].Value.ToString();
+                returndate.Text = row.Cells[5].Value.ToString();
+                status.Text = row.Cells[6].Value.ToString();
             }
         }
 

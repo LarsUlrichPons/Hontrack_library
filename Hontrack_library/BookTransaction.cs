@@ -7,6 +7,7 @@ namespace Hontrack_library
     internal class BookTransaction
     {
         public int ID { get; set; }
+        public string BookTitle { get; set; }
         public long BookNumber { get; set; }
         public string User_name { get; set; }
        // public DateTime Published { get; set; }
@@ -46,6 +47,7 @@ namespace Hontrack_library
                                 BookTransaction bookTransaction = new BookTransaction
                                 {
                                     ID = reader.GetInt32("transaction_id"),
+                                    BookTitle = reader.IsDBNull(reader.GetOrdinal("bookTitle")) ? "Unknown Title" : reader.GetString("bookTitle"), // Handle nulls
                                     BookNumber = reader.GetInt64("book_num"),
                                     User_name = reader.GetString("user_name"),
                                     Borrow = reader.GetDateTime("borrow_date").ToString("yyyy-MM-dd"),

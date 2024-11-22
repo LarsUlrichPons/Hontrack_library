@@ -42,8 +42,12 @@
             this.label7 = new System.Windows.Forms.Label();
             this.IDTextBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.borrowDate = new System.Windows.Forms.TextBox();
+            this.bookTitle = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.borrowDate = new System.Windows.Forms.TextBox();
+            this.ReturnDueText = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
@@ -86,6 +90,10 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.ReturnDueText);
+            this.panel1.Controls.Add(this.label6);
+            this.panel1.Controls.Add(this.bookTitle);
+            this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.borrowDate);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.refreshBtn);
@@ -121,7 +129,7 @@
             // NameTXT
             // 
             this.NameTXT.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.NameTXT.Location = new System.Drawing.Point(121, 243);
+            this.NameTXT.Location = new System.Drawing.Point(121, 208);
             this.NameTXT.Name = "NameTXT";
             this.NameTXT.Size = new System.Drawing.Size(182, 32);
             this.NameTXT.TabIndex = 21;
@@ -130,7 +138,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(44, 256);
+            this.label8.Location = new System.Drawing.Point(44, 221);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(56, 19);
             this.label8.TabIndex = 22;
@@ -211,6 +219,35 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "Book Number:";
             // 
+            // bookTitle
+            // 
+            this.bookTitle.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bookTitle.Location = new System.Drawing.Point(121, 250);
+            this.bookTitle.Name = "bookTitle";
+            this.bookTitle.Size = new System.Drawing.Size(182, 32);
+            this.bookTitle.TabIndex = 26;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(26, 263);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(86, 19);
+            this.label5.TabIndex = 27;
+            this.label5.Text = "Book Title:";
+            this.label5.Click += new System.EventHandler(this.label5_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(12, 390);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(103, 19);
+            this.label3.TabIndex = 25;
+            this.label3.Text = "Borrow Date:";
+            // 
             // borrowDate
             // 
             this.borrowDate.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -219,15 +256,23 @@
             this.borrowDate.Size = new System.Drawing.Size(182, 32);
             this.borrowDate.TabIndex = 24;
             // 
-            // label3
+            // ReturnDueText
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(12, 384);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(103, 19);
-            this.label3.TabIndex = 25;
-            this.label3.Text = "Borrow Date:";
+            this.ReturnDueText.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ReturnDueText.Location = new System.Drawing.Point(121, 415);
+            this.ReturnDueText.Name = "ReturnDueText";
+            this.ReturnDueText.Size = new System.Drawing.Size(182, 32);
+            this.ReturnDueText.TabIndex = 28;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(12, 428);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(95, 19);
+            this.label6.TabIndex = 29;
+            this.label6.Text = "Return Due:";
             // 
             // Returnbook
             // 
@@ -262,6 +307,10 @@
         private System.Windows.Forms.TextBox NameTXT;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button refreshBtn;
+        private System.Windows.Forms.TextBox bookTitle;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox ReturnDueText;
+        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox borrowDate;
         private System.Windows.Forms.Label label3;
     }
