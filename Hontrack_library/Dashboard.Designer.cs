@@ -45,12 +45,12 @@ namespace Hontrack_library
             this.label3 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.dashMain1 = new Hontrack_library.DashMain();
             this.borrowBook2 = new Hontrack_library.BorrowBook();
             this.returnbook2 = new Hontrack_library.Returnbook();
             this.borrowingHistory2 = new Hontrack_library.BorrowingHistory();
             this.issueBook2 = new Hontrack_library.IssueBook();
             this.userManagement2 = new Hontrack_library.UserManagement();
+            this.dashMain1 = new Hontrack_library.DashMain();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -261,13 +261,6 @@ namespace Hontrack_library
             this.panel3.Size = new System.Drawing.Size(901, 594);
             this.panel3.TabIndex = 2;
             // 
-            // dashMain1
-            // 
-            this.dashMain1.Location = new System.Drawing.Point(0, -3);
-            this.dashMain1.Name = "dashMain1";
-            this.dashMain1.Size = new System.Drawing.Size(901, 597);
-            this.dashMain1.TabIndex = 5;
-            // 
             // borrowBook2
             // 
             this.borrowBook2.Location = new System.Drawing.Point(0, 0);
@@ -303,6 +296,13 @@ namespace Hontrack_library
             this.userManagement2.Size = new System.Drawing.Size(895, 588);
             this.userManagement2.TabIndex = 0;
             // 
+            // dashMain1
+            // 
+            this.dashMain1.Location = new System.Drawing.Point(0, 0);
+            this.dashMain1.Name = "dashMain1";
+            this.dashMain1.Size = new System.Drawing.Size(901, 594);
+            this.dashMain1.TabIndex = 5;
+            // 
             // Dashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -323,10 +323,6 @@ namespace Hontrack_library
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel3.ResumeLayout(false);
             this.ResumeLayout(false);
-
-            // Inside the constructor after InitializeComponent()
-       
-
 
         }
 

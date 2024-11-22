@@ -118,6 +118,9 @@ namespace Hontrack_library
             }
         }
 
-        
+        private void dashMain1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

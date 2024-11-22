@@ -31,7 +31,7 @@ namespace Hontrack_library
             Status.ReadOnly = true;
             borrowDate.ReadOnly = true;
             bookTitle.ReadOnly = true;
-           // ReturnDueText.Text = "yyyy-mm-dd";
+            ReturnDueText.ReadOnly = true;
         }
 
         private void RefreshTimer_Tick(object sender, EventArgs e)
@@ -111,7 +111,7 @@ namespace Hontrack_library
                             transaction = conn.BeginTransaction();
 
                             // Get book details and current stock
-                            string getStockQuery = "SELECT book_stock, status, return_due FROM book WHERE book_num = @book_num";
+                            string getStockQuery = "SELECT book_stock, status FROM book WHERE book_num = @book_num";
                             MySqlCommand getStockCmd = new MySqlCommand(getStockQuery, conn, transaction);
                             getStockCmd.Parameters.AddWithValue("@book_num", IDTextBox.Text.Trim());
 
@@ -121,7 +121,6 @@ namespace Hontrack_library
                                 {
                                     int currentStock = reader.GetInt32("book_stock");
                                     string currentStatus = reader.GetString("status");
-                                    DateTime returnDueDate = reader.IsDBNull(reader.GetOrdinal("return_due")) ? DateTime.MinValue : reader.GetDateTime("return_due");
 
                                     int newStock = currentStock + 1;
                                     reader.Close();
