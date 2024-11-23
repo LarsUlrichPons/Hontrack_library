@@ -38,7 +38,6 @@
             this.bookTitle = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.PdfBtn = new System.Windows.Forms.Button();
-            this.refreshBtn = new System.Windows.Forms.Button();
             this.searchBox = new System.Windows.Forms.TextBox();
             this.status = new System.Windows.Forms.TextBox();
             this.returndate = new System.Windows.Forms.TextBox();
@@ -47,6 +46,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.refreshBtn = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel2.SuspendLayout();
@@ -57,6 +57,8 @@
             // 
             this.searchBtn.BackColor = System.Drawing.Color.SeaGreen;
             this.searchBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.searchBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.searchBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Lime;
             this.searchBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.searchBtn.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.searchBtn.ForeColor = System.Drawing.Color.White;
@@ -110,7 +112,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 62;
             this.dataGridView1.RowTemplate.Height = 28;
-            this.dataGridView1.Size = new System.Drawing.Size(522, 563);
+            this.dataGridView1.Size = new System.Drawing.Size(534, 563);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
@@ -160,6 +162,8 @@
             // 
             this.PdfBtn.BackColor = System.Drawing.Color.SeaGreen;
             this.PdfBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.PdfBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.PdfBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Lime;
             this.PdfBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.PdfBtn.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PdfBtn.ForeColor = System.Drawing.Color.White;
@@ -170,21 +174,6 @@
             this.PdfBtn.Text = "Generate PDF";
             this.PdfBtn.UseVisualStyleBackColor = false;
             this.PdfBtn.Click += new System.EventHandler(this.PdfBtn_Click);
-            // 
-            // refreshBtn
-            // 
-            this.refreshBtn.BackColor = System.Drawing.Color.SeaGreen;
-            this.refreshBtn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.refreshBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.refreshBtn.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.refreshBtn.ForeColor = System.Drawing.Color.White;
-            this.refreshBtn.Location = new System.Drawing.Point(425, 10);
-            this.refreshBtn.Name = "refreshBtn";
-            this.refreshBtn.Size = new System.Drawing.Size(85, 39);
-            this.refreshBtn.TabIndex = 28;
-            this.refreshBtn.Text = "Refresh";
-            this.refreshBtn.UseVisualStyleBackColor = false;
-            this.refreshBtn.Click += new System.EventHandler(this.refreshBtn_Click);
             // 
             // searchBox
             // 
@@ -255,6 +244,23 @@
             this.label3.TabIndex = 2;
             this.label3.Text = "User name:";
             // 
+            // refreshBtn
+            // 
+            this.refreshBtn.BackColor = System.Drawing.Color.SeaGreen;
+            this.refreshBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.refreshBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.refreshBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Lime;
+            this.refreshBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.refreshBtn.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.refreshBtn.ForeColor = System.Drawing.Color.White;
+            this.refreshBtn.Location = new System.Drawing.Point(437, 10);
+            this.refreshBtn.Name = "refreshBtn";
+            this.refreshBtn.Size = new System.Drawing.Size(88, 38);
+            this.refreshBtn.TabIndex = 28;
+            this.refreshBtn.Text = "Refresh";
+            this.refreshBtn.UseVisualStyleBackColor = false;
+            this.refreshBtn.Click += new System.EventHandler(this.refreshBtn_Click);
+            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
@@ -264,7 +270,7 @@
             this.panel1.Controls.Add(this.refreshBtn);
             this.panel1.Location = new System.Drawing.Point(377, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(532, 643);
+            this.panel1.Size = new System.Drawing.Size(544, 643);
             this.panel1.TabIndex = 2;
             // 
             // BorrowingHistory

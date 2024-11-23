@@ -36,10 +36,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.refreshBtn = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.ReturnDue = new System.Windows.Forms.DateTimePicker();
             this.label9 = new System.Windows.Forms.Label();
-            this.refreshBtn = new System.Windows.Forms.Button();
             this.NameTXT = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.Status = new System.Windows.Forms.TextBox();
@@ -59,6 +59,8 @@
             // 
             this.ClearBtn.BackColor = System.Drawing.Color.SeaGreen;
             this.ClearBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ClearBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.ClearBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Lime;
             this.ClearBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ClearBtn.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ClearBtn.ForeColor = System.Drawing.Color.White;
@@ -74,6 +76,8 @@
             // 
             this.BorrowButton.BackColor = System.Drawing.Color.SeaGreen;
             this.BorrowButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BorrowButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.BorrowButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Lime;
             this.BorrowButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BorrowButton.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BorrowButton.ForeColor = System.Drawing.Color.White;
@@ -131,7 +135,7 @@
             this.panel2.Controls.Add(this.refreshBtn);
             this.panel2.Location = new System.Drawing.Point(350, 3);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(558, 647);
+            this.panel2.Size = new System.Drawing.Size(571, 647);
             this.panel2.TabIndex = 3;
             // 
             // dataGridView1
@@ -142,9 +146,26 @@
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 62;
             this.dataGridView1.RowTemplate.Height = 28;
-            this.dataGridView1.Size = new System.Drawing.Size(550, 579);
+            this.dataGridView1.Size = new System.Drawing.Size(557, 579);
             this.dataGridView1.TabIndex = 1;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            // 
+            // refreshBtn
+            // 
+            this.refreshBtn.BackColor = System.Drawing.Color.SeaGreen;
+            this.refreshBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.refreshBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.refreshBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Lime;
+            this.refreshBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.refreshBtn.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.refreshBtn.ForeColor = System.Drawing.Color.White;
+            this.refreshBtn.Location = new System.Drawing.Point(456, 12);
+            this.refreshBtn.Name = "refreshBtn";
+            this.refreshBtn.Size = new System.Drawing.Size(88, 38);
+            this.refreshBtn.TabIndex = 25;
+            this.refreshBtn.Text = "Refresh";
+            this.refreshBtn.UseVisualStyleBackColor = false;
+            this.refreshBtn.Click += new System.EventHandler(this.refreshBtn_Click);
             // 
             // panel1
             // 
@@ -189,21 +210,6 @@
             this.label9.TabIndex = 27;
             this.label9.Text = "Return Date:";
             this.label9.Click += new System.EventHandler(this.label9_Click);
-            // 
-            // refreshBtn
-            // 
-            this.refreshBtn.BackColor = System.Drawing.Color.SeaGreen;
-            this.refreshBtn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.refreshBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.refreshBtn.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.refreshBtn.ForeColor = System.Drawing.Color.White;
-            this.refreshBtn.Location = new System.Drawing.Point(449, 17);
-            this.refreshBtn.Name = "refreshBtn";
-            this.refreshBtn.Size = new System.Drawing.Size(89, 33);
-            this.refreshBtn.TabIndex = 25;
-            this.refreshBtn.Text = "Refresh";
-            this.refreshBtn.UseVisualStyleBackColor = false;
-            this.refreshBtn.Click += new System.EventHandler(this.refreshBtn_Click);
             // 
             // NameTXT
             // 

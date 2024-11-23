@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System;
 using LiveCharts.Wpf.Charts.Base;
 using System.Drawing;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace Hontrack_library
 {
@@ -20,8 +21,10 @@ namespace Hontrack_library
             displayAb();
             displayBb();
             displayRb();
-           // LoadPieChart(); // Initialize the live chart
+           LoadPieChart(); // Initialize the live chart
           // SetupPieChart();
+
+           
 
 
 
@@ -138,7 +141,7 @@ namespace Hontrack_library
                 );
             }
         }
-     /* public void LoadPieChart()
+        public void LoadPieChart()
         {
             try
             {
@@ -146,51 +149,57 @@ namespace Hontrack_library
                 {
                     conn.Open();
                     string selectData = @"
-                        SELECT bookTitle, COUNT(*) as count 
-                        FROM book_transactions 
-                        WHERE delete_date IS NULL 
-                        GROUP BY bookTitle";
+            SELECT bookTitle, COUNT(*) as count 
+            FROM book_transactions 
+            WHERE delete_date IS NULL 
+            GROUP BY bookTitle";
 
                     using (MySqlCommand cmd = new MySqlCommand(selectData, conn))
                     {
                         using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
-                            var statuses = new List<string>();
-                            var counts = new ChartValues<int>();
+                            // Clear existing chart data
+                            chart1.Series.Clear();
+                            chart1.ChartAreas.Clear();
+                            chart1.Legends.Clear();
 
+                            // Create a new chart area
+                            ChartArea chartArea = new ChartArea("PieChartArea");
+                            chart1.ChartAreas.Add(chartArea);
+
+                            // Create a new series for the pie chart
+                            var series = new System.Windows.Forms.DataVisualization.Charting.Series("Book Title");
+                            series.ChartType = SeriesChartType.Pie;
+
+                            // Add data points from the query
                             while (reader.Read())
                             {
-                                statuses.Add(reader.GetString("bookTitle"));
-                                counts.Add(reader.GetInt32("count"));
+                                string status = reader.GetString("bookTitle");
+                                int count = reader.GetInt32("count");
+
+                                series.Points.AddXY(status, count);
                             }
 
-                            // Update the pie chart
-                            pieChart1.Series = new SeriesCollection();
-                            for (int i = 0; i < statuses.Count; i++)
-                            {
-                                pieChart1.Series.Add(new PieSeries
-                                {
-                                    Title = statuses[i],
-                                    Values = new ChartValues<int> { counts[i] },
-                                    DataLabels = true
-                                });
-                            }
+                            // Add the series to the chart
+                            chart1.Series.Add(series);
 
-                            pieChart1.LegendLocation = LegendLocation.Right;
+                            // Customize the chart
+                            chart1.Legends.Clear(); // Clear existing legends
+                            Legend legend = new Legend("Legend");
+                            chart1.Legends.Add(legend);
+
+                            // Set data labels
+                            series.IsValueShownAsLabel = true;
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    "Error: " + ex.Message + "\nStack Trace: " + ex.StackTrace,
-                    "Error Message",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }*/
+        }
+
 
         private void pieChart1_ChildChanged(object sender, System.Windows.Forms.Integration.ChildChangedEventArgs e)
         {

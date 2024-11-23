@@ -7,8 +7,9 @@ namespace Hontrack_library
     internal class BookData
     {
         public int ID { get; set; }
+       
+        public string BookTitle { get; set; } 
         public long BookNumber { get; set; }
-        public string BookTitle { get; set; }
         public string Author { get; set; }
         public DateTime Published { get; set; }
         public string Status { get; set; }

@@ -62,7 +62,7 @@ namespace Hontrack_library
         {
             if (returnDueDate < DateTime.Now)
             {
-                return $"{returnDueDate.ToString("MM-dd")} - Overdue";
+                return $"{returnDueDate.ToString("yyyy-MM-dd")} - Overdue";
             }
             return returnDueDate.ToString("yyyy-MM-dd");
         }

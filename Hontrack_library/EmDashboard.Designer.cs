@@ -30,6 +30,21 @@
         {
             this.LogoutBtn = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.dashMain1 = new Hontrack_library.DashMain();
+            this.borrowBook1 = new Hontrack_library.BorrowBook();
+            this.returnbook1 = new Hontrack_library.Returnbook();
+            this.borrowingHistory1 = new Hontrack_library.BorrowingHistory();
+            this.issueBook1 = new Hontrack_library.IssueBook();
+            this.userManagement1 = new Hontrack_library.UserManagement();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.MuButton = new System.Windows.Forms.Button();
             this.BiButton = new System.Windows.Forms.Button();
             this.BhButton = new System.Windows.Forms.Button();
@@ -38,33 +53,16 @@
             this.DbButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.borrowBook1 = new Hontrack_library.BorrowBook();
-            this.borrowingHistory1 = new Hontrack_library.BorrowingHistory();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
-            this.issueBook1 = new Hontrack_library.IssueBook();
-            this.userManagement1 = new Hontrack_library.UserManagement();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.dashMain1 = new Hontrack_library.DashMain();
-            this.returnbook1 = new Hontrack_library.Returnbook();
-            this.button7 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.userManagement2 = new Hontrack_library.UserManagement();
-            this.userManagement3 = new Hontrack_library.UserManagement();
-            this.issueBook2 = new Hontrack_library.IssueBook();
             this.borrowingHistory2 = new Hontrack_library.BorrowingHistory();
             this.returnbook2 = new Hontrack_library.Returnbook();
             this.borrowBook2 = new Hontrack_library.BorrowBook();
             this.dashMain2 = new Hontrack_library.DashMain();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // LogoutBtn
@@ -104,6 +102,189 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(334, 664);
             this.panel2.TabIndex = 2;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.dashMain1);
+            this.panel1.Controls.Add(this.borrowBook1);
+            this.panel1.Controls.Add(this.returnbook1);
+            this.panel1.Controls.Add(this.borrowingHistory1);
+            this.panel1.Controls.Add(this.issueBook1);
+            this.panel1.Controls.Add(this.userManagement1);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(334, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(0, 664);
+            this.panel1.TabIndex = 12;
+            // 
+            // dashMain1
+            // 
+            this.dashMain1.Location = new System.Drawing.Point(0, -3);
+            this.dashMain1.Name = "dashMain1";
+            this.dashMain1.Size = new System.Drawing.Size(924, 664);
+            this.dashMain1.TabIndex = 5;
+            // 
+            // borrowBook1
+            // 
+            this.borrowBook1.Location = new System.Drawing.Point(0, 0);
+            this.borrowBook1.Name = "borrowBook1";
+            this.borrowBook1.Size = new System.Drawing.Size(924, 664);
+            this.borrowBook1.TabIndex = 4;
+            // 
+            // returnbook1
+            // 
+            this.returnbook1.Location = new System.Drawing.Point(0, -3);
+            this.returnbook1.Name = "returnbook1";
+            this.returnbook1.Size = new System.Drawing.Size(924, 664);
+            this.returnbook1.TabIndex = 3;
+            // 
+            // borrowingHistory1
+            // 
+            this.borrowingHistory1.Location = new System.Drawing.Point(-3, 0);
+            this.borrowingHistory1.Name = "borrowingHistory1";
+            this.borrowingHistory1.Size = new System.Drawing.Size(924, 664);
+            this.borrowingHistory1.TabIndex = 2;
+            // 
+            // issueBook1
+            // 
+            this.issueBook1.Location = new System.Drawing.Point(0, -3);
+            this.issueBook1.Name = "issueBook1";
+            this.issueBook1.Size = new System.Drawing.Size(924, 667);
+            this.issueBook1.TabIndex = 1;
+            // 
+            // userManagement1
+            // 
+            this.userManagement1.Location = new System.Drawing.Point(-3, -3);
+            this.userManagement1.Name = "userManagement1";
+            this.userManagement1.Size = new System.Drawing.Size(924, 664);
+            this.userManagement1.TabIndex = 0;
+            // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.Color.MediumSeaGreen;
+            this.panel3.Controls.Add(this.button3);
+            this.panel3.Controls.Add(this.button4);
+            this.panel3.Controls.Add(this.button5);
+            this.panel3.Controls.Add(this.button6);
+            this.panel3.Controls.Add(this.button7);
+            this.panel3.Controls.Add(this.label1);
+            this.panel3.Controls.Add(this.pictureBox2);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel3.ForeColor = System.Drawing.SystemColors.Control;
+            this.panel3.Location = new System.Drawing.Point(0, 0);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(334, 664);
+            this.panel3.TabIndex = 11;
+            // 
+            // button3
+            // 
+            this.button3.BackColor = System.Drawing.Color.MediumSeaGreen;
+            this.button3.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button3.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.button3.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.button3.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Lime;
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button3.Font = new System.Drawing.Font("Georgia", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button3.ForeColor = System.Drawing.Color.White;
+            this.button3.Location = new System.Drawing.Point(15, 376);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(298, 47);
+            this.button3.TabIndex = 8;
+            this.button3.Text = "Borrowing History";
+            this.button3.UseVisualStyleBackColor = false;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // button4
+            // 
+            this.button4.BackColor = System.Drawing.Color.MediumSeaGreen;
+            this.button4.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button4.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.button4.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.button4.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Lime;
+            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button4.Font = new System.Drawing.Font("Georgia", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button4.ForeColor = System.Drawing.Color.White;
+            this.button4.Location = new System.Drawing.Point(15, 308);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(298, 47);
+            this.button4.TabIndex = 7;
+            this.button4.Text = "Return Book";
+            this.button4.UseVisualStyleBackColor = false;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // button5
+            // 
+            this.button5.BackColor = System.Drawing.Color.MediumSeaGreen;
+            this.button5.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button5.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.button5.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.button5.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Lime;
+            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button5.Font = new System.Drawing.Font("Georgia", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button5.ForeColor = System.Drawing.Color.White;
+            this.button5.Location = new System.Drawing.Point(15, 238);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(298, 47);
+            this.button5.TabIndex = 6;
+            this.button5.Text = "Borrow Book";
+            this.button5.UseVisualStyleBackColor = false;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // button6
+            // 
+            this.button6.BackColor = System.Drawing.Color.DarkGray;
+            this.button6.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button6.FlatAppearance.BorderColor = System.Drawing.Color.DarkGray;
+            this.button6.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.button6.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button6.Font = new System.Drawing.Font("Georgia", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button6.ForeColor = System.Drawing.Color.White;
+            this.button6.Location = new System.Drawing.Point(15, 589);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(298, 63);
+            this.button6.TabIndex = 5;
+            this.button6.Text = "Log Out";
+            this.button6.UseVisualStyleBackColor = false;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // button7
+            // 
+            this.button7.BackColor = System.Drawing.Color.MediumSeaGreen;
+            this.button7.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button7.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.button7.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.button7.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Lime;
+            this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button7.Font = new System.Drawing.Font("Georgia", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button7.ForeColor = System.Drawing.Color.White;
+            this.button7.Location = new System.Drawing.Point(15, 176);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(298, 47);
+            this.button7.TabIndex = 2;
+            this.button7.Text = "Dashboard";
+            this.button7.UseVisualStyleBackColor = false;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Century", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(59, 125);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(201, 28);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Welcome, Admin";
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::Hontrack_library.Properties.Resources.user_1077114;
+            this.pictureBox2.Location = new System.Drawing.Point(95, 11);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(129, 111);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 2;
+            this.pictureBox2.TabStop = false;
             // 
             // MuButton
             // 
@@ -227,189 +408,6 @@
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
             // 
-            // borrowBook1
-            // 
-            this.borrowBook1.Location = new System.Drawing.Point(0, 0);
-            this.borrowBook1.Name = "borrowBook1";
-            this.borrowBook1.Size = new System.Drawing.Size(924, 664);
-            this.borrowBook1.TabIndex = 4;
-            // 
-            // borrowingHistory1
-            // 
-            this.borrowingHistory1.Location = new System.Drawing.Point(-3, 0);
-            this.borrowingHistory1.Name = "borrowingHistory1";
-            this.borrowingHistory1.Size = new System.Drawing.Size(924, 664);
-            this.borrowingHistory1.TabIndex = 2;
-            // 
-            // button3
-            // 
-            this.button3.BackColor = System.Drawing.Color.MediumSeaGreen;
-            this.button3.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button3.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.button3.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.button3.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Lime;
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.Font = new System.Drawing.Font("Georgia", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.ForeColor = System.Drawing.Color.White;
-            this.button3.Location = new System.Drawing.Point(15, 376);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(298, 47);
-            this.button3.TabIndex = 8;
-            this.button3.Text = "Borrowing History";
-            this.button3.UseVisualStyleBackColor = false;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // button4
-            // 
-            this.button4.BackColor = System.Drawing.Color.MediumSeaGreen;
-            this.button4.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button4.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.button4.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.button4.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Lime;
-            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button4.Font = new System.Drawing.Font("Georgia", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button4.ForeColor = System.Drawing.Color.White;
-            this.button4.Location = new System.Drawing.Point(15, 308);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(298, 47);
-            this.button4.TabIndex = 7;
-            this.button4.Text = "Return Book";
-            this.button4.UseVisualStyleBackColor = false;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // button5
-            // 
-            this.button5.BackColor = System.Drawing.Color.MediumSeaGreen;
-            this.button5.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button5.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.button5.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.button5.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Lime;
-            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button5.Font = new System.Drawing.Font("Georgia", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button5.ForeColor = System.Drawing.Color.White;
-            this.button5.Location = new System.Drawing.Point(15, 238);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(298, 47);
-            this.button5.TabIndex = 6;
-            this.button5.Text = "Borrow Book";
-            this.button5.UseVisualStyleBackColor = false;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
-            // 
-            // button6
-            // 
-            this.button6.BackColor = System.Drawing.Color.DarkGray;
-            this.button6.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button6.FlatAppearance.BorderColor = System.Drawing.Color.DarkGray;
-            this.button6.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.button6.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button6.Font = new System.Drawing.Font("Georgia", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button6.ForeColor = System.Drawing.Color.White;
-            this.button6.Location = new System.Drawing.Point(15, 589);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(298, 63);
-            this.button6.TabIndex = 5;
-            this.button6.Text = "Log Out";
-            this.button6.UseVisualStyleBackColor = false;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
-            // 
-            // issueBook1
-            // 
-            this.issueBook1.Location = new System.Drawing.Point(0, -3);
-            this.issueBook1.Name = "issueBook1";
-            this.issueBook1.Size = new System.Drawing.Size(924, 667);
-            this.issueBook1.TabIndex = 1;
-            // 
-            // userManagement1
-            // 
-            this.userManagement1.Location = new System.Drawing.Point(-3, -3);
-            this.userManagement1.Name = "userManagement1";
-            this.userManagement1.Size = new System.Drawing.Size(924, 664);
-            this.userManagement1.TabIndex = 0;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.dashMain1);
-            this.panel1.Controls.Add(this.borrowBook1);
-            this.panel1.Controls.Add(this.returnbook1);
-            this.panel1.Controls.Add(this.borrowingHistory1);
-            this.panel1.Controls.Add(this.issueBook1);
-            this.panel1.Controls.Add(this.userManagement1);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(334, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(0, 664);
-            this.panel1.TabIndex = 12;
-            // 
-            // dashMain1
-            // 
-            this.dashMain1.Location = new System.Drawing.Point(0, -3);
-            this.dashMain1.Name = "dashMain1";
-            this.dashMain1.Size = new System.Drawing.Size(924, 664);
-            this.dashMain1.TabIndex = 5;
-            // 
-            // returnbook1
-            // 
-            this.returnbook1.Location = new System.Drawing.Point(0, -3);
-            this.returnbook1.Name = "returnbook1";
-            this.returnbook1.Size = new System.Drawing.Size(924, 664);
-            this.returnbook1.TabIndex = 3;
-            // 
-            // button7
-            // 
-            this.button7.BackColor = System.Drawing.Color.MediumSeaGreen;
-            this.button7.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button7.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.button7.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.button7.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Lime;
-            this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button7.Font = new System.Drawing.Font("Georgia", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button7.ForeColor = System.Drawing.Color.White;
-            this.button7.Location = new System.Drawing.Point(15, 176);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(298, 47);
-            this.button7.TabIndex = 2;
-            this.button7.Text = "Dashboard";
-            this.button7.UseVisualStyleBackColor = false;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Century", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(59, 125);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(201, 28);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Welcome, Admin";
-            // 
-            // panel3
-            // 
-            this.panel3.BackColor = System.Drawing.Color.MediumSeaGreen;
-            this.panel3.Controls.Add(this.button3);
-            this.panel3.Controls.Add(this.button4);
-            this.panel3.Controls.Add(this.button5);
-            this.panel3.Controls.Add(this.button6);
-            this.panel3.Controls.Add(this.button7);
-            this.panel3.Controls.Add(this.label1);
-            this.panel3.Controls.Add(this.pictureBox2);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel3.ForeColor = System.Drawing.SystemColors.Control;
-            this.panel3.Location = new System.Drawing.Point(0, 0);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(334, 664);
-            this.panel3.TabIndex = 11;
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = global::Hontrack_library.Properties.Resources.user_1077114;
-            this.pictureBox2.Location = new System.Drawing.Point(95, 11);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(129, 111);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 2;
-            this.pictureBox2.TabStop = false;
-            // 
             // userManagement2
             // 
             this.userManagement2.Location = new System.Drawing.Point(334, 0);
@@ -417,47 +415,33 @@
             this.userManagement2.Size = new System.Drawing.Size(0, 0);
             this.userManagement2.TabIndex = 3;
             // 
-            // userManagement3
-            // 
-            this.userManagement3.Location = new System.Drawing.Point(334, -3);
-            this.userManagement3.Name = "userManagement3";
-            this.userManagement3.Size = new System.Drawing.Size(924, 664);
-            this.userManagement3.TabIndex = 4;
-            // 
-            // issueBook2
-            // 
-            this.issueBook2.Location = new System.Drawing.Point(334, 0);
-            this.issueBook2.Name = "issueBook2";
-            this.issueBook2.Size = new System.Drawing.Size(924, 664);
-            this.issueBook2.TabIndex = 5;
-            // 
             // borrowingHistory2
             // 
-            this.borrowingHistory2.Location = new System.Drawing.Point(334, 0);
+            this.borrowingHistory2.Location = new System.Drawing.Point(331, 0);
             this.borrowingHistory2.Name = "borrowingHistory2";
             this.borrowingHistory2.Size = new System.Drawing.Size(924, 664);
-            this.borrowingHistory2.TabIndex = 6;
+            this.borrowingHistory2.TabIndex = 4;
             // 
             // returnbook2
             // 
-            this.returnbook2.Location = new System.Drawing.Point(334, 0);
+            this.returnbook2.Location = new System.Drawing.Point(331, -3);
             this.returnbook2.Name = "returnbook2";
             this.returnbook2.Size = new System.Drawing.Size(924, 664);
-            this.returnbook2.TabIndex = 7;
+            this.returnbook2.TabIndex = 5;
             // 
             // borrowBook2
             // 
-            this.borrowBook2.Location = new System.Drawing.Point(334, 0);
+            this.borrowBook2.Location = new System.Drawing.Point(331, -3);
             this.borrowBook2.Name = "borrowBook2";
-            this.borrowBook2.Size = new System.Drawing.Size(924, 664);
-            this.borrowBook2.TabIndex = 8;
+            this.borrowBook2.Size = new System.Drawing.Size(927, 667);
+            this.borrowBook2.TabIndex = 6;
             // 
             // dashMain2
             // 
-            this.dashMain2.Location = new System.Drawing.Point(337, 0);
+            this.dashMain2.Location = new System.Drawing.Point(331, 0);
             this.dashMain2.Name = "dashMain2";
-            this.dashMain2.Size = new System.Drawing.Size(924, 664);
-            this.dashMain2.TabIndex = 9;
+            this.dashMain2.Size = new System.Drawing.Size(927, 652);
+            this.dashMain2.TabIndex = 7;
             // 
             // EmDashboard
             // 
@@ -468,20 +452,19 @@
             this.Controls.Add(this.borrowBook2);
             this.Controls.Add(this.returnbook2);
             this.Controls.Add(this.borrowingHistory2);
-            this.Controls.Add(this.issueBook2);
-            this.Controls.Add(this.userManagement3);
             this.Controls.Add(this.userManagement2);
             this.Controls.Add(this.panel2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "EmDashboard";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "EmDashboard";
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -514,8 +497,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox pictureBox2;
         private UserManagement userManagement2;
-        private UserManagement userManagement3;
-        private IssueBook issueBook2;
         private BorrowingHistory borrowingHistory2;
         private Returnbook returnbook2;
         private BorrowBook borrowBook2;

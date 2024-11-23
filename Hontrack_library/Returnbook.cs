@@ -57,6 +57,43 @@ namespace Hontrack_library
             List<borrowedBookData> listdata = bookData.BookListTransaction();
             dataGridView1.Refresh();
             dataGridView1.DataSource = listdata;
+
+            dataGridView1.AutoGenerateColumns = true;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
+            // Header styling
+            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 11, FontStyle.Bold);
+            dataGridView1.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView1.ColumnHeadersDefaultCellStyle.Padding = new Padding(5);
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+
+            // Row styling
+            dataGridView1.DefaultCellStyle.Font = new Font("Arial", 9);
+            dataGridView1.DefaultCellStyle.BackColor = Color.WhiteSmoke;
+            dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.LightGray;
+            dataGridView1.DefaultCellStyle.SelectionBackColor = Color.Blue;
+            dataGridView1.DefaultCellStyle.SelectionForeColor = Color.White;
+            dataGridView1.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView1.DefaultCellStyle.Padding = new Padding(5);
+
+            // Borders and grid lines
+            dataGridView1.CellBorderStyle = DataGridViewCellBorderStyle.Single;
+            dataGridView1.GridColor = Color.Gray;
+
+            // Disable extra rows
+            dataGridView1.AllowUserToAddRows = false;
+
+            // Ensure correct column headers
+            dataGridView1.Columns[0].HeaderText = "ID";
+            dataGridView1.Columns[1].HeaderText = "Title";
+            dataGridView1.Columns[2].HeaderText = "Book Number";
+            dataGridView1.Columns[3].HeaderText = "User Name";
+            dataGridView1.Columns[4].HeaderText = "Return Due";
+            dataGridView1.Columns[5].HeaderText = "Borrow Date";
+            dataGridView1.Columns[6].HeaderText = "Status";
+
+
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
         }
 
 

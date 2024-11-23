@@ -32,34 +32,35 @@ namespace Hontrack_library
 
         private void button7_Click(object sender, EventArgs e)
         {
-            dashMain1.Visible = true;
-            borrowBook1.Visible = false;
-            returnbook1.Visible = false;
-            borrowingHistory1.Visible = false;
+            dashMain2.Visible = true;
+            borrowBook2.Visible = false;
+            returnbook2.Visible = false;
+            borrowingHistory2.Visible = false;
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-            dashMain1.Visible = false;
-            borrowBook1.Visible = true;
-            returnbook1.Visible = false;
-            borrowingHistory1.Visible = false;
+            dashMain2.Visible = false;
+            borrowBook2.Visible = true;
+            returnbook2.Visible = false;
+            borrowingHistory2.Visible = false;
+            
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            dashMain1.Visible = false;
-            borrowBook1.Visible = false;
-            returnbook1.Visible = true;
-            borrowingHistory1.Visible = false;
+            dashMain2.Visible = false;
+            borrowBook2.Visible = false;
+            returnbook2.Visible = true;
+            borrowingHistory2.Visible = false;
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            dashMain1.Visible = false;
-            borrowBook1.Visible = false;
-            returnbook1.Visible = false;
-            borrowingHistory1.Visible = true;
+            dashMain2.Visible = false;
+            borrowBook2.Visible = false;
+            returnbook2.Visible = false;
+            borrowingHistory2.Visible = true;
         }
 
     }

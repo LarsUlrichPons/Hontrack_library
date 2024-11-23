@@ -4,6 +4,7 @@ using System.Data;
 using MySql.Data.MySqlClient;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
+using System.Drawing;
 
 
 namespace Hontrack_library
@@ -19,9 +20,9 @@ namespace Hontrack_library
             InitializeComponent();
             displayEmployeeData();
             addEmployee_UT.DropDownStyle = ComboBoxStyle.DropDownList;
-            refreshTimer = new Timer();
-            refreshTimer.Interval = 5000; // 1 second
-            refreshTimer.Tick += RefreshTimer_Tick; // Event handler
+
+            addEmployee_id.ReadOnly = true;
+           
         }
         private void RefreshTimer_Tick(object sender, EventArgs e)
         {
@@ -33,6 +34,66 @@ namespace Hontrack_library
             EmployeeData employeeData = new EmployeeData();
             List<EmployeeData> listdata = employeeData.GetEmployeeListData();
             dataGridView1.DataSource = listdata;
+
+            // Customizing DataGridView
+            dataGridView1.AutoGenerateColumns = true;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
+            // Header styling
+            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 11, FontStyle.Bold);
+            dataGridView1.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView1.ColumnHeadersDefaultCellStyle.Padding = new Padding(5);
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+
+            // Row styling
+            dataGridView1.DefaultCellStyle.Font = new Font("Arial", 9);
+            dataGridView1.DefaultCellStyle.BackColor = Color.WhiteSmoke;
+            dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.LightGray;
+            dataGridView1.DefaultCellStyle.SelectionBackColor = Color.Blue;
+            dataGridView1.DefaultCellStyle.SelectionForeColor = Color.White;
+            dataGridView1.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView1.DefaultCellStyle.Padding = new Padding(5);
+
+            // Borders and grid lines
+            dataGridView1.CellBorderStyle = DataGridViewCellBorderStyle.Single;
+            dataGridView1.GridColor = Color.Gray;
+
+            // Disable extra rows
+            dataGridView1.AllowUserToAddRows = false;
+
+            // Ensure correct column headers
+            dataGridView1.Columns[0].HeaderText = "ID";
+            dataGridView1.Columns[1].HeaderText = "Full Name";
+            dataGridView1.Columns[2].HeaderText = "User Name";
+            dataGridView1.Columns[3].HeaderText = "Password";
+            dataGridView1.Columns[4].HeaderText = "User Type";
+          
+
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+
+            if (dataGridView1.Rows.Count > 0) // Ensure rows exist
+            {
+                dataGridView1.Rows[0].Cells["usertype"].ReadOnly = true; // Set the cell to read-only
+                dataGridView1.Rows[0].Cells["usertype"].Style.BackColor = Color.LightGray; // Optional: Indicate read-only visually
+                dataGridView1.Rows[0].Cells["usertype"].Style.ForeColor = Color.DarkGray;
+            }
+
+
+        }
+
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
+                addEmployee_id.Text = row.Cells[0].Value.ToString();
+                addEmployee_FN.Text = row.Cells[1].Value.ToString();
+                addEmployee_UN.Text = row.Cells[2].Value.ToString();
+                addEmployee_Pass.Text = row.Cells[3].Value.ToString();
+                addEmployee_UT.Text = row.Cells[4].Value.ToString();
+            }
         }
 
         private bool ValidatePassword(string password)
@@ -119,6 +180,7 @@ namespace Hontrack_library
                 }
 
                 displayEmployeeData();
+                clearfield();
             }
             catch (Exception ex)
             {
@@ -149,6 +211,13 @@ namespace Hontrack_library
                 return;
             }
 
+            if (dataGridView1.Rows.Count > 0 &&
+       dataGridView1.Rows[0].Cells["fullname"].Value.ToString() == addEmployee_FN.Text.Trim())
+            {
+                MessageBox.Show("The usertype for the first record cannot be modified.", "Permission Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             DialogResult check = MessageBox.Show("Are you sure you want to UPDATE EmployeeData Name: " + addEmployee_FN.Text.Trim() + "?", "Confirmation Message", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
             if (check == DialogResult.Yes)
             {
@@ -157,9 +226,10 @@ namespace Hontrack_library
                     MySqlConnection mysql = new MySqlConnection(connect);
                     mysql.Open();
 
-                    string updatedata = "UPDATE users SET username = @username, password = @password, usertype = @usertype, update_date = @updateDate WHERE fullname = @fullname";
+                    string updatedata = "UPDATE users SET fullname = @fullname, username = @username, password = @password, usertype = @usertype, update_date = @updateDate WHERE ID = @ID";
                     using (MySqlCommand cmd = new MySqlCommand(updatedata, mysql))
                     {
+                        cmd.Parameters.AddWithValue("@ID",addEmployee_id.Text.Trim());
                         cmd.Parameters.AddWithValue("@fullname", addEmployee_FN.Text.Trim());
                         cmd.Parameters.AddWithValue("@username", addEmployee_UN.Text.Trim());
                         cmd.Parameters.AddWithValue("@password", addEmployee_Pass.Text.Trim());
@@ -171,6 +241,7 @@ namespace Hontrack_library
 
                     MessageBox.Show("Updated Successfully!", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     displayEmployeeData();
+                    clearfield();
                 }
                 catch (Exception ex)
                 {
@@ -184,17 +255,7 @@ namespace Hontrack_library
         }
 
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
-                addEmployee_FN.Text = row.Cells[1].Value.ToString();
-                addEmployee_UN.Text = row.Cells[2].Value.ToString();
-                addEmployee_Pass.Text = row.Cells[3].Value.ToString();
-                addEmployee_UT.Text = row.Cells[4].Value.ToString();
-            }
-        }
+       
 
         private void RemoveBtn_Click(object sender, EventArgs e)
         {
@@ -231,6 +292,7 @@ namespace Hontrack_library
 
                     MessageBox.Show("Deleted Successfully!", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     displayEmployeeData();
+                    clearfield();
                 }
                 catch (Exception ex)
                 {
@@ -251,6 +313,16 @@ namespace Hontrack_library
             {
                 MessageBox.Show("Error refreshing data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+
+        public void clearfield() 
+        {
+            addEmployee_id.Clear();
+            addEmployee_FN.Clear();
+            addEmployee_Pass.Clear();
+            addEmployee_UN.Clear();
+            addEmployee_UT.SelectedIndex = -1;
         }
     }
 }

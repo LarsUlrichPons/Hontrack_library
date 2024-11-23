@@ -42,12 +42,12 @@ namespace Hontrack_library
             this.label3 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.dashMain1 = new Hontrack_library.DashMain();
             this.borrowBook1 = new Hontrack_library.BorrowBook();
             this.returnbook1 = new Hontrack_library.Returnbook();
             this.borrowingHistory1 = new Hontrack_library.BorrowingHistory();
             this.issueBook1 = new Hontrack_library.IssueBook();
             this.userManagement1 = new Hontrack_library.UserManagement();
+            this.dashMain1 = new Hontrack_library.DashMain();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
@@ -233,13 +233,6 @@ namespace Hontrack_library
             this.panel1.Size = new System.Drawing.Size(924, 664);
             this.panel1.TabIndex = 2;
             // 
-            // dashMain1
-            // 
-            this.dashMain1.Location = new System.Drawing.Point(0, -3);
-            this.dashMain1.Name = "dashMain1";
-            this.dashMain1.Size = new System.Drawing.Size(924, 664);
-            this.dashMain1.TabIndex = 5;
-            // 
             // borrowBook1
             // 
             this.borrowBook1.Location = new System.Drawing.Point(0, 0);
@@ -274,6 +267,13 @@ namespace Hontrack_library
             this.userManagement1.Name = "userManagement1";
             this.userManagement1.Size = new System.Drawing.Size(924, 664);
             this.userManagement1.TabIndex = 0;
+            // 
+            // dashMain1
+            // 
+            this.dashMain1.Location = new System.Drawing.Point(0, 0);
+            this.dashMain1.Name = "dashMain1";
+            this.dashMain1.Size = new System.Drawing.Size(924, 661);
+            this.dashMain1.TabIndex = 5;
             // 
             // Dashboard
             // 
@@ -310,8 +310,8 @@ namespace Hontrack_library
         private BorrowingHistory borrowingHistory1;
         private IssueBook issueBook1;
         private UserManagement userManagement1;
-        private DashMain dashMain1;
         private BorrowBook borrowBook1;
         private Returnbook returnbook1;
+        private DashMain dashMain1;
     }
 }
