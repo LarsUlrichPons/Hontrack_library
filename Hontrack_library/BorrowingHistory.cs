@@ -237,5 +237,9 @@ namespace Hontrack_library
             return document;
         }
 
+        private void IDtxt_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

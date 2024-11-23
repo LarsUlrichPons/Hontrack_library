@@ -5,6 +5,7 @@ using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 using System;
 using LiveCharts.Wpf.Charts.Base;
+using System.Drawing;
 
 namespace Hontrack_library
 {
@@ -19,10 +20,14 @@ namespace Hontrack_library
             displayAb();
             displayBb();
             displayRb();
-            LoadPieChart(); // Initialize the live chart
+           // LoadPieChart(); // Initialize the live chart
+          // SetupPieChart();
 
-          
+
+
         }
+
+       
 
         public void displayAb()
         {
@@ -133,7 +138,7 @@ namespace Hontrack_library
                 );
             }
         }
-        public void LoadPieChart()
+     /* public void LoadPieChart()
         {
             try
             {
@@ -141,10 +146,10 @@ namespace Hontrack_library
                 {
                     conn.Open();
                     string selectData = @"
-                        SELECT status, COUNT(*) as count 
+                        SELECT bookTitle, COUNT(*) as count 
                         FROM book_transactions 
                         WHERE delete_date IS NULL 
-                        GROUP BY status";
+                        GROUP BY bookTitle";
 
                     using (MySqlCommand cmd = new MySqlCommand(selectData, conn))
                     {
@@ -155,7 +160,7 @@ namespace Hontrack_library
 
                             while (reader.Read())
                             {
-                                statuses.Add(reader.GetString("status"));
+                                statuses.Add(reader.GetString("bookTitle"));
                                 counts.Add(reader.GetInt32("count"));
                             }
 
@@ -185,7 +190,7 @@ namespace Hontrack_library
                     MessageBoxIcon.Error
                 );
             }
-        }
+        }*/
 
         private void pieChart1_ChildChanged(object sender, System.Windows.Forms.Integration.ChildChangedEventArgs e)
         {

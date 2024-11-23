@@ -41,72 +41,7 @@ namespace Hontrack_library
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-          dashMain1.Visible = true;
-            borrowBook2.Visible = false;
-            returnbook2.Visible = false;
-            borrowingHistory2.Visible = false;
-            issueBook2.Visible = false;
-            userManagement2.Visible = false;
-
-        }
-
-      
-
-        private void BbButton_Click(object sender, EventArgs e)
-        {
-            dashMain1.Visible = false;
-            borrowBook2.Visible = true;
-            returnbook2.Visible = false;
-            borrowingHistory2.Visible = false;
-            issueBook2.Visible = false;
-            userManagement2.Visible = false;
-        }
-
-        private void RbButton_Click(object sender, EventArgs e)
-        {
-            dashMain1.Visible = false;
-            borrowBook2.Visible = false;
-            returnbook2.Visible = true;
-            borrowingHistory2.Visible = false;
-            issueBook2.Visible = false;
-            userManagement2.Visible = false;
-
-        }
-
-        private void BhButton_Click(object sender, EventArgs e)
-        {
-           dashMain1.Visible = false;
-            borrowBook2.Visible = false;
-            returnbook2.Visible = false;
-            borrowingHistory2.Visible = true;
-            issueBook2.Visible = false;
-            userManagement2.Visible = false;
-        }
-
-        private void BiButton_Click(object sender, EventArgs e)
-        {
-            dashMain1.Visible = false;
-            borrowBook2.Visible = false;
-            returnbook2.Visible = false;
-            borrowingHistory2.Visible = false;
-            issueBook2.Visible = true;
-            userManagement2.Visible = false;
-        }
-
-        private void MuButton_Click(object sender, EventArgs e)
-        {
-
-            dashMain1.Visible = false;
-            borrowBook2.Visible = false;
-            returnbook2.Visible = false;
-            borrowingHistory2.Visible = false;
-            issueBook2.Visible = false;
-            userManagement2.Visible = true;
-        }
-
-        private void button4_Click_1(object sender, EventArgs e)
+        private void LogoutBtn_Click(object sender, EventArgs e)
         {
             DialogResult check = MessageBox.Show("Are you sure you want to logout?", "Confirmation Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
@@ -118,9 +53,71 @@ namespace Hontrack_library
             }
         }
 
-        private void dashMain1_Load(object sender, EventArgs e)
-        {
+        
+      
+         private void dashMain1_Load(object sender, EventArgs e)
+         {
 
+         }
+
+        private void DbButton_Click(object sender, EventArgs e)
+        {
+            dashMain1.Visible = true;
+            borrowBook1.Visible = false;
+            returnbook1.Visible = false;
+            borrowingHistory1.Visible = false;
+            issueBook1.Visible = false;
+            userManagement1.Visible = false;
+        }
+
+        private void BbButton_Click(object sender, EventArgs e)
+        {
+            dashMain1.Visible = false;
+            borrowBook1.Visible = true;
+            returnbook1.Visible = false;
+            borrowingHistory1.Visible = false;
+            issueBook1.Visible = false;
+            userManagement1.Visible = false;
+        }
+
+        private void RbButton_Click(object sender, EventArgs e)
+        {
+            dashMain1.Visible = false;
+            borrowBook1.Visible = false;
+            returnbook1.Visible = true;
+            borrowingHistory1.Visible = false;
+            issueBook1.Visible = false;
+            userManagement1.Visible = false;
+        }
+
+        private void BhButton_Click(object sender, EventArgs e)
+        {
+            dashMain1.Visible = false;
+            borrowBook1.Visible = false;
+            returnbook1.Visible = false;
+            borrowingHistory1.Visible = true;
+            issueBook1.Visible = false;
+            userManagement1.Visible = false;
+        }
+
+        private void BiButton_Click(object sender, EventArgs e)
+        {
+            dashMain1.Visible = false;
+            borrowBook1.Visible = false;
+            returnbook1.Visible = false;
+            borrowingHistory1.Visible = false;
+            issueBook1.Visible = true;
+            userManagement1.Visible = false;
+        }
+
+        private void MuButton_Click(object sender, EventArgs e)
+        {
+            dashMain1.Visible = false;
+            borrowBook1.Visible = false;
+            returnbook1.Visible = false;
+            borrowingHistory1.Visible = false;
+            issueBook1.Visible = false;
+            userManagement1.Visible = true;
         }
     }
 }

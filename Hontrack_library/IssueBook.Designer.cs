@@ -39,6 +39,7 @@
             this.UpdateBtn = new System.Windows.Forms.Button();
             this.RemoveBtn = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.refreshBtn = new System.Windows.Forms.Button();
             this.BQuantityTXT = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.BookNumTxt = new System.Windows.Forms.TextBox();
@@ -50,7 +51,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.bookTitle = new System.Windows.Forms.TextBox();
             this.author = new System.Windows.Forms.TextBox();
-            this.refreshBtn = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel2.SuspendLayout();
@@ -61,11 +61,12 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.Controls.Add(this.refreshBtn);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.dataGridView1);
-            this.panel1.Location = new System.Drawing.Point(391, 20);
+            this.panel1.Location = new System.Drawing.Point(391, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(485, 542);
+            this.panel1.Size = new System.Drawing.Size(518, 647);
             this.panel1.TabIndex = 0;
             // 
             // label1
@@ -86,7 +87,7 @@
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 62;
             this.dataGridView1.RowTemplate.Height = 28;
-            this.dataGridView1.Size = new System.Drawing.Size(464, 481);
+            this.dataGridView1.Size = new System.Drawing.Size(484, 558);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
@@ -94,7 +95,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(30, 256);
+            this.label5.Location = new System.Drawing.Point(30, 274);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(96, 22);
             this.label5.TabIndex = 6;
@@ -105,7 +106,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(57, 291);
+            this.label6.Location = new System.Drawing.Point(57, 309);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(69, 22);
             this.label6.TabIndex = 9;
@@ -115,7 +116,7 @@
             // 
             this.Published.AutoSize = true;
             this.Published.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Published.Location = new System.Drawing.Point(4, 361);
+            this.Published.Location = new System.Drawing.Point(4, 379);
             this.Published.Name = "Published";
             this.Published.Size = new System.Drawing.Size(133, 22);
             this.Published.TabIndex = 12;
@@ -123,7 +124,7 @@
             // 
             // publishedDate
             // 
-            this.publishedDate.Location = new System.Drawing.Point(143, 357);
+            this.publishedDate.Location = new System.Drawing.Point(143, 375);
             this.publishedDate.Name = "publishedDate";
             this.publishedDate.Size = new System.Drawing.Size(201, 26);
             this.publishedDate.TabIndex = 13;
@@ -135,7 +136,7 @@
             this.AddBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.AddBtn.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.AddBtn.ForeColor = System.Drawing.Color.White;
-            this.AddBtn.Location = new System.Drawing.Point(24, 427);
+            this.AddBtn.Location = new System.Drawing.Point(24, 505);
             this.AddBtn.Name = "AddBtn";
             this.AddBtn.Size = new System.Drawing.Size(102, 48);
             this.AddBtn.TabIndex = 14;
@@ -150,7 +151,7 @@
             this.UpdateBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.UpdateBtn.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UpdateBtn.ForeColor = System.Drawing.Color.White;
-            this.UpdateBtn.Location = new System.Drawing.Point(132, 427);
+            this.UpdateBtn.Location = new System.Drawing.Point(134, 505);
             this.UpdateBtn.Name = "UpdateBtn";
             this.UpdateBtn.Size = new System.Drawing.Size(102, 48);
             this.UpdateBtn.TabIndex = 15;
@@ -165,7 +166,7 @@
             this.RemoveBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.RemoveBtn.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.RemoveBtn.ForeColor = System.Drawing.Color.White;
-            this.RemoveBtn.Location = new System.Drawing.Point(24, 481);
+            this.RemoveBtn.Location = new System.Drawing.Point(242, 505);
             this.RemoveBtn.Name = "RemoveBtn";
             this.RemoveBtn.Size = new System.Drawing.Size(102, 48);
             this.RemoveBtn.TabIndex = 16;
@@ -177,7 +178,6 @@
             // 
             this.panel2.BackColor = System.Drawing.Color.White;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel2.Controls.Add(this.refreshBtn);
             this.panel2.Controls.Add(this.BQuantityTXT);
             this.panel2.Controls.Add(this.label4);
             this.panel2.Controls.Add(this.BookNumTxt);
@@ -197,23 +197,38 @@
             this.panel2.Controls.Add(this.label6);
             this.panel2.Controls.Add(this.label5);
             this.panel2.Cursor = System.Windows.Forms.Cursors.Default;
-            this.panel2.Location = new System.Drawing.Point(19, 20);
+            this.panel2.Location = new System.Drawing.Point(3, 3);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(366, 546);
+            this.panel2.Size = new System.Drawing.Size(382, 647);
             this.panel2.TabIndex = 1;
+            // 
+            // refreshBtn
+            // 
+            this.refreshBtn.BackColor = System.Drawing.Color.SeaGreen;
+            this.refreshBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.refreshBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.refreshBtn.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.refreshBtn.ForeColor = System.Drawing.Color.White;
+            this.refreshBtn.Location = new System.Drawing.Point(410, 10);
+            this.refreshBtn.Name = "refreshBtn";
+            this.refreshBtn.Size = new System.Drawing.Size(88, 38);
+            this.refreshBtn.TabIndex = 27;
+            this.refreshBtn.Text = "Refresh";
+            this.refreshBtn.UseVisualStyleBackColor = false;
+            this.refreshBtn.Click += new System.EventHandler(this.refreshBtn_Click);
             // 
             // BQuantityTXT
             // 
-            this.BQuantityTXT.Location = new System.Drawing.Point(144, 395);
+            this.BQuantityTXT.Location = new System.Drawing.Point(144, 413);
             this.BQuantityTXT.Name = "BQuantityTXT";
-            this.BQuantityTXT.Size = new System.Drawing.Size(154, 26);
+            this.BQuantityTXT.Size = new System.Drawing.Size(200, 26);
             this.BQuantityTXT.TabIndex = 26;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(61, 395);
+            this.label4.Location = new System.Drawing.Point(61, 413);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(83, 22);
             this.label4.TabIndex = 25;
@@ -221,16 +236,16 @@
             // 
             // BookNumTxt
             // 
-            this.BookNumTxt.Location = new System.Drawing.Point(144, 223);
+            this.BookNumTxt.Location = new System.Drawing.Point(144, 241);
             this.BookNumTxt.Name = "BookNumTxt";
-            this.BookNumTxt.Size = new System.Drawing.Size(154, 26);
+            this.BookNumTxt.Size = new System.Drawing.Size(200, 26);
             this.BookNumTxt.TabIndex = 24;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(14, 227);
+            this.label3.Location = new System.Drawing.Point(14, 245);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(124, 22);
             this.label3.TabIndex = 23;
@@ -238,7 +253,7 @@
             // 
             // StartBtn
             // 
-            this.StartBtn.Location = new System.Drawing.Point(187, 181);
+            this.StartBtn.Location = new System.Drawing.Point(284, 178);
             this.StartBtn.Name = "StartBtn";
             this.StartBtn.Size = new System.Drawing.Size(75, 33);
             this.StartBtn.TabIndex = 22;
@@ -251,7 +266,7 @@
             this.Camera.FormattingEnabled = true;
             this.Camera.Location = new System.Drawing.Point(8, 181);
             this.Camera.Name = "Camera";
-            this.Camera.Size = new System.Drawing.Size(173, 28);
+            this.Camera.Size = new System.Drawing.Size(270, 28);
             this.Camera.TabIndex = 2;
             // 
             // CameraFrame
@@ -270,16 +285,16 @@
             this.Status.Items.AddRange(new object[] {
             "Available",
             "Unavailable"});
-            this.Status.Location = new System.Drawing.Point(143, 323);
+            this.Status.Location = new System.Drawing.Point(143, 341);
             this.Status.Name = "Status";
-            this.Status.Size = new System.Drawing.Size(155, 28);
+            this.Status.Size = new System.Drawing.Size(201, 28);
             this.Status.TabIndex = 21;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(61, 329);
+            this.label2.Location = new System.Drawing.Point(61, 347);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(65, 22);
             this.label2.TabIndex = 20;
@@ -287,32 +302,17 @@
             // 
             // bookTitle
             // 
-            this.bookTitle.Location = new System.Drawing.Point(144, 255);
+            this.bookTitle.Location = new System.Drawing.Point(144, 273);
             this.bookTitle.Name = "bookTitle";
-            this.bookTitle.Size = new System.Drawing.Size(154, 26);
+            this.bookTitle.Size = new System.Drawing.Size(200, 26);
             this.bookTitle.TabIndex = 19;
             // 
             // author
             // 
-            this.author.Location = new System.Drawing.Point(144, 287);
+            this.author.Location = new System.Drawing.Point(144, 305);
             this.author.Name = "author";
-            this.author.Size = new System.Drawing.Size(154, 26);
+            this.author.Size = new System.Drawing.Size(200, 26);
             this.author.TabIndex = 18;
-            // 
-            // refreshBtn
-            // 
-            this.refreshBtn.BackColor = System.Drawing.Color.SeaGreen;
-            this.refreshBtn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.refreshBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.refreshBtn.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.refreshBtn.ForeColor = System.Drawing.Color.White;
-            this.refreshBtn.Location = new System.Drawing.Point(132, 481);
-            this.refreshBtn.Name = "refreshBtn";
-            this.refreshBtn.Size = new System.Drawing.Size(102, 48);
-            this.refreshBtn.TabIndex = 27;
-            this.refreshBtn.Text = "Refresh";
-            this.refreshBtn.UseVisualStyleBackColor = false;
-            this.refreshBtn.Click += new System.EventHandler(this.refreshBtn_Click);
             // 
             // IssueBook
             // 
@@ -321,7 +321,7 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "IssueBook";
-            this.Size = new System.Drawing.Size(880, 565);
+            this.Size = new System.Drawing.Size(924, 664);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();

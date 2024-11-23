@@ -37,6 +37,8 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.ReturnDue = new System.Windows.Forms.DateTimePicker();
+            this.label9 = new System.Windows.Forms.Label();
             this.refreshBtn = new System.Windows.Forms.Button();
             this.NameTXT = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -48,8 +50,6 @@
             this.label6 = new System.Windows.Forms.Label();
             this.BookTitle = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.ReturnDue = new System.Windows.Forms.DateTimePicker();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
@@ -62,7 +62,7 @@
             this.ClearBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ClearBtn.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ClearBtn.ForeColor = System.Drawing.Color.White;
-            this.ClearBtn.Location = new System.Drawing.Point(106, 489);
+            this.ClearBtn.Location = new System.Drawing.Point(169, 510);
             this.ClearBtn.Name = "ClearBtn";
             this.ClearBtn.Size = new System.Drawing.Size(89, 55);
             this.ClearBtn.TabIndex = 16;
@@ -77,7 +77,7 @@
             this.BorrowButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BorrowButton.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BorrowButton.ForeColor = System.Drawing.Color.White;
-            this.BorrowButton.Location = new System.Drawing.Point(11, 489);
+            this.BorrowButton.Location = new System.Drawing.Point(59, 510);
             this.BorrowButton.Name = "BorrowButton";
             this.BorrowButton.Size = new System.Drawing.Size(89, 55);
             this.BorrowButton.TabIndex = 15;
@@ -128,20 +128,21 @@
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.dataGridView1);
             this.panel2.Controls.Add(this.label1);
-            this.panel2.Location = new System.Drawing.Point(350, 22);
+            this.panel2.Controls.Add(this.refreshBtn);
+            this.panel2.Location = new System.Drawing.Point(350, 3);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(527, 567);
+            this.panel2.Size = new System.Drawing.Size(558, 647);
             this.panel2.TabIndex = 3;
             // 
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(22, 63);
+            this.dataGridView1.Location = new System.Drawing.Point(3, 63);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 62;
             this.dataGridView1.RowTemplate.Height = 28;
-            this.dataGridView1.Size = new System.Drawing.Size(490, 499);
+            this.dataGridView1.Size = new System.Drawing.Size(550, 579);
             this.dataGridView1.TabIndex = 1;
             this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             // 
@@ -151,7 +152,6 @@
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.ReturnDue);
             this.panel1.Controls.Add(this.label9);
-            this.panel1.Controls.Add(this.refreshBtn);
             this.panel1.Controls.Add(this.NameTXT);
             this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.Status);
@@ -167,10 +167,28 @@
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.IDTextBox);
             this.panel1.Controls.Add(this.label2);
-            this.panel1.Location = new System.Drawing.Point(23, 22);
+            this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(321, 567);
+            this.panel1.Size = new System.Drawing.Size(341, 647);
             this.panel1.TabIndex = 2;
+            // 
+            // ReturnDue
+            // 
+            this.ReturnDue.Location = new System.Drawing.Point(121, 245);
+            this.ReturnDue.Name = "ReturnDue";
+            this.ReturnDue.Size = new System.Drawing.Size(182, 26);
+            this.ReturnDue.TabIndex = 2;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(14, 250);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(99, 19);
+            this.label9.TabIndex = 27;
+            this.label9.Text = "Return Date:";
+            this.label9.Click += new System.EventHandler(this.label9_Click);
             // 
             // refreshBtn
             // 
@@ -179,9 +197,9 @@
             this.refreshBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.refreshBtn.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.refreshBtn.ForeColor = System.Drawing.Color.White;
-            this.refreshBtn.Location = new System.Drawing.Point(201, 489);
+            this.refreshBtn.Location = new System.Drawing.Point(449, 17);
             this.refreshBtn.Name = "refreshBtn";
-            this.refreshBtn.Size = new System.Drawing.Size(89, 55);
+            this.refreshBtn.Size = new System.Drawing.Size(89, 33);
             this.refreshBtn.TabIndex = 25;
             this.refreshBtn.Text = "Refresh";
             this.refreshBtn.UseVisualStyleBackColor = false;
@@ -277,24 +295,6 @@
             this.label5.TabIndex = 8;
             this.label5.Text = "Book Title:";
             // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Tahoma", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(14, 250);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(99, 19);
-            this.label9.TabIndex = 27;
-            this.label9.Text = "Return Date:";
-            this.label9.Click += new System.EventHandler(this.label9_Click);
-            // 
-            // ReturnDue
-            // 
-            this.ReturnDue.Location = new System.Drawing.Point(121, 245);
-            this.ReturnDue.Name = "ReturnDue";
-            this.ReturnDue.Size = new System.Drawing.Size(182, 26);
-            this.ReturnDue.TabIndex = 2;
-            // 
             // BorrowBook
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -302,7 +302,7 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "BorrowBook";
-            this.Size = new System.Drawing.Size(886, 607);
+            this.Size = new System.Drawing.Size(924, 664);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();

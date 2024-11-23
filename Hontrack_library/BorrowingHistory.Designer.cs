@@ -35,6 +35,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.bookTitle = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.PdfBtn = new System.Windows.Forms.Button();
             this.refreshBtn = new System.Windows.Forms.Button();
             this.searchBox = new System.Windows.Forms.TextBox();
@@ -46,8 +48,6 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.bookTitle = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -60,9 +60,9 @@
             this.searchBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.searchBtn.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.searchBtn.ForeColor = System.Drawing.Color.White;
-            this.searchBtn.Location = new System.Drawing.Point(318, 10);
+            this.searchBtn.Location = new System.Drawing.Point(254, 19);
             this.searchBtn.Name = "searchBtn";
-            this.searchBtn.Size = new System.Drawing.Size(90, 36);
+            this.searchBtn.Size = new System.Drawing.Size(90, 37);
             this.searchBtn.TabIndex = 14;
             this.searchBtn.Text = "Search";
             this.searchBtn.UseVisualStyleBackColor = false;
@@ -70,23 +70,24 @@
             // 
             // UserNametxt
             // 
-            this.UserNametxt.Location = new System.Drawing.Point(99, 164);
+            this.UserNametxt.Location = new System.Drawing.Point(127, 305);
             this.UserNametxt.Name = "UserNametxt";
-            this.UserNametxt.Size = new System.Drawing.Size(155, 26);
+            this.UserNametxt.Size = new System.Drawing.Size(195, 26);
             this.UserNametxt.TabIndex = 3;
             // 
             // IDtxt
             // 
-            this.IDtxt.Location = new System.Drawing.Point(96, 119);
+            this.IDtxt.Location = new System.Drawing.Point(127, 273);
             this.IDtxt.Name = "IDtxt";
-            this.IDtxt.Size = new System.Drawing.Size(158, 26);
+            this.IDtxt.Size = new System.Drawing.Size(195, 26);
             this.IDtxt.TabIndex = 1;
+            this.IDtxt.TextChanged += new System.EventHandler(this.IDtxt_TextChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(9, 119);
+            this.label2.Location = new System.Drawing.Point(22, 273);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(81, 22);
             this.label2.TabIndex = 0;
@@ -105,11 +106,11 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(14, 54);
+            this.dataGridView1.Location = new System.Drawing.Point(3, 55);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 62;
             this.dataGridView1.RowTemplate.Height = 28;
-            this.dataGridView1.Size = new System.Drawing.Size(824, 240);
+            this.dataGridView1.Size = new System.Drawing.Size(522, 563);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
@@ -120,7 +121,6 @@
             this.panel2.Controls.Add(this.bookTitle);
             this.panel2.Controls.Add(this.label6);
             this.panel2.Controls.Add(this.PdfBtn);
-            this.panel2.Controls.Add(this.refreshBtn);
             this.panel2.Controls.Add(this.searchBox);
             this.panel2.Controls.Add(this.status);
             this.panel2.Controls.Add(this.searchBtn);
@@ -134,10 +134,27 @@
             this.panel2.Controls.Add(this.IDtxt);
             this.panel2.Controls.Add(this.label2);
             this.panel2.Cursor = System.Windows.Forms.Cursors.Default;
-            this.panel2.Location = new System.Drawing.Point(20, 333);
+            this.panel2.Location = new System.Drawing.Point(3, 3);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(857, 229);
+            this.panel2.Size = new System.Drawing.Size(368, 643);
             this.panel2.TabIndex = 3;
+            // 
+            // bookTitle
+            // 
+            this.bookTitle.Location = new System.Drawing.Point(127, 241);
+            this.bookTitle.Name = "bookTitle";
+            this.bookTitle.Size = new System.Drawing.Size(195, 26);
+            this.bookTitle.TabIndex = 31;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(22, 242);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(96, 22);
+            this.label6.TabIndex = 30;
+            this.label6.Text = "Book Title:";
             // 
             // PdfBtn
             // 
@@ -146,9 +163,9 @@
             this.PdfBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.PdfBtn.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PdfBtn.ForeColor = System.Drawing.Color.White;
-            this.PdfBtn.Location = new System.Drawing.Point(683, 9);
+            this.PdfBtn.Location = new System.Drawing.Point(22, 543);
             this.PdfBtn.Name = "PdfBtn";
-            this.PdfBtn.Size = new System.Drawing.Size(155, 37);
+            this.PdfBtn.Size = new System.Drawing.Size(300, 62);
             this.PdfBtn.TabIndex = 29;
             this.PdfBtn.Text = "Generate PDF";
             this.PdfBtn.UseVisualStyleBackColor = false;
@@ -161,9 +178,9 @@
             this.refreshBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.refreshBtn.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.refreshBtn.ForeColor = System.Drawing.Color.White;
-            this.refreshBtn.Location = new System.Drawing.Point(432, 10);
+            this.refreshBtn.Location = new System.Drawing.Point(425, 10);
             this.refreshBtn.Name = "refreshBtn";
-            this.refreshBtn.Size = new System.Drawing.Size(90, 37);
+            this.refreshBtn.Size = new System.Drawing.Size(85, 39);
             this.refreshBtn.TabIndex = 28;
             this.refreshBtn.Text = "Refresh";
             this.refreshBtn.UseVisualStyleBackColor = false;
@@ -171,22 +188,22 @@
             // 
             // searchBox
             // 
-            this.searchBox.Location = new System.Drawing.Point(14, 16);
+            this.searchBox.Location = new System.Drawing.Point(22, 30);
             this.searchBox.Name = "searchBox";
-            this.searchBox.Size = new System.Drawing.Size(298, 26);
-            this.searchBox.TabIndex = 26;
+            this.searchBox.Size = new System.Drawing.Size(213, 26);
+            this.searchBox.TabIndex = 30;
             this.searchBox.TextChanged += new System.EventHandler(this.searchBox_TextChanged);
             // 
             // status
             // 
-            this.status.Location = new System.Drawing.Point(382, 168);
+            this.status.Location = new System.Drawing.Point(127, 425);
             this.status.Name = "status";
-            this.status.Size = new System.Drawing.Size(158, 26);
+            this.status.Size = new System.Drawing.Size(195, 26);
             this.status.TabIndex = 25;
             // 
             // returndate
             // 
-            this.returndate.Location = new System.Drawing.Point(382, 123);
+            this.returndate.Location = new System.Drawing.Point(127, 380);
             this.returndate.Name = "returndate";
             this.returndate.Size = new System.Drawing.Size(195, 26);
             this.returndate.TabIndex = 24;
@@ -195,7 +212,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(271, 123);
+            this.label5.Location = new System.Drawing.Point(16, 380);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(110, 22);
             this.label5.TabIndex = 23;
@@ -203,7 +220,7 @@
             // 
             // borrowdate
             // 
-            this.borrowdate.Location = new System.Drawing.Point(382, 80);
+            this.borrowdate.Location = new System.Drawing.Point(127, 337);
             this.borrowdate.Name = "borrowdate";
             this.borrowdate.Size = new System.Drawing.Size(195, 26);
             this.borrowdate.TabIndex = 22;
@@ -212,7 +229,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(271, 80);
+            this.label4.Location = new System.Drawing.Point(16, 337);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(114, 22);
             this.label4.TabIndex = 21;
@@ -222,7 +239,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(295, 168);
+            this.label9.Location = new System.Drawing.Point(40, 425);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(65, 22);
             this.label9.TabIndex = 19;
@@ -232,7 +249,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(9, 164);
+            this.label3.Location = new System.Drawing.Point(22, 302);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(100, 22);
             this.label3.TabIndex = 2;
@@ -244,27 +261,11 @@
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.dataGridView1);
-            this.panel1.Location = new System.Drawing.Point(20, 16);
+            this.panel1.Controls.Add(this.refreshBtn);
+            this.panel1.Location = new System.Drawing.Point(377, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(857, 311);
+            this.panel1.Size = new System.Drawing.Size(532, 643);
             this.panel1.TabIndex = 2;
-            // 
-            // bookTitle
-            // 
-            this.bookTitle.Location = new System.Drawing.Point(96, 76);
-            this.bookTitle.Name = "bookTitle";
-            this.bookTitle.Size = new System.Drawing.Size(158, 26);
-            this.bookTitle.TabIndex = 31;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(9, 76);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(96, 22);
-            this.label6.TabIndex = 30;
-            this.label6.Text = "Book Title:";
             // 
             // BorrowingHistory
             // 
@@ -273,7 +274,7 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "BorrowingHistory";
-            this.Size = new System.Drawing.Size(880, 565);
+            this.Size = new System.Drawing.Size(924, 664);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();

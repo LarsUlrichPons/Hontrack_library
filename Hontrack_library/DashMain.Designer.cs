@@ -48,7 +48,6 @@
             this.AvailBookQuantity = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.pieChart1 = new LiveCharts.WinForms.PieChart();
             this.panel5 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -58,7 +57,6 @@
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.panel5.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -67,9 +65,9 @@
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Controls.Add(this.panel4);
             this.panel1.Controls.Add(this.panel3);
-            this.panel1.Location = new System.Drawing.Point(26, 38);
+            this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(831, 208);
+            this.panel1.Size = new System.Drawing.Size(918, 243);
             this.panel1.TabIndex = 0;
             // 
             // panel2
@@ -79,7 +77,7 @@
             this.panel2.Controls.Add(this.BookQuantity);
             this.panel2.Controls.Add(this.pictureBox4);
             this.panel2.Controls.Add(this.label4);
-            this.panel2.Location = new System.Drawing.Point(45, 23);
+            this.panel2.Location = new System.Drawing.Point(67, 45);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(206, 152);
             this.panel2.TabIndex = 4;
@@ -128,7 +126,7 @@
             this.panel4.Controls.Add(this.pictureBox3);
             this.panel4.Controls.Add(this.returnQuantity);
             this.panel4.Controls.Add(this.label5);
-            this.panel4.Location = new System.Drawing.Point(598, 23);
+            this.panel4.Location = new System.Drawing.Point(620, 45);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(206, 152);
             this.panel4.TabIndex = 3;
@@ -177,7 +175,7 @@
             this.panel3.Controls.Add(this.borrowQuantity);
             this.panel3.Controls.Add(this.pictureBox2);
             this.panel3.Controls.Add(this.label3);
-            this.panel3.Location = new System.Drawing.Point(322, 23);
+            this.panel3.Location = new System.Drawing.Point(344, 45);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(206, 152);
             this.panel3.TabIndex = 3;
@@ -249,22 +247,12 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Issued Book";
             // 
-            // pieChart1
-            // 
-            this.pieChart1.Location = new System.Drawing.Point(3, 0);
-            this.pieChart1.Name = "pieChart1";
-            this.pieChart1.Size = new System.Drawing.Size(327, 300);
-            this.pieChart1.TabIndex = 1;
-            this.pieChart1.Text = "pieChart1";
-            this.pieChart1.ChildChanged += new System.EventHandler<System.Windows.Forms.Integration.ChildChangedEventArgs>(this.pieChart1_ChildChanged);
-            // 
             // panel5
             // 
             this.panel5.BackColor = System.Drawing.Color.White;
-            this.panel5.Controls.Add(this.pieChart1);
-            this.panel5.Location = new System.Drawing.Point(26, 252);
+            this.panel5.Location = new System.Drawing.Point(3, 252);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(831, 306);
+            this.panel5.Size = new System.Drawing.Size(918, 400);
             this.panel5.TabIndex = 2;
             // 
             // DashMain
@@ -274,7 +262,7 @@
             this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel1);
             this.Name = "DashMain";
-            this.Size = new System.Drawing.Size(880, 565);
+            this.Size = new System.Drawing.Size(924, 664);
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
@@ -286,7 +274,6 @@
             this.panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.panel5.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -313,7 +300,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
-        private LiveCharts.WinForms.PieChart pieChart1;
         private System.Windows.Forms.Panel panel5;
     }
 }
