@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows.Forms;
 using ZXing;
 
+
 namespace Hontrack_library
 {
     public partial class IssueBook : UserControl
@@ -16,18 +17,15 @@ namespace Hontrack_library
         private FilterInfoCollection filterInfoCollection;
         private VideoCaptureDevice videoCaptureDevice;
         private bool isCameraRunning = false;
-        private Timer refreshTimer;  // Declare a Timer
+      
 
         public IssueBook()
         {
             InitializeComponent();
             displayBookData();
             Status.DropDownStyle = ComboBoxStyle.DropDownList;
-
-            refreshTimer = new Timer();
-            refreshTimer.Interval = 5000; // 5 seconds
-            refreshTimer.Tick += RefreshTimer_Tick;
-
+          
+          
            
 
             filterInfoCollection = new FilterInfoCollection(FilterCategory.VideoInputDevice);
@@ -53,6 +51,8 @@ namespace Hontrack_library
         }
 
       
+
+
         private void RefreshTimer_Tick(object sender, EventArgs e)
         {
             displayBookData();  
@@ -94,8 +94,8 @@ namespace Hontrack_library
 
             // Ensure correct column headers
             dataGridView1.Columns[0].HeaderText = "Book ID";
-            dataGridView1.Columns[1].HeaderText = "Book Number";
-            dataGridView1.Columns[2].HeaderText = "Title";
+            dataGridView1.Columns[1].HeaderText = "Title";
+            dataGridView1.Columns[2].HeaderText = "Book Number";
             dataGridView1.Columns[3].HeaderText = "Author";
             dataGridView1.Columns[4].HeaderText = "Published Date";
             dataGridView1.Columns[5].HeaderText = "Status";
@@ -137,7 +137,7 @@ namespace Hontrack_library
                 videoCaptureDevice.NewFrame += VideoCaptureDevice_NewFrame;
                 videoCaptureDevice.Start();
                 isCameraRunning = true;
-                StartBtn.Text = "Start";
+                StartBtn.Text = "Stop";
             }
             else
             {
@@ -153,7 +153,7 @@ namespace Hontrack_library
                 videoCaptureDevice.WaitForStop();
                 videoCaptureDevice.NewFrame -= VideoCaptureDevice_NewFrame;
                 isCameraRunning = false;
-                StartBtn.Text = "Stop";
+                StartBtn.Text = "Start";
             }
         }
 
@@ -293,8 +293,9 @@ namespace Hontrack_library
             {
                 DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
                 BookID = (int)row.Cells[0].Value;  
-                BookNumTxt.Text = row.Cells[1].Value.ToString();
-                bookTitle.Text = row.Cells[2].Value.ToString();
+              
+                bookTitle.Text = row.Cells[1].Value.ToString(); 
+                BookNumTxt.Text = row.Cells[2].Value.ToString();
                 author.Text = row.Cells[3].Value.ToString();
                 if (DateTime.TryParse(row.Cells[4].Value.ToString(), out DateTime publishedDateValue))
                 {
@@ -340,6 +341,7 @@ namespace Hontrack_library
                     }
 
                     displayBookData();
+                    clearField();
                 }
                 catch (Exception ex)
                 {
@@ -367,6 +369,8 @@ namespace Hontrack_library
             {
                 MessageBox.Show("Error refreshing data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            clearField();
         }
 
 

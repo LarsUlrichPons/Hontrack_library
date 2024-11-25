@@ -105,8 +105,9 @@ namespace Hontrack_library
             {
                 DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
                 BookID = (int)row.Cells[0].Value;  // Ensure the ID column is the first column
-                IDTextBox.Text = row.Cells[1].Value.ToString();
-                BookTitle.Text = row.Cells[2].Value.ToString();
+                BookTitle.Text = row.Cells[1].Value.ToString();
+                IDTextBox.Text = row.Cells[2].Value.ToString();
+               
                 Author.Text = row.Cells[3].Value.ToString();
                 BQuantity.Text = row.Cells[6].Value.ToString();
                 Status.Text = row.Cells[5].Value.ToString();
@@ -236,12 +237,14 @@ namespace Hontrack_library
             {
                 // Refresh data instantly
                 displayBookData();
+              
                 MessageBox.Show("Data refreshed successfully.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error refreshing data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            } 
+            clearField();
         }
 
         private void label9_Click(object sender, EventArgs e)

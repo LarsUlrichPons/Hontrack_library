@@ -8,29 +8,46 @@ using LiveCharts.Wpf.Charts.Base;
 using System.Drawing;
 using System.Windows.Forms.DataVisualization.Charting;
 
+using System.Timers; // Add this for the timer
+using Timer = System.Windows.Forms.Timer; // Alias for Windows Forms Timer
+
 namespace Hontrack_library
 {
     public partial class DashMain : UserControl
     {
         string connect = "server=127.0.0.1; user=root; database=hontrack; password=";
-        
-       
+        private Timer refreshTimer; // Timer for real-time updates
+
         public DashMain()
         {
             InitializeComponent();
+
+            // Call display methods to initialize data
             displayAb();
             displayBb();
             displayRb();
-           LoadPieChart(); // Initialize the live chart
-          // SetupPieChart();
+            LoadPieChart();
 
-           
-
-
-
+            // Set up the refresh timer
+            SetupRealTimeUpdates();
         }
 
-       
+        private void SetupRealTimeUpdates()
+        {
+            refreshTimer = new Timer();
+            refreshTimer.Interval = 5000; // Update every 5 seconds (5000 ms)
+            refreshTimer.Tick += RefreshData; // Bind to the Tick event
+            refreshTimer.Start(); // Start the timer
+        }
+
+        private void RefreshData(object sender, EventArgs e)
+        {
+            // Refresh data dynamically
+            displayAb();
+            displayBb();
+            displayRb();
+            LoadPieChart();
+        }
 
         public void displayAb()
         {
@@ -40,9 +57,9 @@ namespace Hontrack_library
                 {
                     conn.Open();
                     string selectData = @"
-                SELECT COUNT(ID) 
-                FROM book 
-                WHERE status = 'Available' AND delete_date IS NULL";
+                        SELECT COUNT(ID) 
+                        FROM book 
+                        WHERE status = 'Available' AND delete_date IS NULL";
 
                     using (MySqlCommand cmd = new MySqlCommand(selectData, conn))
                     {
@@ -77,9 +94,9 @@ namespace Hontrack_library
                 {
                     conn.Open();
                     string selectData = @"
-                SELECT COUNT(ID) 
-                FROM book_transactions
-                WHERE status = 'borrowed' AND delete_date IS NULL";
+                        SELECT COUNT(ID) 
+                        FROM book_transactions
+                        WHERE status = 'borrowed' AND delete_date IS NULL";
 
                     using (MySqlCommand cmd = new MySqlCommand(selectData, conn))
                     {
@@ -105,6 +122,7 @@ namespace Hontrack_library
                 );
             }
         }
+
         public void displayRb()
         {
             try
@@ -113,9 +131,9 @@ namespace Hontrack_library
                 {
                     conn.Open();
                     string selectData = @"
-                SELECT COUNT(ID) 
-                FROM book_transactions
-                WHERE status = 'Returned' AND delete_date IS NULL";
+                        SELECT COUNT(ID) 
+                        FROM book_transactions
+                        WHERE status = 'Returned' AND delete_date IS NULL";
 
                     using (MySqlCommand cmd = new MySqlCommand(selectData, conn))
                     {
@@ -141,6 +159,7 @@ namespace Hontrack_library
                 );
             }
         }
+
         public void LoadPieChart()
         {
             try
@@ -149,10 +168,10 @@ namespace Hontrack_library
                 {
                     conn.Open();
                     string selectData = @"
-            SELECT bookTitle, COUNT(*) as count 
-            FROM book_transactions 
-            WHERE delete_date IS NULL 
-            GROUP BY bookTitle";
+                        SELECT bookTitle, COUNT(*) as count 
+                        FROM book_transactions 
+                        WHERE delete_date IS NULL 
+                        GROUP BY bookTitle";
 
                     using (MySqlCommand cmd = new MySqlCommand(selectData, conn))
                     {
@@ -199,14 +218,6 @@ namespace Hontrack_library
                 MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-
-        private void pieChart1_ChildChanged(object sender, System.Windows.Forms.Integration.ChildChangedEventArgs e)
-        {
-
-        }
     }
 }
 
-
- 

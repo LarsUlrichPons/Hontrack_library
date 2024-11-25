@@ -170,10 +170,8 @@ namespace Hontrack_library
                 Document document = CreateDocument(borrowingHistory);
 
                 // Render the document into a PDF
-                PdfDocumentRenderer renderer = new PdfDocumentRenderer(true)
-                {
-                    Document = document
-                };
+                PdfDocumentRenderer renderer = new PdfDocumentRenderer(); // Use the default constructor
+                renderer.Document = document;
                 renderer.RenderDocument();
 
                 // Save the PDF to the specified file path
