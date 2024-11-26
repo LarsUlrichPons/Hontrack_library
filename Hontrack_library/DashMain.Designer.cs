@@ -52,8 +52,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.label2 = new System.Windows.Forms.Label();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
@@ -146,7 +146,7 @@
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(99, 22);
             this.label8.TabIndex = 7;
-            this.label8.Text = "Retrun Book";
+            this.label8.Text = "Return Book";
             // 
             // pictureBox3
             // 
@@ -265,6 +265,16 @@
             this.panel5.Size = new System.Drawing.Size(924, 400);
             this.panel5.TabIndex = 2;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Cambria", 20F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(3, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(208, 47);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Book Data";
+            // 
             // chart1
             // 
             chartArea1.Name = "ChartArea1";
@@ -283,16 +293,6 @@
             this.chart1.Size = new System.Drawing.Size(921, 400);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Cambria", 20F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(3, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(208, 47);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Book Data";
             // 
             // DashMain
             // 
