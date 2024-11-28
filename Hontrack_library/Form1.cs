@@ -17,17 +17,7 @@ namespace Hontrack_library
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-       
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
+     
 
         private void timer1_Tick(object sender, EventArgs e)
         {

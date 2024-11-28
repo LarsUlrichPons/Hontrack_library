@@ -40,6 +40,8 @@
             this.UpdateBtn = new System.Windows.Forms.Button();
             this.RemoveBtn = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.search = new System.Windows.Forms.Button();
+            this.searchBox = new System.Windows.Forms.TextBox();
             this.BQuantityTXT = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.BookNumTxt = new System.Windows.Forms.TextBox();
@@ -112,18 +114,17 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(30, 274);
+            this.label5.Location = new System.Drawing.Point(30, 347);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(96, 22);
             this.label5.TabIndex = 6;
             this.label5.Text = "Book Title:";
-            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(57, 309);
+            this.label6.Location = new System.Drawing.Point(57, 382);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(69, 22);
             this.label6.TabIndex = 9;
@@ -133,7 +134,7 @@
             // 
             this.Published.AutoSize = true;
             this.Published.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Published.Location = new System.Drawing.Point(4, 379);
+            this.Published.Location = new System.Drawing.Point(4, 452);
             this.Published.Name = "Published";
             this.Published.Size = new System.Drawing.Size(133, 22);
             this.Published.TabIndex = 12;
@@ -141,7 +142,7 @@
             // 
             // publishedDate
             // 
-            this.publishedDate.Location = new System.Drawing.Point(143, 375);
+            this.publishedDate.Location = new System.Drawing.Point(143, 448);
             this.publishedDate.Name = "publishedDate";
             this.publishedDate.Size = new System.Drawing.Size(201, 26);
             this.publishedDate.TabIndex = 13;
@@ -155,7 +156,7 @@
             this.AddBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.AddBtn.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.AddBtn.ForeColor = System.Drawing.Color.White;
-            this.AddBtn.Location = new System.Drawing.Point(24, 505);
+            this.AddBtn.Location = new System.Drawing.Point(24, 551);
             this.AddBtn.Name = "AddBtn";
             this.AddBtn.Size = new System.Drawing.Size(102, 48);
             this.AddBtn.TabIndex = 14;
@@ -172,7 +173,7 @@
             this.UpdateBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.UpdateBtn.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UpdateBtn.ForeColor = System.Drawing.Color.White;
-            this.UpdateBtn.Location = new System.Drawing.Point(134, 505);
+            this.UpdateBtn.Location = new System.Drawing.Point(134, 551);
             this.UpdateBtn.Name = "UpdateBtn";
             this.UpdateBtn.Size = new System.Drawing.Size(102, 48);
             this.UpdateBtn.TabIndex = 15;
@@ -189,7 +190,7 @@
             this.RemoveBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.RemoveBtn.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.RemoveBtn.ForeColor = System.Drawing.Color.White;
-            this.RemoveBtn.Location = new System.Drawing.Point(242, 505);
+            this.RemoveBtn.Location = new System.Drawing.Point(242, 551);
             this.RemoveBtn.Name = "RemoveBtn";
             this.RemoveBtn.Size = new System.Drawing.Size(102, 48);
             this.RemoveBtn.TabIndex = 16;
@@ -201,6 +202,8 @@
             // 
             this.panel2.BackColor = System.Drawing.Color.White;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel2.Controls.Add(this.search);
+            this.panel2.Controls.Add(this.searchBox);
             this.panel2.Controls.Add(this.BQuantityTXT);
             this.panel2.Controls.Add(this.label4);
             this.panel2.Controls.Add(this.BookNumTxt);
@@ -225,9 +228,26 @@
             this.panel2.Size = new System.Drawing.Size(382, 647);
             this.panel2.TabIndex = 1;
             // 
+            // search
+            // 
+            this.search.Location = new System.Drawing.Point(284, 225);
+            this.search.Name = "search";
+            this.search.Size = new System.Drawing.Size(75, 37);
+            this.search.TabIndex = 28;
+            this.search.Text = "Search";
+            this.search.UseVisualStyleBackColor = true;
+            this.search.Click += new System.EventHandler(this.search_Click);
+            // 
+            // searchBox
+            // 
+            this.searchBox.Location = new System.Drawing.Point(8, 225);
+            this.searchBox.Name = "searchBox";
+            this.searchBox.Size = new System.Drawing.Size(270, 26);
+            this.searchBox.TabIndex = 28;
+            // 
             // BQuantityTXT
             // 
-            this.BQuantityTXT.Location = new System.Drawing.Point(144, 413);
+            this.BQuantityTXT.Location = new System.Drawing.Point(144, 486);
             this.BQuantityTXT.Name = "BQuantityTXT";
             this.BQuantityTXT.Size = new System.Drawing.Size(200, 26);
             this.BQuantityTXT.TabIndex = 26;
@@ -236,7 +256,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(61, 413);
+            this.label4.Location = new System.Drawing.Point(61, 486);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(83, 22);
             this.label4.TabIndex = 25;
@@ -244,7 +264,7 @@
             // 
             // BookNumTxt
             // 
-            this.BookNumTxt.Location = new System.Drawing.Point(144, 241);
+            this.BookNumTxt.Location = new System.Drawing.Point(144, 314);
             this.BookNumTxt.Name = "BookNumTxt";
             this.BookNumTxt.Size = new System.Drawing.Size(200, 26);
             this.BookNumTxt.TabIndex = 24;
@@ -253,7 +273,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(14, 245);
+            this.label3.Location = new System.Drawing.Point(14, 318);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(124, 22);
             this.label3.TabIndex = 23;
@@ -293,7 +313,7 @@
             this.Status.Items.AddRange(new object[] {
             "Available",
             "Unavailable"});
-            this.Status.Location = new System.Drawing.Point(143, 341);
+            this.Status.Location = new System.Drawing.Point(143, 414);
             this.Status.Name = "Status";
             this.Status.Size = new System.Drawing.Size(201, 28);
             this.Status.TabIndex = 21;
@@ -302,7 +322,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(61, 347);
+            this.label2.Location = new System.Drawing.Point(61, 420);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(65, 22);
             this.label2.TabIndex = 20;
@@ -310,14 +330,14 @@
             // 
             // bookTitle
             // 
-            this.bookTitle.Location = new System.Drawing.Point(144, 273);
+            this.bookTitle.Location = new System.Drawing.Point(144, 346);
             this.bookTitle.Name = "bookTitle";
             this.bookTitle.Size = new System.Drawing.Size(200, 26);
             this.bookTitle.TabIndex = 19;
             // 
             // author
             // 
-            this.author.Location = new System.Drawing.Point(144, 305);
+            this.author.Location = new System.Drawing.Point(144, 378);
             this.author.Name = "author";
             this.author.Size = new System.Drawing.Size(200, 26);
             this.author.TabIndex = 18;
@@ -365,5 +385,7 @@
         private System.Windows.Forms.TextBox BQuantityTXT;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button refreshBtn;
+        private System.Windows.Forms.Button search;
+        private System.Windows.Forms.TextBox searchBox;
     }
 }

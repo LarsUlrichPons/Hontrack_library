@@ -41,16 +41,14 @@ namespace Hontrack_library
             this.DbButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.borrowBook1 = new Hontrack_library.BorrowBook();
-            this.returnbook1 = new Hontrack_library.Returnbook();
-            this.borrowingHistory1 = new Hontrack_library.BorrowingHistory();
-            this.issueBook1 = new Hontrack_library.IssueBook();
             this.userManagement1 = new Hontrack_library.UserManagement();
+            this.issueBook1 = new Hontrack_library.IssueBook();
+            this.borrowingHistory1 = new Hontrack_library.BorrowingHistory();
+            this.returnbook1 = new Hontrack_library.Returnbook();
+            this.borrowBook1 = new Hontrack_library.BorrowBook();
             this.dashMain1 = new Hontrack_library.DashMain();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel2
@@ -200,14 +198,10 @@ namespace Hontrack_library
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Century", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(59, 125);
+            this.label3.Location = new System.Drawing.Point(0, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(201, 28);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Welcome, Admin";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
+            this.label3.Size = new System.Drawing.Size(100, 23);
+            this.label3.TabIndex = 11;
             // 
             // pictureBox1
             // 
@@ -219,78 +213,66 @@ namespace Hontrack_library
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
             // 
-            // panel1
+            // userManagement1
             // 
-            this.panel1.Controls.Add(this.dashMain1);
-            this.panel1.Controls.Add(this.borrowBook1);
-            this.panel1.Controls.Add(this.returnbook1);
-            this.panel1.Controls.Add(this.borrowingHistory1);
-            this.panel1.Controls.Add(this.issueBook1);
-            this.panel1.Controls.Add(this.userManagement1);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(334, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(924, 664);
-            this.panel1.TabIndex = 2;
-            // 
-            // borrowBook1
-            // 
-            this.borrowBook1.Location = new System.Drawing.Point(0, 0);
-            this.borrowBook1.Name = "borrowBook1";
-            this.borrowBook1.Size = new System.Drawing.Size(924, 664);
-            this.borrowBook1.TabIndex = 4;
-            // 
-            // returnbook1
-            // 
-            this.returnbook1.Location = new System.Drawing.Point(0, -3);
-            this.returnbook1.Name = "returnbook1";
-            this.returnbook1.Size = new System.Drawing.Size(924, 664);
-            this.returnbook1.TabIndex = 3;
-            // 
-            // borrowingHistory1
-            // 
-            this.borrowingHistory1.Location = new System.Drawing.Point(-3, 0);
-            this.borrowingHistory1.Name = "borrowingHistory1";
-            this.borrowingHistory1.Size = new System.Drawing.Size(924, 664);
-            this.borrowingHistory1.TabIndex = 2;
+            this.userManagement1.Location = new System.Drawing.Point(331, -3);
+            this.userManagement1.Name = "userManagement1";
+            this.userManagement1.Size = new System.Drawing.Size(924, 664);
+            this.userManagement1.TabIndex = 2;
             // 
             // issueBook1
             // 
-            this.issueBook1.Location = new System.Drawing.Point(0, -3);
+            this.issueBook1.Location = new System.Drawing.Point(331, 0);
             this.issueBook1.Name = "issueBook1";
-            this.issueBook1.Size = new System.Drawing.Size(924, 667);
-            this.issueBook1.TabIndex = 1;
+            this.issueBook1.Size = new System.Drawing.Size(924, 664);
+            this.issueBook1.TabIndex = 3;
             // 
-            // userManagement1
+            // borrowingHistory1
             // 
-            this.userManagement1.Location = new System.Drawing.Point(-3, -3);
-            this.userManagement1.Name = "userManagement1";
-            this.userManagement1.Size = new System.Drawing.Size(924, 664);
-            this.userManagement1.TabIndex = 0;
+            this.borrowingHistory1.Location = new System.Drawing.Point(331, 0);
+            this.borrowingHistory1.Name = "borrowingHistory1";
+            this.borrowingHistory1.Size = new System.Drawing.Size(924, 664);
+            this.borrowingHistory1.TabIndex = 4;
+            // 
+            // returnbook1
+            // 
+            this.returnbook1.Location = new System.Drawing.Point(331, 0);
+            this.returnbook1.Name = "returnbook1";
+            this.returnbook1.Size = new System.Drawing.Size(924, 664);
+            this.returnbook1.TabIndex = 5;
+            // 
+            // borrowBook1
+            // 
+            this.borrowBook1.Location = new System.Drawing.Point(331, 0);
+            this.borrowBook1.Name = "borrowBook1";
+            this.borrowBook1.Size = new System.Drawing.Size(924, 664);
+            this.borrowBook1.TabIndex = 6;
             // 
             // dashMain1
             // 
-            this.dashMain1.Location = new System.Drawing.Point(0, 0);
+            this.dashMain1.Location = new System.Drawing.Point(331, 0);
             this.dashMain1.Name = "dashMain1";
-            this.dashMain1.Size = new System.Drawing.Size(924, 661);
-            this.dashMain1.TabIndex = 5;
+            this.dashMain1.Size = new System.Drawing.Size(924, 664);
+            this.dashMain1.TabIndex = 7;
             // 
             // Dashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1258, 664);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.dashMain1);
+            this.Controls.Add(this.borrowBook1);
+            this.Controls.Add(this.returnbook1);
+            this.Controls.Add(this.borrowingHistory1);
+            this.Controls.Add(this.issueBook1);
+            this.Controls.Add(this.userManagement1);
             this.Controls.Add(this.panel2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "Dashboard";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Dashboard";
-            this.Load += new System.EventHandler(this.Dashboard_Load);
             this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -306,12 +288,11 @@ namespace Hontrack_library
         private System.Windows.Forms.Button BbButton;
         private System.Windows.Forms.Button MuButton;
         private System.Windows.Forms.Button BiButton;
-        private Panel panel1;
-        private BorrowingHistory borrowingHistory1;
-        private IssueBook issueBook1;
         private UserManagement userManagement1;
-        private BorrowBook borrowBook1;
+        private IssueBook issueBook1;
+        private BorrowingHistory borrowingHistory1;
         private Returnbook returnbook1;
+        private BorrowBook borrowBook1;
         private DashMain dashMain1;
     }
 }

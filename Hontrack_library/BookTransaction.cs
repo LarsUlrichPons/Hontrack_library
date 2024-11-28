@@ -10,7 +10,7 @@ namespace Hontrack_library
         public string BookTitle { get; set; }
         public long BookNumber { get; set; }
         public string User_name { get; set; }
-       // public DateTime Published { get; set; }
+        // public DateTime Published { get; set; }
         public string Borrow { get; set; }
         public string Return { get; set; }  // Store return date as string for easy checking
         public string Status { get; set; }
@@ -27,11 +27,18 @@ namespace Hontrack_library
                 {
                     mysql.Open();
 
+                    // Start with the base query to get books that have not been deleted.
                     string selectData = "SELECT * FROM book_transactions WHERE delete_date IS NULL";
+
+                    // Only add filters if the corresponding parameter is not null or empty
+                  
                     if (!string.IsNullOrEmpty(userNameFilter))
                     {
                         selectData += " AND user_name LIKE @userNameFilter";
+                       
                     }
+                 
+
 
                     using (MySqlCommand cmd = new MySqlCommand(selectData, mysql))
                     {
@@ -39,6 +46,8 @@ namespace Hontrack_library
                         {
                             cmd.Parameters.AddWithValue("@userNameFilter", "%" + userNameFilter + "%");
                         }
+                       
+
 
                         using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
@@ -47,7 +56,7 @@ namespace Hontrack_library
                                 BookTransaction bookTransaction = new BookTransaction
                                 {
                                     ID = reader.GetInt32("transaction_id"),
-                                    BookTitle = reader.IsDBNull(reader.GetOrdinal("bookTitle")) ? "Unknown Title" : reader.GetString("bookTitle"), // Handle nulls
+                                    BookTitle = reader.IsDBNull(reader.GetOrdinal("bookTitle")) ? "Unknown Title" : reader.GetString("bookTitle"),
                                     BookNumber = reader.GetInt64("book_num"),
                                     User_name = reader.GetString("user_name"),
                                     Borrow = reader.GetDateTime("borrow_date").ToString("yyyy-MM-dd"),
@@ -67,6 +76,7 @@ namespace Hontrack_library
                     Console.WriteLine("Error retrieving data: " + ex.Message);
                 }
             }
+
             return listdata;
         }
 

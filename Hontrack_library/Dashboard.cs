@@ -24,49 +24,6 @@ namespace Hontrack_library
         }
 
 
-        public void BookTransaction() 
-        {
-            borrowedBookData bookData = new borrowedBookData();
-            List<borrowedBookData> listdata = bookData.BookListTransaction();
-
-
-        }
-
-        public void UserManagement() 
-        {
-            EmployeeData employeeData = new EmployeeData();
-            List<EmployeeData> listdata = employeeData.GetEmployeeListData();
-        }
-
-        public void BorrowedBookData() 
-        {
-
-            BookTransaction bookData = new BookTransaction();
-            List<BookTransaction> listdata = bookData.BookListTransaction();
-        }
-        public void BookData() 
-        {
-            BookData bookData = new BookData();
-            List<BookData> listdata = bookData.BookListData();
-
-        }
-        private void Dashboard_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-      
-       
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void LogoutBtn_Click(object sender, EventArgs e)
         {
@@ -80,32 +37,10 @@ namespace Hontrack_library
             }
         }
 
-        public void Refresh() 
-        {
-
-            try
-            {
-                // Refresh data instantly
-                BookTransaction();
-                UserManagement();
-                BorrowedBookData();
-                BookData();
-
-                //MessageBox.Show("Data refreshed successfully.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-               // MessageBox.Show("Error refreshing data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+       
 
 
-        }
-
-
-        private void dashMain1_Load(object sender, EventArgs e)
-         {
-
-         }
+        
 
         private void DbButton_Click(object sender, EventArgs e)
         {
@@ -115,18 +50,19 @@ namespace Hontrack_library
             borrowingHistory1.Visible = false;
             issueBook1.Visible = false;
             userManagement1.Visible = false;
-            Refresh();
+           
+           
         }
 
         private void BbButton_Click(object sender, EventArgs e)
         {
+
             dashMain1.Visible = false;
             borrowBook1.Visible = true;
             returnbook1.Visible = false;
             borrowingHistory1.Visible = false;
             issueBook1.Visible = false;
             userManagement1.Visible = false;
-            Refresh();
         }
 
         private void RbButton_Click(object sender, EventArgs e)
@@ -137,7 +73,7 @@ namespace Hontrack_library
             borrowingHistory1.Visible = false;
             issueBook1.Visible = false;
             userManagement1.Visible = false;
-            Refresh();
+
 
         }
 
@@ -149,7 +85,6 @@ namespace Hontrack_library
             borrowingHistory1.Visible = true;
             issueBook1.Visible = false;
             userManagement1.Visible = false;
-            Refresh();
         }
 
         private void BiButton_Click(object sender, EventArgs e)
@@ -160,7 +95,6 @@ namespace Hontrack_library
             borrowingHistory1.Visible = false;
             issueBook1.Visible = true;
             userManagement1.Visible = false;
-            Refresh();
         }
 
         private void MuButton_Click(object sender, EventArgs e)
@@ -171,7 +105,40 @@ namespace Hontrack_library
             borrowingHistory1.Visible = false;
             issueBook1.Visible = false;
             userManagement1.Visible = true;
-            Refresh();
+        }
+
+        private void Dashboard_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Are you sure you want to exit?", "Exit Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (result == DialogResult.Yes)
+            {
+                Application.Exit();  // Close the application completely
+            }
+            else
+            {
+                e.Cancel = true; // Cancel the form closing if the user presses No
+            }
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            DialogResult result = MessageBox.Show("Are you sure you want to exit?", "Exit Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                Environment.Exit(0); // Fully terminates the application
+            }
+            else
+            {
+                e.Cancel = true; // Prevent closing if user chooses "No"
+            }
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            base.OnFormClosed(e);
+            // Dispose of resources here, if necessary
         }
     }
 }

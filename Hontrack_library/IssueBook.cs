@@ -47,16 +47,13 @@ namespace Hontrack_library
            
 
            
-            this.VisibleChanged += BorrowBook_VisibleChanged;
+           // this.VisibleChanged += BorrowBook_VisibleChanged;
         }
 
       
 
 
-        private void RefreshTimer_Tick(object sender, EventArgs e)
-        {
-            displayBookData();  
-        }
+       
 
       
         public void displayBookData()
@@ -154,22 +151,30 @@ namespace Hontrack_library
                 videoCaptureDevice.NewFrame -= VideoCaptureDevice_NewFrame;
                 isCameraRunning = false;
                 StartBtn.Text = "Start";
+
+                // Set the PictureBox to a blank (black) image
+                CameraFrame.Image = new Bitmap(CameraFrame.Width, CameraFrame.Height);
+                using (Graphics g = Graphics.FromImage(CameraFrame.Image))
+                {
+                    g.Clear(Color.Black); // Fill the image with black
+                }
             }
         }
 
-        private void BorrowBook_VisibleChanged(object sender, EventArgs e)
-        {
-            if (this.Visible && !isCameraRunning)
-            {
-                StartCamera();
-                //refreshTimer.Start();  
-            }
-            else if (!this.Visible && isCameraRunning)
-            {
-                StopCamera();
-               // refreshTimer.Stop();
-            }
-        }
+
+        /*  private void BorrowBook_VisibleChanged(object sender, EventArgs e)
+          {
+              if (this.Visible && !isCameraRunning)
+              {
+                  StartCamera();
+                  //refreshTimer.Start();  
+              }
+              else if (!this.Visible && isCameraRunning)
+              {
+                  StopCamera();
+                 // refreshTimer.Stop();
+              }
+          }*/
 
         private void VideoCaptureDevice_NewFrame(object sender, AForge.Video.NewFrameEventArgs eventArgs)
         {
@@ -350,10 +355,7 @@ namespace Hontrack_library
             }
         }
 
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
+       
 
       
 
@@ -373,6 +375,35 @@ namespace Hontrack_library
             clearField();
         }
 
+        private void search_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string searchQuery = searchBox.Text.Trim(); // Assuming you have a TextBox named searchBox
+                BookData bookData = new BookData();
+                Console.WriteLine("Search Query: " + searchQuery); // Add this to log the search query
 
+
+                List<BookData> filteredData = bookData.BookListData(
+                 searchQuery
+
+
+                );
+
+                // Refresh the DataGridView
+                dataGridView1.Refresh();
+                dataGridView1.DataSource = filteredData;
+
+                if (filteredData.Count == 0)
+                {
+                    MessageBox.Show("No records found for the specified search query.", "Search Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message + "\nStack Trace: " + ex.StackTrace, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
+    
 }

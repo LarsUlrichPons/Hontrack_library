@@ -52,7 +52,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -257,7 +256,6 @@
             // panel5
             // 
             this.panel5.BackColor = System.Drawing.Color.White;
-            this.panel5.Controls.Add(this.label2);
             this.panel5.Controls.Add(this.chart1);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel5.Location = new System.Drawing.Point(0, 264);
@@ -265,34 +263,24 @@
             this.panel5.Size = new System.Drawing.Size(924, 400);
             this.panel5.TabIndex = 2;
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Cambria", 20F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(3, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(208, 47);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Book Data";
-            // 
             // chart1
             // 
+
             chartArea1.Name = "ChartArea1";
             this.chart1.ChartAreas.Add(chartArea1);
-            this.chart1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
             legend1.Name = "Legend1";
             this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(0, 0);
             this.chart1.Name = "chart1";
             series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
             series1.Legend = "Legend1";
-            series1.Name = "pieChart";
-            series1.YValuesPerPoint = 2;
+            series1.Name = "bookChart";
             this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(921, 400);
+            this.chart1.Size = new System.Drawing.Size(924, 400);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
+
             // 
             // DashMain
             // 
@@ -314,11 +302,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel5.ResumeLayout(false);
-            this.panel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
 
         }
+
+
+
 
         #endregion
 
@@ -344,6 +334,5 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-        private System.Windows.Forms.Label label2;
     }
 }

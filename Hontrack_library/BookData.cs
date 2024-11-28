@@ -17,7 +17,7 @@ namespace Hontrack_library
 
         private readonly string connectionString = "server=127.0.0.1; user=root; database=hontrack; password=";
 
-        public List<BookData> BookListData()
+        public List<BookData> BookListData(string BookTitleFilter = null)
         {
             List<BookData> listdata = new List<BookData>();
 
@@ -28,8 +28,18 @@ namespace Hontrack_library
                     mysql.Open();
                     string selectData = "SELECT * FROM book WHERE delete_date IS NULL";
 
+                    if (!string.IsNullOrEmpty(BookTitleFilter))
+                    {
+                        selectData += " AND bookTitle LIKE @bookTitleFilter";
+
+                    }
+
                     using (MySqlCommand cmd = new MySqlCommand(selectData, mysql))
                     {
+                        if (!string.IsNullOrEmpty(BookTitleFilter))
+                        {
+                            cmd.Parameters.AddWithValue("@bookTitleFilter", "%" + BookTitleFilter + "%");
+                        }
                         using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())

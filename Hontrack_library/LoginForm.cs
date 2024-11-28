@@ -37,52 +37,50 @@ namespace Hontrack_library
 
         private void button1_Click(object sender, EventArgs e)
         {
-            // Initialize MySQL connection
-            MySqlConnection mysql = new MySqlConnection(connect);
+            if (UsernameInput == null || PasswordInput == null)
+            {
+                MessageBox.Show("UI components are not initialized.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-            // Check if username and password fields are not empty
             if (string.IsNullOrWhiteSpace(UsernameInput.Text) || string.IsNullOrWhiteSpace(PasswordInput.Text))
             {
                 MessageBox.Show("Please fill in the blank fields", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
+            MySqlConnection mysql = new MySqlConnection(connect);
+
             try
             {
-                // Open the connection
                 mysql.Open();
 
-                // Define the query to check the username and password
                 string selectData = "SELECT * FROM `users` WHERE username = @username AND password = @password";
 
-                // Set up the command with parameters to avoid SQL injection
                 using (MySqlCommand cmd = new MySqlCommand(selectData, mysql))
                 {
                     cmd.Parameters.AddWithValue("@username", UsernameInput.Text.Trim());
                     cmd.Parameters.AddWithValue("@password", PasswordInput.Text.Trim());
 
-                    // Execute the query and get the results
                     MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
                     DataTable Table = new DataTable();
                     adapter.Fill(Table);
 
-                    // Check if any row matches the username and password
                     if (Table.Rows.Count >= 1)
                     {
-                        string userType = Table.Rows[0]["usertype"].ToString().Trim();
-
+                        string userType = Table.Rows[0]["usertype"]?.ToString()?.Trim();
                         if (userType == "Administrator")
                         {
                             MessageBox.Show("Login successfully as Admin!", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             Dashboard dashboard = new Dashboard();
-                            dashboard.Show();
+                            dashboard?.Show();
                             this.Hide();
                         }
                         else if (userType == "Employee")
                         {
                             MessageBox.Show("Login successfully as Employee!", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             EmDashboard emd = new EmDashboard();
-                            emd.Show();
+                            emd?.Show();
                             this.Hide();
                         }
                         else
@@ -96,15 +94,39 @@ namespace Hontrack_library
                     }
                 }
             }
+            catch (NullReferenceException ex)
+            {
+                MessageBox.Show("Null Reference Error: " + ex.Message, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             catch (Exception ex)
             {
                 MessageBox.Show("Error: " + ex.Message, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
-                // Close the connection
                 mysql.Close();
             }
         }
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+            DialogResult result = MessageBox.Show("Are you sure you want to exit?", "Exit Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                Environment.Exit(0); // Fully terminates the application
+            }
+            else
+            {
+                e.Cancel = true; // Prevent closing if user chooses "No"
+            }
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            base.OnFormClosed(e);
+            // Dispose of resources here, if necessary
+        }
+
     }
 }

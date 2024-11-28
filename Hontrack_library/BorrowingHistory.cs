@@ -121,8 +121,16 @@ namespace Hontrack_library
             {
                 string searchQuery = searchBox.Text.Trim(); // Assuming you have a TextBox named searchBox
                 BookTransaction bookData = new BookTransaction();
-                List<BookTransaction> filteredData = bookData.BookListTransaction(searchQuery);
+                Console.WriteLine("Search Query: " + searchQuery); // Add this to log the search query
 
+
+                List<BookTransaction> filteredData = bookData.BookListTransaction(
+                 searchQuery
+                  
+                   
+                );
+
+                // Refresh the DataGridView
                 dataGridView1.Refresh();
                 dataGridView1.DataSource = filteredData;
 
@@ -136,6 +144,8 @@ namespace Hontrack_library
                 MessageBox.Show("Error: " + ex.Message + "\nStack Trace: " + ex.StackTrace, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+
 
         private void searchBox_TextChanged(object sender, EventArgs e)
         {

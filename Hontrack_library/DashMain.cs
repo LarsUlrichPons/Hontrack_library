@@ -1,6 +1,4 @@
-﻿using LiveCharts;
-using LiveCharts.Wpf;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 using System;
@@ -26,8 +24,7 @@ namespace Hontrack_library
             displayAb();
             displayBb();
             displayRb();
-            LoadPieChart();
-
+            LoadStackedColumnChart();
             // Set up the refresh timer
             SetupRealTimeUpdates();
         }
@@ -46,7 +43,7 @@ namespace Hontrack_library
             displayAb();
             displayBb();
             displayRb();
-            LoadPieChart();
+            LoadStackedColumnChart();
         }
 
         public void displayAb()
@@ -160,7 +157,7 @@ namespace Hontrack_library
             }
         }
 
-        public void LoadPieChart()
+        public void LoadStackedColumnChart()
         {
             try
             {
@@ -168,56 +165,105 @@ namespace Hontrack_library
                 {
                     conn.Open();
                     string selectData = @"
-                        SELECT bookTitle, COUNT(*) as count 
-                        FROM book_transactions 
-                        WHERE delete_date IS NULL 
-                        GROUP BY bookTitle";
+                SELECT 
+                    bookTitle, 
+                    COUNT(*) as count
+                FROM book_transactions
+               WHERE delete_date IS NULL
+                GROUP BY bookTitle";
 
                     using (MySqlCommand cmd = new MySqlCommand(selectData, conn))
                     {
                         using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
-                            // Clear existing chart data
+                            // Clear previous chart data
                             chart1.Series.Clear();
                             chart1.ChartAreas.Clear();
+                            chart1.Titles.Clear();
                             chart1.Legends.Clear();
 
-                            // Create a new chart area
-                            ChartArea chartArea = new ChartArea("PieChartArea");
+                            // Set chart background
+                            chart1.BackColor = Color.White; // Chart background
+                            chart1.BorderlineDashStyle = ChartDashStyle.Solid;
+                            chart1.BorderlineColor = Color.Gray;
+                            chart1.BorderlineWidth = 2;
+
+                            // Create a chart area
+                            ChartArea chartArea = new ChartArea("ChartArea1")
+                            {
+                                BackColor = Color.AliceBlue, // Plot area background
+                                AxisX =
+                        {
+                            Title = "Book Titles",
+                            LabelStyle = { Angle = -45, Font = new Font("Arial", 10, FontStyle.Regular) },
+                            Interval = 1,
+                            MajorGrid = { LineColor = Color.LightGray, Enabled = true }
+                        },
+                                AxisY =
+                        {
+                            Title = "Borrowed Count",
+                            LabelStyle = { Font = new Font("Arial", 10, FontStyle.Regular) },
+                            MajorGrid = { LineColor = Color.LightGray, Enabled = true }
+                        }
+                            };
                             chart1.ChartAreas.Add(chartArea);
 
-                            // Create a new series for the pie chart
-                            var series = new System.Windows.Forms.DataVisualization.Charting.Series("Book Title");
-                            series.ChartType = SeriesChartType.Pie;
+                            // Create a single series for borrowed books
+                            Series series = new Series("Borrowed Books")
+                            {
+                                ChartType = SeriesChartType.Column,
+                                IsValueShownAsLabel = true,
+                                Color = Color.SkyBlue,
+                                Font = new Font("Arial", 10, FontStyle.Bold),
+                                LabelForeColor = Color.Black,
+                                ["LabelStyle"] = "Top"
+                            };
 
-                            // Add data points from the query
+                            // Read data and populate series
                             while (reader.Read())
                             {
-                                string status = reader.GetString("bookTitle");
+                                string bookTitle = reader.GetString("bookTitle");
                                 int count = reader.GetInt32("count");
 
-                                series.Points.AddXY(status, count);
+                                // Add data point to the series
+                                series.Points.AddXY(bookTitle, count);
                             }
 
                             // Add the series to the chart
                             chart1.Series.Add(series);
 
-                            // Customize the chart
-                            chart1.Legends.Clear(); // Clear existing legends
-                            Legend legend = new Legend("Legend");
-                            chart1.Legends.Add(legend);
-
-                            // Set data labels
-                            series.IsValueShownAsLabel = true;
+                            // Add a title to the chart
+                            Title title = new Title("Borrowed Books Count")
+                            {
+                                Font = new Font("Arial", 14, FontStyle.Bold),
+                                ForeColor = Color.DarkBlue,
+                                Alignment = ContentAlignment.TopCenter
+                            };
+                            chart1.Titles.Add(title);
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Error: " + ex.Message + "\nStack Trace: " + ex.StackTrace,
+                    "Error Message",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
+
+
+
+
+
+
+
+
+
+
     }
 }
 
