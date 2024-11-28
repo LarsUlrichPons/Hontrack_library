@@ -35,6 +35,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.SearchBox = new System.Windows.Forms.TextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.refreshBtn = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -50,6 +51,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.BookTitle = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.searchBtn = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
@@ -138,6 +140,13 @@
             this.panel2.Size = new System.Drawing.Size(571, 647);
             this.panel2.TabIndex = 3;
             // 
+            // SearchBox
+            // 
+            this.SearchBox.Location = new System.Drawing.Point(3, 19);
+            this.SearchBox.Name = "SearchBox";
+            this.SearchBox.Size = new System.Drawing.Size(255, 26);
+            this.SearchBox.TabIndex = 26;
+            // 
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -171,6 +180,8 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.searchBtn);
+            this.panel1.Controls.Add(this.SearchBox);
             this.panel1.Controls.Add(this.ReturnDue);
             this.panel1.Controls.Add(this.label9);
             this.panel1.Controls.Add(this.NameTXT);
@@ -301,6 +312,16 @@
             this.label5.TabIndex = 8;
             this.label5.Text = "Book Title:";
             // 
+            // searchBtn
+            // 
+            this.searchBtn.Location = new System.Drawing.Point(264, 17);
+            this.searchBtn.Name = "searchBtn";
+            this.searchBtn.Size = new System.Drawing.Size(72, 33);
+            this.searchBtn.TabIndex = 26;
+            this.searchBtn.Text = "Search";
+            this.searchBtn.UseVisualStyleBackColor = true;
+            this.searchBtn.Click += new System.EventHandler(this.searchBtn_Click);
+            // 
             // BorrowBook
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -341,5 +362,7 @@
         private System.Windows.Forms.Button refreshBtn;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.DateTimePicker ReturnDue;
+        private System.Windows.Forms.TextBox SearchBox;
+        private System.Windows.Forms.Button searchBtn;
     }
 }

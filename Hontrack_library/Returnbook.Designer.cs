@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panel2 = new System.Windows.Forms.Panel();
+            this.SearchBox = new System.Windows.Forms.TextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.refreshBtn = new System.Windows.Forms.Button();
@@ -48,6 +49,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.IDTextBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.SearchBtn = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
@@ -64,6 +66,13 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(578, 658);
             this.panel2.TabIndex = 5;
+            // 
+            // SearchBox
+            // 
+            this.SearchBox.Location = new System.Drawing.Point(7, 24);
+            this.SearchBox.Name = "SearchBox";
+            this.SearchBox.Size = new System.Drawing.Size(241, 26);
+            this.SearchBox.TabIndex = 24;
             // 
             // dataGridView1
             // 
@@ -108,6 +117,8 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.SearchBtn);
+            this.panel1.Controls.Add(this.SearchBox);
             this.panel1.Controls.Add(this.ReturnDueText);
             this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.bookTitle);
@@ -163,7 +174,6 @@
             this.label5.Size = new System.Drawing.Size(86, 19);
             this.label5.TabIndex = 27;
             this.label5.Text = "Book Title:";
-            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // borrowDate
             // 
@@ -218,7 +228,6 @@
             this.label4.Size = new System.Drawing.Size(58, 19);
             this.label4.TabIndex = 20;
             this.label4.Text = "Status:";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // ClearBtn
             // 
@@ -280,6 +289,16 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "Book Number:";
             // 
+            // SearchBtn
+            // 
+            this.SearchBtn.Location = new System.Drawing.Point(254, 24);
+            this.SearchBtn.Name = "SearchBtn";
+            this.SearchBtn.Size = new System.Drawing.Size(75, 31);
+            this.SearchBtn.TabIndex = 24;
+            this.SearchBtn.Text = "Search";
+            this.SearchBtn.UseVisualStyleBackColor = true;
+            this.SearchBtn.Click += new System.EventHandler(this.SearchBtn_Click);
+            // 
             // Returnbook
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -319,5 +338,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox borrowDate;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox SearchBox;
+        private System.Windows.Forms.Button SearchBtn;
     }
 }

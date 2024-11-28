@@ -251,5 +251,35 @@ namespace Hontrack_library
         {
 
         }
+
+        private void searchBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string searchQuery = SearchBox.Text.Trim(); // Assuming you have a TextBox named searchBox
+                BookData bookData = new BookData();
+                Console.WriteLine("Search Query: " + searchQuery); // Add this to log the search query
+
+
+                List<BookData> filteredData = bookData.BookListData(
+                 searchQuery
+
+
+                );
+
+                // Refresh the DataGridView
+                dataGridView1.Refresh();
+                dataGridView1.DataSource = filteredData;
+
+                if (filteredData.Count == 0)
+                {
+                    MessageBox.Show("No records found for the specified search query.", "Search Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message + "\nStack Trace: " + ex.StackTrace, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

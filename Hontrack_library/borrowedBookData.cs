@@ -22,16 +22,29 @@ namespace Hontrack_library
 
         private readonly string connectionString = "server=127.0.0.1; user=root; database=hontrack; password=";
 
-        public List<borrowedBookData> BookListTransaction()
+        public List<borrowedBookData> BookListTransaction(string userNameFilter = null)
         {
             List<borrowedBookData> bookTransactions = new List<borrowedBookData>();
             string query = "SELECT * FROM book_transactions WHERE Status = 'Borrowed'";
 
+            if (!string.IsNullOrEmpty(userNameFilter))
+            {
+                query += " AND user_name LIKE @userNameFilter";
+
+            }
+
+
             using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
+
+
                 conn.Open();
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
+                    if (!string.IsNullOrEmpty(userNameFilter))
+                    {
+                        cmd.Parameters.AddWithValue("@userNameFilter", "%" + userNameFilter + "%");
+                    }
                     using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())

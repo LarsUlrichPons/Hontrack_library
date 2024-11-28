@@ -55,6 +55,9 @@ namespace Hontrack_library
         {
             borrowedBookData bookData = new borrowedBookData();
             List<borrowedBookData> listdata = bookData.BookListTransaction();
+
+            listdata = listdata.OrderByDescending(b => b.Return_due).ToList();
+
             dataGridView1.Refresh();
             dataGridView1.DataSource = listdata;
 
@@ -219,11 +222,7 @@ namespace Hontrack_library
 
 
 
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
+       
         private void refreshBtn_Click(object sender, EventArgs e)
         {
             try
@@ -241,9 +240,36 @@ namespace Hontrack_library
 
         }
 
-        private void label5_Click(object sender, EventArgs e)
+        private void SearchBtn_Click(object sender, EventArgs e)
         {
+            try
+            {
+                string searchQuery = SearchBox.Text.Trim(); // Assuming you have a TextBox named searchBox
+                borrowedBookData bookData = new borrowedBookData();
+                Console.WriteLine("Search Query: " + searchQuery); // Add this to log the search query
 
+
+                List<borrowedBookData> filteredData = bookData.BookListTransaction(
+                 searchQuery
+
+
+                );
+
+                // Refresh the DataGridView
+                dataGridView1.Refresh();
+                dataGridView1.DataSource = filteredData;
+
+                if (filteredData.Count == 0)
+                {
+                    MessageBox.Show("No records found for the specified search query.", "Search Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message + "\nStack Trace: " + ex.StackTrace, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+    
+
     }
 }
