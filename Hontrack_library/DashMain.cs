@@ -91,7 +91,7 @@ namespace Hontrack_library
                 {
                     conn.Open();
                     string selectData = @"
-                        SELECT COUNT(ID) 
+                        SELECT COUNT(transaction_id ) 
                         FROM book_transactions
                         WHERE status = 'borrowed' AND delete_date IS NULL";
 
@@ -128,7 +128,7 @@ namespace Hontrack_library
                 {
                     conn.Open();
                     string selectData = @"
-                        SELECT COUNT(ID) 
+                        SELECT COUNT(transaction_id ) 
                         FROM book_transactions
                         WHERE status = 'Returned' AND delete_date IS NULL";
 
