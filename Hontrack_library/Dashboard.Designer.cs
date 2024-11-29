@@ -32,6 +32,7 @@ namespace Hontrack_library
         private void InitializeComponent()
         {
             this.panel2 = new System.Windows.Forms.Panel();
+            this.userLabel = new System.Windows.Forms.Label();
             this.MuButton = new System.Windows.Forms.Button();
             this.BiButton = new System.Windows.Forms.Button();
             this.BhButton = new System.Windows.Forms.Button();
@@ -54,6 +55,7 @@ namespace Hontrack_library
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.MediumSeaGreen;
+            this.panel2.Controls.Add(this.userLabel);
             this.panel2.Controls.Add(this.MuButton);
             this.panel2.Controls.Add(this.BiButton);
             this.panel2.Controls.Add(this.BhButton);
@@ -69,6 +71,17 @@ namespace Hontrack_library
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(334, 664);
             this.panel2.TabIndex = 1;
+            // 
+            // userLabel
+            // 
+            this.userLabel.AutoSize = true;
+            this.userLabel.BackColor = System.Drawing.Color.Transparent;
+            this.userLabel.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.userLabel.Location = new System.Drawing.Point(51, 135);
+            this.userLabel.Name = "userLabel";
+            this.userLabel.Size = new System.Drawing.Size(105, 29);
+            this.userLabel.TabIndex = 8;
+            this.userLabel.Text = "Welcome,";
             // 
             // MuButton
             // 
@@ -272,6 +285,7 @@ namespace Hontrack_library
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Dashboard";
             this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
@@ -294,5 +308,6 @@ namespace Hontrack_library
         private Returnbook returnbook1;
         private BorrowBook borrowBook1;
         private DashMain dashMain1;
+        private Label userLabel;
     }
 }

@@ -7,14 +7,17 @@ namespace Hontrack_library
 {
     public partial class LoginForm : Form
     {
-        string connect = "server=127.0.0.1; user = root; database = hontrack; password=";
+        private string connect = "server=127.0.0.1; user=root; database=hontrack; password=";
+        public static string LoggedInUsername { get; private set; } // Static property to store username
+
 
         public LoginForm()
         {
             InitializeComponent();
-            PasswordInput.PasswordChar = '*';
+            PasswordInput.PasswordChar = '*'; // Mask the password input
         }
 
+        // Allow Enter key to trigger login
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (keyData == Keys.Enter)
@@ -32,79 +35,71 @@ namespace Hontrack_library
 
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
+            // Toggle password visibility
             PasswordInput.PasswordChar = showpass.Checked ? '\0' : '*';
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (UsernameInput == null || PasswordInput == null)
-            {
-                MessageBox.Show("UI components are not initialized.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
+            // Validate inputs
             if (string.IsNullOrWhiteSpace(UsernameInput.Text) || string.IsNullOrWhiteSpace(PasswordInput.Text))
             {
-                MessageBox.Show("Please fill in the blank fields", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please fill in the blank fields.", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            MySqlConnection mysql = new MySqlConnection(connect);
-
-            try
+            using (MySqlConnection mysql = new MySqlConnection(connect))
             {
-                mysql.Open();
-
-                string selectData = "SELECT * FROM `users` WHERE username = @username AND password = @password";
-
-                using (MySqlCommand cmd = new MySqlCommand(selectData, mysql))
+                try
                 {
-                    cmd.Parameters.AddWithValue("@username", UsernameInput.Text.Trim());
-                    cmd.Parameters.AddWithValue("@password", PasswordInput.Text.Trim());
+                    mysql.Open();
+                    string query = "SELECT * FROM `users` WHERE username = @username AND password = @password";
 
-                    MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
-                    DataTable Table = new DataTable();
-                    adapter.Fill(Table);
+                    using (MySqlCommand cmd = new MySqlCommand(query, mysql))
+                    {
+                        cmd.Parameters.AddWithValue("@username", UsernameInput.Text.Trim());
+                        cmd.Parameters.AddWithValue("@password", PasswordInput.Text.Trim()); // TODO: Hash password
 
-                    if (Table.Rows.Count >= 1)
-                    {
-                        string userType = Table.Rows[0]["usertype"]?.ToString()?.Trim();
-                        if (userType == "Administrator")
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
-                            MessageBox.Show("Login successfully as Admin!", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            Dashboard dashboard = new Dashboard();
-                            dashboard?.Show();
-                            this.Hide();
+                            if (reader.Read())
+                            {
+                                string userType = reader["usertype"]?.ToString()?.Trim();
+                                string username = reader["username"]?.ToString()?.Trim();
+
+                                LoggedInUsername = username; // Store the logged-in username
+
+                                // Handle user types
+                                if (userType == "Administrator")
+                                {
+                                    MessageBox.Show($"Welcome, {username} (Admin)!", "Login Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    Dashboard dashboard = new Dashboard();
+                                    dashboard.Show();
+                                    this.Hide();
+                                }
+                                else if (userType == "Employee")
+                                {
+                                    MessageBox.Show($"Welcome, {username} (Employee)!", "Login Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    EmDashboard emDashboard = new EmDashboard();
+                                    emDashboard.Show();
+                                    this.Hide();
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Unknown user type.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("Incorrect Username or Password. Please try again.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            }
                         }
-                        else if (userType == "Employee")
-                        {
-                            MessageBox.Show("Login successfully as Employee!", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            EmDashboard emd = new EmDashboard();
-                            emd?.Show();
-                            this.Hide();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Unknown user type", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Incorrect Username or Password, please try again!", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
-            }
-            catch (NullReferenceException ex)
-            {
-                MessageBox.Show("Null Reference Error: " + ex.Message, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                mysql.Close();
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
         protected override void OnFormClosing(FormClosingEventArgs e)
@@ -127,6 +122,5 @@ namespace Hontrack_library
             base.OnFormClosed(e);
             // Dispose of resources here, if necessary
         }
-
     }
 }

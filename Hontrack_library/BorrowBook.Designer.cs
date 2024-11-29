@@ -220,7 +220,6 @@
             this.label9.Size = new System.Drawing.Size(99, 19);
             this.label9.TabIndex = 27;
             this.label9.Text = "Return Date:";
-            this.label9.Click += new System.EventHandler(this.label9_Click);
             // 
             // NameTXT
             // 

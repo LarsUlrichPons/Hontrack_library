@@ -83,7 +83,6 @@
             this.IDtxt.Name = "IDtxt";
             this.IDtxt.Size = new System.Drawing.Size(195, 26);
             this.IDtxt.TabIndex = 1;
-            this.IDtxt.TextChanged += new System.EventHandler(this.IDtxt_TextChanged);
             // 
             // label2
             // 
@@ -181,7 +180,6 @@
             this.searchBox.Name = "searchBox";
             this.searchBox.Size = new System.Drawing.Size(213, 26);
             this.searchBox.TabIndex = 30;
-            this.searchBox.TextChanged += new System.EventHandler(this.searchBox_TextChanged);
             // 
             // status
             // 

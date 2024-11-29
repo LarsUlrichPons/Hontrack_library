@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,15 +14,15 @@ namespace Hontrack_library
 {
     public partial class Dashboard : Form
     {
+        string connect = "server=127.0.0.1; user=root; database=hontrack; password=";
+
         public Dashboard()
         {
             InitializeComponent();
+            displayUser();
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
+
 
 
 
@@ -37,10 +38,10 @@ namespace Hontrack_library
             }
         }
 
-       
 
 
-        
+
+
 
         private void DbButton_Click(object sender, EventArgs e)
         {
@@ -50,8 +51,8 @@ namespace Hontrack_library
             borrowingHistory1.Visible = false;
             issueBook1.Visible = false;
             userManagement1.Visible = false;
-           
-           
+
+
         }
 
         private void BbButton_Click(object sender, EventArgs e)
@@ -140,5 +141,58 @@ namespace Hontrack_library
             base.OnFormClosed(e);
             // Dispose of resources here, if necessary
         }
+
+
+        public void displayUser()
+        {
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(connect))
+                {
+                    conn.Open();
+
+                    string selectData = @"
+                SELECT username
+                FROM users 
+                WHERE delete_date IS NULL";
+
+                    using (MySqlCommand cmd = new MySqlCommand(selectData, conn))
+                    {
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                // Fetch the value from the first column (assumes it's a string)
+                                string userId = reader.GetString(0);
+
+                                // Handle null or empty case gracefully
+                                if (!string.IsNullOrEmpty(userId))
+                                {
+                                    userLabel.Text = "Welcome, " + LoginForm.LoggedInUsername + "!";
+                                }
+                                else
+                                {
+                                    userLabel.Text = "Welcome, Guest!";
+                                }
+                            }
+                            else
+                            {
+                                userLabel.Text = "No active users found.";
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Error: " + ex.Message + "\nStack Trace: " + ex.StackTrace,
+                    "Error Message",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+        }
+
     }
 }

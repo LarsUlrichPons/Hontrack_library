@@ -322,6 +322,7 @@ namespace Hontrack_library
             Status.SelectedIndex = -1;
             BookNumTxt.Clear();
             BQuantityTXT.Clear();
+            searchBox.Clear();
         }
 
         private void RemoveBtn_Click(object sender, EventArgs e)

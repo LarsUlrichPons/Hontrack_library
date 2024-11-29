@@ -115,6 +115,8 @@ namespace Hontrack_library
             }
         }
 
+
+
         private void searchBtn_Click(object sender, EventArgs e)
         {
             try
@@ -147,10 +149,7 @@ namespace Hontrack_library
 
 
 
-        private void searchBox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
+      
 
         private void refreshBtn_Click(object sender, EventArgs e)
         {
@@ -158,6 +157,7 @@ namespace Hontrack_library
             {
                 // Refresh data instantly
                 displayBookData();
+                clearField();
                 MessageBox.Show("Data refreshed successfully.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
@@ -285,9 +285,16 @@ namespace Hontrack_library
             return document;
         }
 
-        private void IDtxt_TextChanged(object sender, EventArgs e)
+        public void clearField() 
         {
-
+            searchBox.Clear();
+            bookTitle.Clear();
+            IDtxt.Clear();
+            UserNametxt.Clear();    
+            borrowdate.Clear();
+            returndate.Clear();
+            status.Clear();
         }
+        
     }
 }

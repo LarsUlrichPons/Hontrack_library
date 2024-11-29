@@ -122,6 +122,7 @@ namespace Hontrack_library
             IDTextBox.Clear();
             BQuantity.Clear();
             NameTXT.Clear();
+            SearchBox.Clear();
         }
 
         private void BorrowButton_Click(object sender, EventArgs e)
@@ -247,10 +248,7 @@ namespace Hontrack_library
             clearField();
         }
 
-        private void label9_Click(object sender, EventArgs e)
-        {
-
-        }
+       
 
         private void searchBtn_Click(object sender, EventArgs e)
         {

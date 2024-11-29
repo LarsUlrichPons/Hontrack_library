@@ -56,7 +56,7 @@ namespace Hontrack_library
             borrowedBookData bookData = new borrowedBookData();
             List<borrowedBookData> listdata = bookData.BookListTransaction();
 
-            listdata = listdata.OrderByDescending(b => b.Return_due).ToList();
+            listdata = listdata.OrderByDescending(b => b.Borrow).ToList();
 
             dataGridView1.Refresh();
             dataGridView1.DataSource = listdata;
@@ -110,6 +110,8 @@ namespace Hontrack_library
             NameTXT.Clear();
             borrowDate.Clear();
             bookTitle.Clear();
+            ReturnDueText.Clear();
+            SearchBox.Clear();
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
