@@ -1,4 +1,6 @@
-﻿namespace Hontrack_library
+﻿using System.Windows.Forms.DataVisualization.Charting;
+
+namespace Hontrack_library
 {
     partial class DashMain
     {
@@ -265,7 +267,6 @@
             // 
             // chart1
             // 
-
             chartArea1.Name = "ChartArea1";
             this.chart1.ChartAreas.Add(chartArea1);
             this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -280,7 +281,6 @@
             this.chart1.Size = new System.Drawing.Size(924, 400);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
-
             // 
             // DashMain
             // 
@@ -290,6 +290,7 @@
             this.Controls.Add(this.panel1);
             this.Name = "DashMain";
             this.Size = new System.Drawing.Size(924, 664);
+            this.Load += new System.EventHandler(this.DashMain_Load);
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
@@ -334,5 +335,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+
     }
 }

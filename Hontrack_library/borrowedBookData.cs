@@ -13,9 +13,11 @@ namespace Hontrack_library
     public class borrowedBookData
     {
         public int ID { get; set; }
+
+        public string User_name { get; set; }
         public string BookTitle { get; set; }
         public long BookNumber { get; set; }
-        public string User_name { get; set; }
+       
         public string Borrow { get; set; }
         public string Return_due { get; set; }
         public string Status { get; set; }

@@ -5,9 +5,13 @@ using System;
 using LiveCharts.Wpf.Charts.Base;
 using System.Drawing;
 using System.Windows.Forms.DataVisualization.Charting;
+using System.Text.RegularExpressions;
+
 
 using System.Timers; // Add this for the timer
-using Timer = System.Windows.Forms.Timer; // Alias for Windows Forms Timer
+using Timer = System.Windows.Forms.Timer;
+using System.Data;
+using System.Text; // Alias for Windows Forms Timer
 
 namespace Hontrack_library
 {
@@ -16,18 +20,24 @@ namespace Hontrack_library
         string connect = "server=127.0.0.1; user=root; database=hontrack; password=";
         private Timer refreshTimer; // Timer for real-time updates
 
+
         public DashMain()
         {
             InitializeComponent();
 
             // Call display methods to initialize data
+          
+        }
+
+        private void DashMain_Load(object sender, EventArgs e)
+        {
             displayAb();
             displayBb();
             displayRb();
-            LoadStackedColumnChart();
-            // Set up the refresh timer
+            LoadChart();
             SetupRealTimeUpdates();
         }
+
 
         private void SetupRealTimeUpdates()
         {
@@ -39,12 +49,27 @@ namespace Hontrack_library
 
         private void RefreshData(object sender, EventArgs e)
         {
-            // Refresh data dynamically
-            displayAb();
-            displayBb();
-            displayRb();
-            LoadStackedColumnChart();
+            if (this.InvokeRequired)
+            {
+                // Use Invoke to update the UI from the main thread
+                this.Invoke(new Action(() =>
+                {
+                    displayAb();
+                    displayBb();
+                    displayRb();
+                    LoadChart();
+                }));
+            }
+            else
+            {
+                // Directly update if already on the main thread
+                displayAb();
+                displayBb();
+                displayRb();
+                LoadChart();
+            }
         }
+
 
         public void displayAb()
         {
@@ -157,107 +182,130 @@ namespace Hontrack_library
             }
         }
 
-        public void LoadStackedColumnChart()
+        public void LoadChart()
         {
             try
             {
                 using (MySqlConnection conn = new MySqlConnection(connect))
                 {
-                    conn.Open();
-                    string selectData = @"
-                SELECT 
-                    bookTitle, 
-                    COUNT(*) as count
-                FROM book_transactions
-               WHERE delete_date IS NULL
+                    string query = @"
+                SELECT bookTitle, COUNT(*) AS count 
+                FROM book_transactions 
+                WHERE status = 'borrowed' 
+                AND delete_date IS NULL 
                 GROUP BY bookTitle";
 
-                    using (MySqlCommand cmd = new MySqlCommand(selectData, conn))
-                    {
-                        using (MySqlDataReader reader = cmd.ExecuteReader())
-                        {
-                            // Clear previous chart data
-                            chart1.Series.Clear();
-                            chart1.ChartAreas.Clear();
-                            chart1.Titles.Clear();
-                            chart1.Legends.Clear();
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
+                    DataTable dataTable = new DataTable();
+                    adapter.Fill(dataTable);
 
-                            // Set chart background
-                            chart1.BackColor = Color.White; // Chart background
-                            chart1.BorderlineDashStyle = ChartDashStyle.Solid;
-                            chart1.BorderlineColor = Color.Gray;
-                            chart1.BorderlineWidth = 2;
 
-                            // Create a chart area
-                            ChartArea chartArea = new ChartArea("ChartArea1")
-                            {
-                                BackColor = Color.AliceBlue, // Plot area background
-                                AxisX =
-                        {
-                            Title = "Book Titles",
-                            LabelStyle = { Angle = -45, Font = new Font("Arial", 10, FontStyle.Regular) },
-                            Interval = 1,
-                            MajorGrid = { LineColor = Color.LightGray, Enabled = true }
-                        },
-                                AxisY =
-                        {
-                            Title = "Borrowed Count",
-                            LabelStyle = { Font = new Font("Arial", 10, FontStyle.Regular) },
-                            MajorGrid = { LineColor = Color.LightGray, Enabled = true }
-                        }
-                            };
-                            chart1.ChartAreas.Add(chartArea);
+                 
+                    // Set up the chart's data source
+                    chart1.DataSource = dataTable;
 
-                            // Create a single series for borrowed books
-                            Series series = new Series("Borrowed Books")
-                            {
-                                ChartType = SeriesChartType.Column,
-                                IsValueShownAsLabel = true,
-                                Color = Color.SkyBlue,
-                                Font = new Font("Arial", 10, FontStyle.Bold),
-                                LabelForeColor = Color.Black,
-                                ["LabelStyle"] = "Top"
-                            };
+                    // Configure chart axes titles and appearance
+                    ConfigureChartAxes();
 
-                            // Read data and populate series
-                            while (reader.Read())
-                            {
-                                string bookTitle = reader.GetString("bookTitle");
-                                int count = reader.GetInt32("count");
+                    // Configure chart series appearance
+                    ConfigureChartSeries();
 
-                                // Add data point to the series
-                                series.Points.AddXY(bookTitle, count);
-                            }
+                    // Set up chart legend and other visual improvements
+                    ConfigureChartAppearance();
 
-                            // Add the series to the chart
-                            chart1.Series.Add(series);
+                    // Bind data to the chart series
+                    BindChartData();
 
-                            // Add a title to the chart
-                            Title title = new Title("Borrowed Books Count")
-                            {
-                                Font = new Font("Arial", 14, FontStyle.Bold),
-                                ForeColor = Color.DarkBlue,
-                                Alignment = ContentAlignment.TopCenter
-                            };
-                            chart1.Titles.Add(title);
-                        }
-                    }
+                    // Refresh the chart to display the new data
+                    chart1.DataBind();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    "Error: " + ex.Message + "\nStack Trace: " + ex.StackTrace,
-                    "Error Message",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                // Show error message if any exception occurs
+                DisplayErrorMessage(ex);
             }
+        }
+
+        // Configure chart axis labels and appearance
+        private void ConfigureChartAxes()
+        {
+            // Set X and Y axis titles with larger font for better readability
+          
+
+            chart1.ChartAreas["ChartArea1"].AxisY.Title = "Number of Borrows";
+            chart1.ChartAreas["ChartArea1"].AxisY.TitleFont = new Font("Arial", 10, FontStyle.Bold);
+            chart1.ChartAreas["ChartArea1"].AxisY.LabelStyle.Font = new Font("Arial", 8);
+
+            // Rotate X-axis labels to avoid overlap
+            chart1.ChartAreas["ChartArea1"].AxisX.LabelStyle.Angle = 0;
+
+            // Enable labels to fit in a readable format
+            chart1.ChartAreas["ChartArea1"].AxisX.LabelStyle.IsStaggered = false; // Default single row
+            chart1.ChartAreas["ChartArea1"].AxisX.LabelStyle.Font = new Font("Arial", 8); // Smaller font
+
+            chart1.ChartAreas["ChartArea1"].AxisX.Interval = 1; // Ensure labels are displayed for each bar
+        }
+
+        // Configure the chart series appearance
+        private void ConfigureChartSeries()
+        {
+            // Set the bar chart type
+            chart1.Series["bookChart"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
+
+            // Add data labels to show exact values on the chart
+            chart1.Series["bookChart"].IsValueShownAsLabel = true;
+            chart1.Series["bookChart"].LabelForeColor = Color.Black;
+
+            // Enable automatic coloring of series
+         
+           
+           // chart1.ChartAreas["ChartArea1"].AxisX.LabelStyle.Enabled = false;
+
+            // Set tooltip for data points
+            chart1.Series["bookChart"].ToolTip = "#VALX: #VALY borrows";
         }
 
 
 
 
+        // Set up chart legend and other visual improvements
+        private void ConfigureChartAppearance()
+        {
+            // Enable and customize the legend
+            chart1.Legends[0].Enabled = false;
+            chart1.Legends[0].Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Right;
+            chart1.Legends[0].Font = new Font("Arial", 7, FontStyle.Bold);
+            chart1.Legends[0].BackColor = Color.White;
+
+            // Set chart background color
+            chart1.BackColor = Color.LightGray;
+
+            // Set chart area background color for better contrast
+            chart1.ChartAreas["ChartArea1"].BackColor = Color.WhiteSmoke;
+        }
+
+
+        // Helper method to bind data to the chart series
+        private void BindChartData()
+        {
+            // Set the X and Y axis data members for the chart
+            chart1.Series["bookChart"].XValueMember = "bookTitle"; // Book titles on the X-axis
+            chart1.Series["bookChart"].YValueMembers = "count";     // Count of books on the Y-axis
+        }
+
+        // Helper method to display error messages
+        private void DisplayErrorMessage(Exception ex)
+        {
+            MessageBox.Show(
+                $"Error: {ex.Message}\nStack Trace: {ex.StackTrace}",
+                "Error Message",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error
+            );
+        }
+
+       
 
 
 

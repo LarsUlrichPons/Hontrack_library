@@ -72,14 +72,14 @@ namespace Hontrack_library
                                 // Handle user types
                                 if (userType == "Administrator")
                                 {
-                                    MessageBox.Show($"Welcome, {username} (Admin)!", "Login Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    MessageBox.Show($"Welcome, {username} Admin!", "Login Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     Dashboard dashboard = new Dashboard();
                                     dashboard.Show();
                                     this.Hide();
                                 }
                                 else if (userType == "Employee")
                                 {
-                                    MessageBox.Show($"Welcome, {username} (Employee)!", "Login Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    MessageBox.Show($"Welcome, {username} Employee!", "Login Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     EmDashboard emDashboard = new EmDashboard();
                                     emDashboard.Show();
                                     this.Hide();

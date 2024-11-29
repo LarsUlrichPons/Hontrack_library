@@ -88,9 +88,9 @@ namespace Hontrack_library
 
             // Ensure correct column headers
             dataGridView1.Columns[0].HeaderText = "ID";
-            dataGridView1.Columns[1].HeaderText = "Title";
-            dataGridView1.Columns[2].HeaderText = "Book Number";
-            dataGridView1.Columns[3].HeaderText = "User Name";
+            dataGridView1.Columns[1].HeaderText = "User Name";
+            dataGridView1.Columns[2].HeaderText = "Title";
+            dataGridView1.Columns[3].HeaderText = "Book Number";
             dataGridView1.Columns[4].HeaderText = "Return Due";
             dataGridView1.Columns[5].HeaderText = "Borrow Date";
             dataGridView1.Columns[6].HeaderText = "Status";
@@ -122,9 +122,10 @@ namespace Hontrack_library
 
                 DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
                 BookID = (int)row.Cells[0].Value;  // Ensure the ID column is the first column
-                bookTitle.Text = row.Cells[1].Value.ToString();
-                IDTextBox.Text = row.Cells[2].Value.ToString();
-                NameTXT.Text = row.Cells[3].Value.ToString();
+                   NameTXT.Text = row.Cells[1].Value.ToString();
+                bookTitle.Text = row.Cells[2].Value.ToString();
+                IDTextBox.Text = row.Cells[3].Value.ToString();
+             
                 borrowDate.Text = row.Cells[4].Value.ToString();
                 ReturnDueText.Text = row.Cells[5].Value.ToString();
                 Status.Text = row.Cells[6].Value.ToString();

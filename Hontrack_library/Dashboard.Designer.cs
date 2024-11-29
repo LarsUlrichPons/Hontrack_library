@@ -77,7 +77,7 @@ namespace Hontrack_library
             this.userLabel.AutoSize = true;
             this.userLabel.BackColor = System.Drawing.Color.Transparent;
             this.userLabel.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.userLabel.Location = new System.Drawing.Point(51, 135);
+            this.userLabel.Location = new System.Drawing.Point(73, 135);
             this.userLabel.Name = "userLabel";
             this.userLabel.Size = new System.Drawing.Size(105, 29);
             this.userLabel.TabIndex = 8;
