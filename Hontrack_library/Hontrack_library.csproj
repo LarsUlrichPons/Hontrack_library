@@ -44,6 +44,9 @@
     <Reference Include="AForge.Video.DirectShow, Version=2.2.5.0, Culture=neutral, PublicKeyToken=61ea4348d43881b7, processorArchitecture=MSIL">
       <HintPath>..\packages\AForge.Video.DirectShow.2.2.5\lib\AForge.Video.DirectShow.dll</HintPath>
     </Reference>
+    <Reference Include="BCrypt.Net-Next, Version=4.0.3.0, Culture=neutral, PublicKeyToken=1e11be04b6288443, processorArchitecture=MSIL">
+      <HintPath>..\packages\BCrypt.Net-Next.4.0.3\lib\net472\BCrypt.Net-Next.dll</HintPath>
+    </Reference>
     <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
       <HintPath>..\packages\BouncyCastle.Cryptography.2.3.1\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
     </Reference>
@@ -182,6 +185,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminPasswordPrompt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdminPasswordPrompt.Designer.cs">
+      <DependentUpon>AdminPasswordPrompt.cs</DependentUpon>
+    </Compile>
     <Compile Include="BookData.cs" />
     <Compile Include="BookTransaction.cs" />
     <Compile Include="BorrowBook.cs">
@@ -254,6 +263,9 @@
     <Compile Include="UserManagement.Designer.cs">
       <DependentUpon>UserManagement.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AdminPasswordPrompt.resx">
+      <DependentUpon>AdminPasswordPrompt.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="BorrowBook.resx">
       <DependentUpon>BorrowBook.cs</DependentUpon>
     </EmbeddedResource>

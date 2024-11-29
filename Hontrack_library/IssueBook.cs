@@ -1,7 +1,9 @@
 ﻿using AForge.Video.DirectShow;
 using MySql.Data.MySqlClient;
+using MySqlX.XDevAPI;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -202,6 +204,7 @@ namespace Hontrack_library
 
         private void AddBtn_Click(object sender, EventArgs e)
         {
+            MySqlConnection mysql = new MySqlConnection(connect);
             if (string.IsNullOrEmpty(BookNumTxt.Text) || string.IsNullOrEmpty(bookTitle.Text) || string.IsNullOrEmpty(author.Text) || string.IsNullOrEmpty(Status.Text))
             {
                 MessageBox.Show("Please fill all blank fields", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -210,6 +213,23 @@ namespace Hontrack_library
             {
                 try
                 {
+
+                    if (mysql.State == ConnectionState.Closed)
+                        mysql.Open();
+
+                    // Check if the username already exists
+                    string checkUsername = "SELECT COUNT(*) FROM book WHERE bookTitle = @bookTitle";
+
+                    using (MySqlCommand checkUser = new MySqlCommand(checkUsername, mysql))
+                    {
+                        checkUser.Parameters.AddWithValue("@bookTitle", bookTitle.Text.Trim());
+                        int countUser = Convert.ToInt32(checkUser.ExecuteScalar());
+                        if (countUser >= 1)
+                        {
+                            MessageBox.Show(bookTitle.Text.Trim() + " is already taken", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                    }
                     using (MySqlConnection conn = new MySqlConnection(connect))
                     {
                         conn.Open();

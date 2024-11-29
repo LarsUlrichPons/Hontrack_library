@@ -108,18 +108,7 @@ namespace Hontrack_library
             userManagement1.Visible = true;
         }
 
-        private void Dashboard_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            DialogResult result = MessageBox.Show("Are you sure you want to exit?", "Exit Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (result == DialogResult.Yes)
-            {
-                Application.Exit();  // Close the application completely
-            }
-            else
-            {
-                e.Cancel = true; // Cancel the form closing if the user presses No
-            }
-        }
+    
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {

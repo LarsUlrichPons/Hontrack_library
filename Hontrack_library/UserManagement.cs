@@ -141,6 +141,7 @@ namespace Hontrack_library
 
                 // Check if the username already exists
                 string checkUsername = "SELECT COUNT(*) FROM users WHERE username = @username";
+                
                 using (MySqlCommand checkUser = new MySqlCommand(checkUsername, mysql))
                 {
                     checkUser.Parameters.AddWithValue("@username", addEmployee_UN.Text.Trim());
@@ -167,6 +168,7 @@ namespace Hontrack_library
 
                 // Insert new data
                 string insertData = "INSERT INTO users (fullname, username, password, usertype, insert_date) VALUES (@fullname, @username, @password, @usertype, @insertDate)";
+
                 using (MySqlCommand cmd = new MySqlCommand(insertData, mysql))
                 {
                     cmd.Parameters.AddWithValue("@fullname", addEmployee_FN.Text.Trim());
@@ -194,68 +196,104 @@ namespace Hontrack_library
 
         private void UpdateBtn_Click(object sender, EventArgs e)
         {
-            if (addEmployee_FN.Text == "" || addEmployee_UN.Text == "" || addEmployee_Pass.Text == "" || addEmployee_UT.Text == "")
+            // Step 1: Validate input fields
+            if (string.IsNullOrWhiteSpace(addEmployee_FN.Text) ||
+                string.IsNullOrWhiteSpace(addEmployee_UN.Text) ||
+                string.IsNullOrWhiteSpace(addEmployee_Pass.Text) ||
+                string.IsNullOrWhiteSpace(addEmployee_UT.Text))
             {
-                MessageBox.Show("Please fill all blank fields", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please fill all blank fields.", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
+            // Validate username
             if (!ValidateUsername(addEmployee_UN.Text.Trim()))
             {
                 return;
             }
 
+            // Validate password
             if (!ValidatePassword(addEmployee_Pass.Text.Trim()))
             {
-                MessageBox.Show("Password must be at least 8 characters long and include at least one number, one special character, and one uppercase letter.", "Password Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Password must be at least 8 characters long and include at least one number, one special character, and one uppercase letter.",
+                                "Password Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
+            // Prevent modification of the first record's user type
             if (dataGridView1.Rows.Count > 0 &&
-       dataGridView1.Rows[0].Cells["fullname"].Value.ToString() == addEmployee_FN.Text.Trim())
+                dataGridView1.Rows[0].Cells["fullname"].Value.ToString() == addEmployee_FN.Text.Trim())
             {
-                MessageBox.Show("The usertype for the first record cannot be modified.", "Permission Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("The user type for the first record cannot be modified.", "Permission Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            DialogResult check = MessageBox.Show("Are you sure you want to UPDATE EmployeeData Name: " + addEmployee_FN.Text.Trim() + "?", "Confirmation Message", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-            if (check == DialogResult.Yes)
+            // Step 2: Prompt for admin password
+          
+            using (AdminPasswordPrompt passwordPrompt = new AdminPasswordPrompt())
             {
-                try
+                if (passwordPrompt.ShowDialog() == DialogResult.OK)
                 {
-                    MySqlConnection mysql = new MySqlConnection(connect);
-                    mysql.Open();
+                    string adminPassword = passwordPrompt.AdminPassword;
 
-                    string updatedata = "UPDATE users SET fullname = @fullname, username = @username, password = @password, usertype = @usertype, update_date = @updateDate WHERE ID = @ID";
-                    using (MySqlCommand cmd = new MySqlCommand(updatedata, mysql))
+                    // Step 3: Validate admin password
+                    try
                     {
-                        cmd.Parameters.AddWithValue("@ID",addEmployee_id.Text.Trim());
-                        cmd.Parameters.AddWithValue("@fullname", addEmployee_FN.Text.Trim());
-                        cmd.Parameters.AddWithValue("@username", addEmployee_UN.Text.Trim());
-                        cmd.Parameters.AddWithValue("@password", addEmployee_Pass.Text.Trim());
-                        cmd.Parameters.AddWithValue("@usertype", addEmployee_UT.Text.Trim());
-                        cmd.Parameters.AddWithValue("@updateDate", DateTime.Now);
+                        using (MySqlConnection mysql = new MySqlConnection(connect))
+                        {
+                            mysql.Open();
 
-                        cmd.ExecuteNonQuery();
+                            string query = "SELECT password FROM users WHERE username = @username AND usertype = 'Administrator'";
+                            using (MySqlCommand cmd = new MySqlCommand(query, mysql))
+                            {
+                                cmd.Parameters.AddWithValue("@username", LoginForm.LoggedInUsername); // Use the logged-in admin's username
+
+                                string storedPassword = cmd.ExecuteScalar()?.ToString();
+
+                                if (storedPassword == null)
+                                {
+                                    MessageBox.Show("Admin user not found. Update operation canceled.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    return;
+                                }
+
+                                if (adminPassword != storedPassword)
+                                {
+                                    MessageBox.Show("Invalid admin password. Update operation canceled.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    return;
+                                }
+                            }
+
+
+                            // Step 4: Update user data
+                            string updatedata = "UPDATE users SET fullname = @fullname, username = @username, password = @password, usertype = @usertype, update_date = @updateDate WHERE ID = @ID";
+                            using (MySqlCommand cmd = new MySqlCommand(updatedata, mysql))
+                            {
+                                cmd.Parameters.AddWithValue("@ID", addEmployee_id.Text.Trim());
+                                cmd.Parameters.AddWithValue("@fullname", addEmployee_FN.Text.Trim());
+                                cmd.Parameters.AddWithValue("@username", addEmployee_UN.Text.Trim());
+
+                                // Directly store the password in plain text
+                                cmd.Parameters.AddWithValue("@password", addEmployee_Pass.Text.Trim());
+
+                                cmd.Parameters.AddWithValue("@usertype", addEmployee_UT.Text.Trim());
+                                cmd.Parameters.AddWithValue("@updateDate", DateTime.Now);
+
+                                cmd.ExecuteNonQuery();
+                            }
+                        }
+
+                        // Step 5: Notify success and refresh data
+                        MessageBox.Show("Updated Successfully!", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        displayEmployeeData();
+                        clearfield();
                     }
-
-                    MessageBox.Show("Updated Successfully!", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    displayEmployeeData();
-                    clearfield();
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error: " + ex.Message, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error: " + ex.Message, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Update canceled.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-
-
-       
 
         private void RemoveBtn_Click(object sender, EventArgs e)
         {
@@ -274,29 +312,61 @@ namespace Hontrack_library
                 return;
             }
 
+            // Get the fullname from the selected row
+            string selectedFullname = dataGridView1.Rows[selectedRowIndex].Cells["fullname"].Value.ToString();
+
             // Proceed with delete confirmation
-            DialogResult check = MessageBox.Show("Are you sure you want to delete Employee Name: " + addEmployee_FN.Text.Trim() + "?", "Confirmation Message", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-            if (check == DialogResult.Yes)
+            using (AdminPasswordPrompt passwordPrompt = new AdminPasswordPrompt())
             {
-                try
+                if (passwordPrompt.ShowDialog() == DialogResult.OK)
                 {
-                    MySqlConnection mysql = new MySqlConnection(connect);
-                    mysql.Open();
-                    string deleteQuery = "DELETE FROM users WHERE fullname = @fullname";
+                    string adminPassword = passwordPrompt.AdminPassword;
 
-                    using (MySqlCommand cmd = new MySqlCommand(deleteQuery, mysql))
+                    // Validate admin password
+                    try
                     {
-                        cmd.Parameters.AddWithValue("@fullname", addEmployee_FN.Text.Trim());
-                        cmd.ExecuteNonQuery();
-                    }
+                        using (MySqlConnection mysql = new MySqlConnection(connect))
+                        {
+                            mysql.Open();
 
-                    MessageBox.Show("Deleted Successfully!", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    displayEmployeeData();
-                    clearfield();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error: " + ex.Message, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            // Query to check the logged-in admin's password
+                            string query = "SELECT password FROM users WHERE username = @username AND usertype = 'Administrator'";
+                            using (MySqlCommand cmd = new MySqlCommand(query, mysql))
+                            {
+                                cmd.Parameters.AddWithValue("@username", LoginForm.LoggedInUsername); // Use the logged-in admin's username
+
+                                string storedPassword = cmd.ExecuteScalar()?.ToString();
+
+                                if (storedPassword == null)
+                                {
+                                    MessageBox.Show("Admin user not found. Delete operation canceled.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    return;
+                                }
+
+                                if (adminPassword != storedPassword)
+                                {
+                                    MessageBox.Show("Invalid admin password. Delete operation canceled.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    return;
+                                }
+                            }
+
+                            // Delete the user from the database using fullname
+                            string deleteQuery = "DELETE FROM users WHERE fullname = @fullname";
+                            using (MySqlCommand cmd = new MySqlCommand(deleteQuery, mysql))
+                            {
+                                cmd.Parameters.AddWithValue("@fullname", selectedFullname); // Use selected fullname
+                                cmd.ExecuteNonQuery();
+                            }
+
+                            MessageBox.Show("Deleted Successfully!", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            displayEmployeeData();  // Refresh data
+                            clearfield();  // Clear fields
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error: " + ex.Message, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
         }

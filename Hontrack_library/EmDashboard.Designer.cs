@@ -43,7 +43,7 @@
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.userLabel = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.MuButton = new System.Windows.Forms.Button();
             this.BiButton = new System.Windows.Forms.Button();
@@ -167,7 +167,7 @@
             this.panel3.Controls.Add(this.button5);
             this.panel3.Controls.Add(this.button6);
             this.panel3.Controls.Add(this.button7);
-            this.panel3.Controls.Add(this.label1);
+            this.panel3.Controls.Add(this.userLabel);
             this.panel3.Controls.Add(this.pictureBox2);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel3.ForeColor = System.Drawing.SystemColors.Control;
@@ -266,15 +266,15 @@
             this.button7.UseVisualStyleBackColor = false;
             this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
-            // label1
+            // userLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Century", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(59, 125);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(235, 28);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Welcome, Employee";
+            this.userLabel.AutoSize = true;
+            this.userLabel.Font = new System.Drawing.Font("Century", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.userLabel.Location = new System.Drawing.Point(59, 125);
+            this.userLabel.Name = "userLabel";
+            this.userLabel.Size = new System.Drawing.Size(112, 28);
+            this.userLabel.TabIndex = 2;
+            this.userLabel.Text = "Welcome";
             // 
             // pictureBox2
             // 
@@ -494,7 +494,7 @@
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label userLabel;
         private System.Windows.Forms.PictureBox pictureBox2;
         private UserManagement userManagement2;
         private BorrowingHistory borrowingHistory2;

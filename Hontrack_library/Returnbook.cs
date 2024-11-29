@@ -122,10 +122,9 @@ namespace Hontrack_library
 
                 DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
                 BookID = (int)row.Cells[0].Value;  // Ensure the ID column is the first column
-                   NameTXT.Text = row.Cells[1].Value.ToString();
+                NameTXT.Text = row.Cells[1].Value.ToString();
                 bookTitle.Text = row.Cells[2].Value.ToString();
                 IDTextBox.Text = row.Cells[3].Value.ToString();
-             
                 borrowDate.Text = row.Cells[4].Value.ToString();
                 ReturnDueText.Text = row.Cells[5].Value.ToString();
                 Status.Text = row.Cells[6].Value.ToString();
