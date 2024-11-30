@@ -209,7 +209,7 @@ namespace Hontrack_library
                 using (MySqlConnection conn = new MySqlConnection(connect))
                 {
                     conn.Open();
-                    string query = "SELECT user_name, borrow_date, return_date, status,book_num,bookTitle FROM book_transactions"; // Adjust table and column names as necessary
+                    string query = "SELECT borrowerName, borrowDate, returnDate, Status,bookISBN,bookTitle FROM tbl_booktransac"; // Adjust table and column names as necessary
 
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
@@ -217,14 +217,14 @@ namespace Hontrack_library
                     {
                         while (reader.Read())
                         {
-                            string borrower = reader["user_name"].ToString();
-                            string bookNum =reader["book_num"].ToString();
+                            string borrower = reader["borrowerName"].ToString();
+                            string bookNum =reader["bookISBN"].ToString();
                             string bookTitle = reader["bookTitle"].ToString();
-                            string borrowDate = Convert.ToDateTime(reader["borrow_date"]).ToShortDateString();
-                            string returnDate = reader["return_date"] != DBNull.Value
-                        ? Convert.ToDateTime(reader["return_date"]).ToShortDateString()
+                            string borrowDate = Convert.ToDateTime(reader["borrowDate"]).ToShortDateString();
+                            string returnDate = reader["returnDate"] != DBNull.Value
+                        ? Convert.ToDateTime(reader["returnDate"]).ToShortDateString()
                         : "Not yet return"; // If null, set a default value
-                            string status =  reader["status"].ToString();
+                            string status =  reader["Status"].ToString();
                             historyData.Add((borrower,bookTitle, bookNum,borrowDate,returnDate,status));
                         }
                     }
@@ -250,7 +250,7 @@ namespace Hontrack_library
                 {
                     conn.Open();
 
-                    string query = " SELECT bookTitle, COUNT(*) AS count,book_num FROM book_transactions  WHERE delete_date IS NULL  GROUP BY bookTitle DESC";
+                    string query = " SELECT bookTitle, COUNT(*) AS count,bookISBN FROM tbl_booktransac  WHERE deleteDate IS NULL  GROUP BY bookTitle DESC";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     using (MySqlDataReader reader = cmd.ExecuteReader())
@@ -258,7 +258,7 @@ namespace Hontrack_library
                         while (reader.Read())
                         {
                             string bookTitle = reader["bookTitle"].ToString();
-                            string bookNum = reader["book_num"].ToString();
+                            string bookNum = reader["bookISBN"].ToString();
                             int borrowCount = Convert.ToInt32(reader["count"]);
                             borrowCountData.Add((bookTitle,bookNum, borrowCount));
                         }

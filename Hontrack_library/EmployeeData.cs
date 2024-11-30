@@ -24,7 +24,7 @@ namespace Hontrack_library
                 try
                 {
                     mysql.Open();
-                    string selectData = "SELECT * FROM users WHERE delete_date IS NULL";
+                    string selectData = "SELECT * FROM tbl_users WHERE deletedate IS NULL";
 
                     using (MySqlCommand cmd = new MySqlCommand(selectData, mysql))
                     {
@@ -34,7 +34,7 @@ namespace Hontrack_library
                             {
                                 EmployeeData employee = new EmployeeData
                                 {
-                                    ID = reader.GetInt32("id"),
+                                    ID = reader.GetInt32("ID"),
                                     Fullname = reader.GetString("fullname"),
                                     Username = reader.GetString("username"),
                                     Password = reader.GetString("password"),

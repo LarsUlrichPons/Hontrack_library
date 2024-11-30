@@ -41,12 +41,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.clear = new System.Windows.Forms.Button();
             this.addEmployee_id = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.refreshBtn = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.clear = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -107,8 +107,8 @@
             // 
             this.addEmployee_UT.FormattingEnabled = true;
             this.addEmployee_UT.Items.AddRange(new object[] {
-            "Administrator",
-            "Employee"});
+            "Librarian",
+            "Staff"});
             this.addEmployee_UT.Location = new System.Drawing.Point(482, 62);
             this.addEmployee_UT.Name = "addEmployee_UT";
             this.addEmployee_UT.Size = new System.Drawing.Size(191, 28);
@@ -212,6 +212,23 @@
             this.panel2.Size = new System.Drawing.Size(918, 261);
             this.panel2.TabIndex = 3;
             // 
+            // clear
+            // 
+            this.clear.BackColor = System.Drawing.Color.SeaGreen;
+            this.clear.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.clear.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.clear.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Lime;
+            this.clear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.clear.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.clear.ForeColor = System.Drawing.Color.White;
+            this.clear.Location = new System.Drawing.Point(395, 171);
+            this.clear.Name = "clear";
+            this.clear.Size = new System.Drawing.Size(102, 48);
+            this.clear.TabIndex = 20;
+            this.clear.Text = "Clear";
+            this.clear.UseVisualStyleBackColor = false;
+            this.clear.Click += new System.EventHandler(this.clear_Click);
+            // 
             // addEmployee_id
             // 
             this.addEmployee_id.Location = new System.Drawing.Point(132, 27);
@@ -266,23 +283,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(918, 391);
             this.panel1.TabIndex = 2;
-            // 
-            // clear
-            // 
-            this.clear.BackColor = System.Drawing.Color.SeaGreen;
-            this.clear.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.clear.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.clear.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Lime;
-            this.clear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.clear.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.clear.ForeColor = System.Drawing.Color.White;
-            this.clear.Location = new System.Drawing.Point(395, 171);
-            this.clear.Name = "clear";
-            this.clear.Size = new System.Drawing.Size(102, 48);
-            this.clear.TabIndex = 20;
-            this.clear.Text = "Clear";
-            this.clear.UseVisualStyleBackColor = false;
-            this.clear.Click += new System.EventHandler(this.clear_Click);
             // 
             // UserManagement
             // 

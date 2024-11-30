@@ -142,8 +142,8 @@ namespace Hontrack_library
 
                     string selectData = @"
                 SELECT username
-                FROM users 
-                WHERE delete_date IS NULL";
+                FROM tbl_users 
+                WHERE deletedate IS NULL";
 
                     using (MySqlCommand cmd = new MySqlCommand(selectData, conn))
                     {

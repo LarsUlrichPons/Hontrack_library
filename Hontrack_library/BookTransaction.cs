@@ -28,13 +28,13 @@ namespace Hontrack_library
                     mysql.Open();
 
                     // Start with the base query to get books that have not been deleted.
-                    string selectData = "SELECT * FROM book_transactions WHERE delete_date IS NULL";
+                    string selectData = "SELECT * FROM tbl_booktransac WHERE deleteDate IS NULL";
 
                     // Only add filters if the corresponding parameter is not null or empty
                   
                     if (!string.IsNullOrEmpty(userNameFilter))
                     {
-                        selectData += " AND user_name LIKE @userNameFilter";
+                        selectData += " AND borrowerName LIKE @userNameFilter";
                        
                     }
                  
@@ -55,15 +55,15 @@ namespace Hontrack_library
                             {
                                 BookTransaction bookTransaction = new BookTransaction
                                 {
-                                    ID = reader.GetInt32("transaction_id"),
+                                    ID = reader.GetInt32("transac_id"),
                                     BookTitle = reader.IsDBNull(reader.GetOrdinal("bookTitle")) ? "Unknown Title" : reader.GetString("bookTitle"),
-                                    BookNumber = reader.GetInt64("book_num"),
-                                    User_name = reader.GetString("user_name"),
-                                    Borrow = reader.GetDateTime("borrow_date").ToString("yyyy-MM-dd"),
-                                    Status = reader.GetString("status"),
-                                    Return = reader.IsDBNull(reader.GetOrdinal("return_date"))
+                                    BookNumber = reader.GetInt64("bookISBN"),
+                                    User_name = reader.GetString("borrowerName"),
+                                    Borrow = reader.GetDateTime("borrowDate").ToString("yyyy-MM-dd"),
+                                    Status = reader.GetString("Status"),
+                                    Return = reader.IsDBNull(reader.GetOrdinal("returnDate"))
                                         ? "Not yet returned"
-                                        : reader.GetDateTime("return_date").ToString("yyyy-MM-dd")
+                                        : reader.GetDateTime("returnDate").ToString("yyyy-MM-dd")
                                 };
 
                                 listdata.Add(bookTransaction);

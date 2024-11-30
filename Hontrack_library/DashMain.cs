@@ -35,7 +35,7 @@ namespace Hontrack_library
             displayBb();
             displayRb();
             LoadChart();
-            SetupRealTimeUpdates();
+           SetupRealTimeUpdates();
         }
 
 
@@ -80,8 +80,8 @@ namespace Hontrack_library
                     conn.Open();
                     string selectData = @"
                         SELECT COUNT(ID) 
-                        FROM book 
-                        WHERE status = 'Available' AND delete_date IS NULL";
+                        FROM tbl_book 
+                        WHERE bookStatus = 'available' AND deleteDate IS NULL";
 
                     using (MySqlCommand cmd = new MySqlCommand(selectData, conn))
                     {
@@ -116,9 +116,9 @@ namespace Hontrack_library
                 {
                     conn.Open();
                     string selectData = @"
-                        SELECT COUNT(transaction_id ) 
-                        FROM book_transactions
-                        WHERE status = 'borrowed' AND delete_date IS NULL";
+                        SELECT COUNT(transac_id ) 
+                        FROM tbl_booktransac
+                        WHERE Status = 'borrowed' AND deleteDate IS NULL";
 
                     using (MySqlCommand cmd = new MySqlCommand(selectData, conn))
                     {
@@ -153,9 +153,9 @@ namespace Hontrack_library
                 {
                     conn.Open();
                     string selectData = @"
-                        SELECT COUNT(transaction_id ) 
-                        FROM book_transactions
-                        WHERE status = 'Returned' AND delete_date IS NULL";
+                        SELECT COUNT(transac_id ) 
+                        FROM tbl_booktransac
+                        WHERE Status = 'Returned' AND deleteDate IS NULL";
 
                     using (MySqlCommand cmd = new MySqlCommand(selectData, conn))
                     {
@@ -190,16 +190,22 @@ namespace Hontrack_library
                 {
                     string query = @"
                 SELECT bookTitle, COUNT(*) AS count 
-                FROM book_transactions 
-                WHERE delete_date IS NULL 
+                FROM tbl_booktransac
+                WHERE deleteDate IS NULL 
                 GROUP BY bookTitle";
 
                     MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
                     DataTable dataTable = new DataTable();
                     adapter.Fill(dataTable);
 
+                    if (dataTable.Rows.Count == 0)
+                    {
+                        // Add a placeholder row to the DataTable
+                      //  dataTable.Columns.Add("bookTitle", typeof(string));
+                        //dataTable.Columns.Add("count", typeof(int));
+                        dataTable.Rows.Add("No Data Available", 0);
+                    }
 
-                 
                     // Set up the chart's data source
                     chart1.DataSource = dataTable;
 
@@ -208,9 +214,6 @@ namespace Hontrack_library
 
                     // Configure chart series appearance
                     ConfigureChartSeries();
-
-                    // Set up chart legend and other visual improvements
-                    ConfigureChartAppearance();
 
                     // Bind data to the chart series
                     BindChartData();
@@ -225,6 +228,7 @@ namespace Hontrack_library
                 DisplayErrorMessage(ex);
             }
         }
+
 
         // Configure chart axis labels and appearance
         private void ConfigureChartAxes()
@@ -250,6 +254,7 @@ namespace Hontrack_library
         private void ConfigureChartSeries()
         {
             // Set the bar chart type
+
             chart1.Series["bookChart"].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
 
             // Add data labels to show exact values on the chart

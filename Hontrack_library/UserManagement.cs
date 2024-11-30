@@ -105,13 +105,23 @@ namespace Hontrack_library
 
         private bool ValidateUsername(string username)
         {
+            // Check if the username contains spaces
             if (username.Contains(" "))
             {
                 MessageBox.Show("Username cannot contain spaces. Please enter a valid username.", "Username Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
+
+            // Check if the username length is less than 8 or greater than 50 characters
+            if (username.Length < 8 || username.Length > 50)
+            {
+                MessageBox.Show("Username must be between 8 and 50 characters. Please enter a valid username.", "Username Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
             return true;
         }
+
 
         private void AddBtn_Click(object sender, EventArgs e)
         {
@@ -140,7 +150,7 @@ namespace Hontrack_library
                     mysql.Open();
 
                 // Check if the username already exists
-                string checkUsername = "SELECT COUNT(*) FROM users WHERE username = @username";
+                string checkUsername = "SELECT COUNT(*) FROM tbl_users WHERE username = @username";
                 
                 using (MySqlCommand checkUser = new MySqlCommand(checkUsername, mysql))
                 {
@@ -154,7 +164,7 @@ namespace Hontrack_library
                 }
 
                 // Check if the full name already exists
-                string checkFullname = "SELECT COUNT(*) FROM users WHERE fullname = @fullname";
+                string checkFullname = "SELECT COUNT(*) FROM tbl_users WHERE fullname = @fullname";
                 using (MySqlCommand checkName = new MySqlCommand(checkFullname, mysql))
                 {
                     checkName.Parameters.AddWithValue("@fullname", addEmployee_FN.Text.Trim());
@@ -167,7 +177,7 @@ namespace Hontrack_library
                 }
 
                 // Insert new data
-                string insertData = "INSERT INTO users (fullname, username, password, usertype, insert_date) VALUES (@fullname, @username, @password, @usertype, @insertDate)";
+                string insertData = "INSERT INTO tbl_users (fullname, username, password, usertype, insertdate) VALUES (@fullname, @username, @password, @usertype, @insertDate)";
 
                 using (MySqlCommand cmd = new MySqlCommand(insertData, mysql))
                 {
@@ -243,7 +253,7 @@ namespace Hontrack_library
                         {
                             mysql.Open();
 
-                            string query = "SELECT password FROM users WHERE username = @username AND usertype = 'Administrator'";
+                            string query = "SELECT password FROM tbl_users WHERE username = @username AND usertype = 'Librarian'";
                             using (MySqlCommand cmd = new MySqlCommand(query, mysql))
                             {
                                 cmd.Parameters.AddWithValue("@username", LoginForm.LoggedInUsername); // Use the logged-in admin's username
@@ -265,7 +275,7 @@ namespace Hontrack_library
 
 
                             // Step 4: Update user data
-                            string updatedata = "UPDATE users SET fullname = @fullname, username = @username, password = @password, usertype = @usertype, update_date = @updateDate WHERE ID = @ID";
+                            string updatedata = "UPDATE tbl_users SET fullname = @fullname, username = @username, password = @password, usertype = @usertype, updatedate = @updateDate WHERE ID = @ID";
                             using (MySqlCommand cmd = new MySqlCommand(updatedata, mysql))
                             {
                                 cmd.Parameters.AddWithValue("@ID", addEmployee_id.Text.Trim());

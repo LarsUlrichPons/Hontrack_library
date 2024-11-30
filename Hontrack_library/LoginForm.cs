@@ -53,7 +53,7 @@ namespace Hontrack_library
                 try
                 {
                     mysql.Open();
-                    string query = "SELECT * FROM `users` WHERE username = @username AND password = @password";
+                    string query = "SELECT * FROM `tbl_users` WHERE username = @username AND password = @password";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, mysql))
                     {
@@ -70,16 +70,16 @@ namespace Hontrack_library
                                 LoggedInUsername = username; // Store the logged-in username
 
                                 // Handle user types
-                                if (userType == "Administrator")
+                                if (userType == "Librarian")
                                 {
-                                    MessageBox.Show($"Welcome, {username} Admin!", "Login Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    MessageBox.Show($"Welcome, {username} Librarian!", "Login Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     Dashboard dashboard = new Dashboard();
                                     dashboard.Show();
                                     this.Hide();
                                 }
-                                else if (userType == "Employee")
+                                else if (userType == "Staff")
                                 {
-                                    MessageBox.Show($"Welcome, {username} Employee!", "Login Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    MessageBox.Show($"Welcome, {username} Staff!", "Login Successful", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                     EmDashboard emDashboard = new EmDashboard();
                                     emDashboard.Show();
                                     this.Hide();

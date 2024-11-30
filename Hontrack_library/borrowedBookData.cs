@@ -27,11 +27,11 @@ namespace Hontrack_library
         public List<borrowedBookData> BookListTransaction(string userNameFilter = null)
         {
             List<borrowedBookData> bookTransactions = new List<borrowedBookData>();
-            string query = "SELECT * FROM book_transactions WHERE Status = 'Borrowed'";
+            string query = "SELECT * FROM tbl_booktransac WHERE Status = 'Borrowed'";
 
             if (!string.IsNullOrEmpty(userNameFilter))
             {
-                query += " AND user_name LIKE @userNameFilter";
+                query += " AND borrowerName LIKE @userNameFilter";
 
             }
 
@@ -53,16 +53,16 @@ namespace Hontrack_library
                         {
                             borrowedBookData transaction = new borrowedBookData
                             {
-                                ID = reader.GetInt32("transaction_id"),
+                                ID = reader.GetInt32("transac_id"),
                                 BookTitle = reader.IsDBNull(reader.GetOrdinal("bookTitle")) ? "Unknown Title" : reader.GetString("bookTitle"), // Handle nulls
-                                BookNumber = reader.GetInt64("book_num"),
-                                User_name = reader.GetString("user_name"),
+                                BookNumber = reader.GetInt64("bookISBN"),
+                                User_name = reader.GetString("borrowerName"),
                                 Status = reader.GetString("Status"),
-                                Borrow = reader.GetDateTime("borrow_date").ToString("yyyy-MM-dd"),
+                                Borrow = reader.GetDateTime("borrowDate").ToString("yyyy-MM-dd"),
                                 // Check if the return_due date is overdue
-                                Return_due = reader.IsDBNull(reader.GetOrdinal("return_due"))
+                                Return_due = reader.IsDBNull(reader.GetOrdinal("returnDue"))
                                     ? "Not yet returned"
-                                    : CheckIfOverdue(reader.GetDateTime("return_due"))
+                                    : CheckIfOverdue(reader.GetDateTime("returnDue"))
                             };
                             bookTransactions.Add(transaction);
                         }

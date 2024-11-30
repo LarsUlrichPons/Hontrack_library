@@ -153,7 +153,7 @@ namespace Hontrack_library
                             transaction = conn.BeginTransaction();
 
                             // Get book details and current stock
-                            string getStockQuery = "SELECT book_stock, status FROM book WHERE book_num = @book_num";
+                            string getStockQuery = "SELECT bookStock, bookStatus FROM tbl_book WHERE bookISBN = @book_num";
                             MySqlCommand getStockCmd = new MySqlCommand(getStockQuery, conn, transaction);
                             getStockCmd.Parameters.AddWithValue("@book_num", IDTextBox.Text.Trim());
 
@@ -161,14 +161,14 @@ namespace Hontrack_library
                             {
                                 if (reader.Read())
                                 {
-                                    int currentStock = reader.GetInt32("book_stock");
-                                    string currentStatus = reader.GetString("status");
+                                    int currentStock = reader.GetInt32("bookStock");
+                                    string currentStatus = reader.GetString("BookStatus");
 
                                     int newStock = currentStock + 1;
                                     reader.Close();
 
                                     // Update book stock
-                                    string updateStockQuery = "UPDATE book SET book_stock = @newStock WHERE book_num = @book_num";
+                                    string updateStockQuery = "UPDATE tbl_book SET bookStock = @newStock WHERE bookISBN = @book_num";
                                     MySqlCommand updateStockCmd = new MySqlCommand(updateStockQuery, conn, transaction);
                                     updateStockCmd.Parameters.AddWithValue("@newStock", newStock);
                                     updateStockCmd.Parameters.AddWithValue("@book_num", IDTextBox.Text.Trim());
@@ -177,14 +177,14 @@ namespace Hontrack_library
                                     // Update status if needed
                                     if (newStock > 0 && currentStatus == "Unavailable")
                                     {
-                                        string updateStatusQuery = "UPDATE book SET status = 'Available' WHERE book_num = @book_num";
+                                        string updateStatusQuery = "UPDATE tbl_book SET bookStatus = 'Available' WHERE bookISBN = @book_num";
                                         MySqlCommand updateStatusCmd = new MySqlCommand(updateStatusQuery, conn, transaction);
                                         updateStatusCmd.Parameters.AddWithValue("@book_num", IDTextBox.Text.Trim());
                                         updateStatusCmd.ExecuteNonQuery();
                                     }
 
                                     // Update transaction to mark the book as returned
-                                    string updateTransactionQuery = "UPDATE book_transactions SET status = 'Returned', return_date = NOW() WHERE book_num = @book_num AND transaction_id = @id";
+                                    string updateTransactionQuery = "UPDATE tbl_booktransac SET Status = 'Returned', returnDate = NOW() WHERE bookISBN = @book_num AND transac_id = @id";
                                     MySqlCommand updateTransactionCmd = new MySqlCommand(updateTransactionQuery, conn, transaction);
                                     updateTransactionCmd.Parameters.AddWithValue("@book_num", IDTextBox.Text.Trim());
                                     updateTransactionCmd.Parameters.AddWithValue("@id", BookID);

@@ -26,7 +26,7 @@ namespace Hontrack_library
                 try
                 {
                     mysql.Open();
-                    string selectData = "SELECT * FROM book WHERE delete_date IS NULL";
+                    string selectData = "SELECT * FROM tbl_book WHERE deleteDate IS NULL";
 
                     if (!string.IsNullOrEmpty(BookTitleFilter))
                     {
@@ -46,13 +46,13 @@ namespace Hontrack_library
                             {
                                 BookData book = new BookData
                                 {
-                                    ID = reader.GetInt32("id"),
-                                    BookNumber = reader.GetInt64("book_num"),
+                                    ID = reader.GetInt32("ID"),
+                                    BookNumber = reader.GetInt64("bookISBN"),
                                     BookTitle = reader.GetString("bookTitle"),
-                                    Author = reader.GetString("author"),
-                                    Published = reader.GetDateTime("published"),
-                                    Status = reader.GetString("status"),
-                                    Book_Quantity = reader.GetInt32("book_stock") 
+                                    Author = reader.GetString("bookAuthor"),
+                                    Published = reader.GetDateTime("datePublished"),
+                                    Status = reader.GetString("bookStatus"),
+                                    Book_Quantity = reader.GetInt32("bookStock") 
                                 };
                                 listdata.Add(book);
                             }

@@ -145,7 +145,7 @@ namespace Hontrack_library
                             transaction = conn.BeginTransaction();
 
                             // Retrieve the current book stock and status from the database
-                            string getStockQuery = "SELECT book_stock, status FROM book WHERE book_num = @book_num";
+                            string getStockQuery = "SELECT bookStock, bookStatus FROM tbl_book WHERE bookISBN = @book_num";
                             MySqlCommand getStockCmd = new MySqlCommand(getStockQuery, conn, transaction);
                             getStockCmd.Parameters.AddWithValue("@book_num", IDTextBox.Text.Trim());
 
@@ -153,8 +153,8 @@ namespace Hontrack_library
                             {
                                 if (reader.Read())
                                 {
-                                    int currentStock = reader.GetInt32("book_stock");
-                                    string currentStatus = reader.GetString("status");
+                                    int currentStock = reader.GetInt32("bookStock");
+                                    string currentStatus = reader.GetString("bookStatus");
 
                                     if (currentStock > 0 && currentStatus != "Unavailable")
                                     {
@@ -165,7 +165,7 @@ namespace Hontrack_library
                                         reader.Close();
 
                                         // Update the book stock in the database
-                                        string updateStockQuery = "UPDATE book SET book_stock = @newStock WHERE book_num = @book_num";
+                                        string updateStockQuery = "UPDATE tbl_book SET bookStock = @newStock WHERE bookISBN = @book_num";
                                         MySqlCommand updateStockCmd = new MySqlCommand(updateStockQuery, conn, transaction);
                                         updateStockCmd.Parameters.AddWithValue("@newStock", newStock);
                                         updateStockCmd.Parameters.AddWithValue("@book_num", IDTextBox.Text.Trim());
@@ -174,7 +174,7 @@ namespace Hontrack_library
                                         // If the stock reaches zero, set the status to 'Unavailable'
                                         if (newStock == 0)
                                         {
-                                            string updateStatusQuery = "UPDATE book SET status = 'Unavailable' WHERE book_num = @book_num";
+                                            string updateStatusQuery = "UPDATE tbl_book SET bookStatus = 'Unavailable' WHERE bookISBN = @book_num";
                                             MySqlCommand updateStatusCmd = new MySqlCommand(updateStatusQuery, conn, transaction);
                                             updateStatusCmd.Parameters.AddWithValue("@book_num", IDTextBox.Text.Trim());
 
@@ -183,8 +183,8 @@ namespace Hontrack_library
 
                                         // Insert the transaction into the book_transaction table
                                         string insertTransactionQuery = @"
-    INSERT INTO book_transactions (bookTitle, book_num, issue_date, status, user_name, borrow_date,return_due)
-    VALUES (@bookTitle, @book_num, NOW(), 'Borrowed', @user_name, NOW(), @return_due)";
+    INSERT INTO tbl_booktransac (bookTitle, bookISBN,  Status,borrowerName, borrowDate,returnDue)
+    VALUES (@bookTitle, @book_num, 'Borrowed', @user_name, NOW(), @return_due)";
 
                                         MySqlCommand insertTransactionCmd = new MySqlCommand(insertTransactionQuery, conn, transaction);
                                         insertTransactionCmd.Parameters.AddWithValue("@bookTitle", BookTitle.Text.Trim());

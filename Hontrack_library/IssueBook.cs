@@ -218,7 +218,7 @@ namespace Hontrack_library
                         mysql.Open();
 
                     // Check if the username already exists
-                    string checkUsername = "SELECT COUNT(*) FROM book WHERE bookTitle = @bookTitle";
+                    string checkUsername = "SELECT COUNT(*) FROM tbl_book WHERE bookTitle = @bookTitle";
 
                     using (MySqlCommand checkUser = new MySqlCommand(checkUsername, mysql))
                     {
@@ -234,7 +234,7 @@ namespace Hontrack_library
                     {
                         conn.Open();
 
-                        string insertData = "INSERT INTO book (book_num, bookTitle, author, published, status, book_stock, insert_date) VALUES (@book_num, @bookTitle, @author, @publishedDate, @status, @BQuantity, @insertDate)";
+                        string insertData = "INSERT INTO book (bookISBN, bookTitle, bookAuthor, datePublished, bookStatus, bookStock, insertDate) VALUES (@book_num, @bookTitle, @author, @publishedDate, @status, @BQuantity, @insertDate)";
 
                         using (MySqlCommand cmd = new MySqlCommand(insertData, conn))
                         {
@@ -279,7 +279,7 @@ namespace Hontrack_library
                             conn.Open();
 
                           
-                            string updateData = "UPDATE book SET bookTitle = @bookTitle, author = @author, published = @publishedDate, status = @status,book_stock = @BQuantity ,update_date = @updateDate WHERE book_num = @book_num";
+                            string updateData = "UPDATE book SET bookTitle = @bookTitle, bookAuthor = @author, datePublished = @publishedDate, bookStatus = @status,bookStock = @BQuantity ,updateDate = @updateDate WHERE bookISBN = @book_num";
 
                             using (MySqlCommand cmd = new MySqlCommand(updateData, conn))
                             {
