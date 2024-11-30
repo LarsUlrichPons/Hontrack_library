@@ -191,8 +191,7 @@ namespace Hontrack_library
                     string query = @"
                 SELECT bookTitle, COUNT(*) AS count 
                 FROM book_transactions 
-                WHERE status = 'borrowed' 
-                AND delete_date IS NULL 
+                WHERE delete_date IS NULL 
                 GROUP BY bookTitle";
 
                     MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);

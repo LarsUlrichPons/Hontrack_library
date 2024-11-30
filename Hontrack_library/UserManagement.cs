@@ -394,5 +394,10 @@ namespace Hontrack_library
             addEmployee_UN.Clear();
             addEmployee_UT.SelectedIndex = -1;
         }
+
+        private void clear_Click(object sender, EventArgs e)
+        {
+            clearfield();
+        }
     }
 }

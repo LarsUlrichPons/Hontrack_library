@@ -168,48 +168,49 @@ namespace Hontrack_library
 
         private void PdfBtn_Click(object sender, EventArgs e)
         {
-            // File path to save the PDF
             string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "BorrowingHistory.pdf");
 
             try
             {
-                // Fetch borrowing history data from the database
+                // Fetch data from the database
                 var borrowingHistory = FetchBorrowingHistoryFromDatabase();
+                var borrowCountData = FetchBorrowCountFromDatabase();
 
                 // Create the MigraDoc document
-                Document document = CreateDocument(borrowingHistory);
+                Document document = CreateDocument(borrowingHistory, borrowCountData);
 
                 // Render the document into a PDF
-                PdfDocumentRenderer renderer = new PdfDocumentRenderer(); // Use the default constructor
+                PdfDocumentRenderer renderer = new PdfDocumentRenderer();
                 renderer.Document = document;
                 renderer.RenderDocument();
 
-                // Save the PDF to the specified file path
+                // Save the PDF
                 renderer.PdfDocument.Save(filePath);
 
                 // Notify the user
                 MessageBox.Show($"PDF generated successfully at: {filePath}", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                // Optionally open the PDF after generation
+                // Optionally open the PDF
                 Process.Start(filePath);
             }
             catch (Exception ex)
             {
-                // Handle errors
                 MessageBox.Show($"Error generating PDF: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
+
         // Method to fetch borrowing history data from the database
-        private List<(string Borrower, string BookNum, string BorrowDate, string ReturnDate, string Status)> FetchBorrowingHistoryFromDatabase()
+        private List<(string Borrower,string BookTitle ,string BookNum, string BorrowDate, string ReturnDate, string Status)> FetchBorrowingHistoryFromDatabase()
         {
-            var historyData = new List<(string Borrower, string BookNum,string BorrowDate, string ReturnDate, string Status)>();
+            var historyData = new List<(string Borrower, string BookTitle, string BookNum,string BorrowDate, string ReturnDate, string Status)>();
             try
             {
                 using (MySqlConnection conn = new MySqlConnection(connect))
                 {
                     conn.Open();
-                    string query = "SELECT user_name, borrow_date, return_date, status,book_num FROM book_transactions"; // Adjust table and column names as necessary
+                    string query = "SELECT user_name, borrow_date, return_date, status,book_num,bookTitle FROM book_transactions"; // Adjust table and column names as necessary
+
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     using (MySqlDataReader reader = cmd.ExecuteReader())
@@ -217,13 +218,14 @@ namespace Hontrack_library
                         while (reader.Read())
                         {
                             string borrower = reader["user_name"].ToString();
-                            string bookNum = $"Book Number: {reader["book_num"]}";
-                            string borrowDate = $"Borrowed: {Convert.ToDateTime(reader["borrow_date"]).ToShortDateString()}";
+                            string bookNum =reader["book_num"].ToString();
+                            string bookTitle = reader["bookTitle"].ToString();
+                            string borrowDate = Convert.ToDateTime(reader["borrow_date"]).ToShortDateString();
                             string returnDate = reader["return_date"] != DBNull.Value
-                        ? $"Return: {Convert.ToDateTime(reader["return_date"]).ToShortDateString()}"
-                        : "Return: Not yet returned"; // If null, set a default value
-                            string status =  $"Status: {reader["status"]}";
-                            historyData.Add((borrower, bookNum,borrowDate,returnDate,status));
+                        ? Convert.ToDateTime(reader["return_date"]).ToShortDateString()
+                        : "Not yet return"; // If null, set a default value
+                            string status =  reader["status"].ToString();
+                            historyData.Add((borrower,bookTitle, bookNum,borrowDate,returnDate,status));
                         }
                     }
                 }
@@ -236,54 +238,186 @@ namespace Hontrack_library
             return historyData;
         }
 
-        // Create MigraDoc document from the fetched data
-        private Document CreateDocument(List<(string Borrower, string BookNum, string BorrowDate, string ReturnDate, string Status)> historyData)
+
+
+        private List<(string BookTitle,string BookNum, int BorrowCount)> FetchBorrowCountFromDatabase()
         {
-            // Create a new MigraDoc document
+            var borrowCountData = new List<(string BookTitle, string BookNum, int BorrowCount)>();
+
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(connect))
+                {
+                    conn.Open();
+
+                    string query = " SELECT bookTitle, COUNT(*) AS count,book_num FROM book_transactions  WHERE delete_date IS NULL  GROUP BY bookTitle DESC";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string bookTitle = reader["bookTitle"].ToString();
+                            string bookNum = reader["book_num"].ToString();
+                            int borrowCount = Convert.ToInt32(reader["count"]);
+                            borrowCountData.Add((bookTitle,bookNum, borrowCount));
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error fetching borrow count data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return borrowCountData;
+        }
+
+
+        // Create MigraDoc document from the fetched data
+        private Document CreateDocument(
+      List<(string Borrower, string BookTitle, string BookNum, string BorrowDate, string ReturnDate, string Status)> historyData,
+      List<(string BookTitle, string BookNum, int BorrowCount)> borrowCountData)
+        {
             Document document = new Document();
+
+            // Set default font for the document
+            Style style = document.Styles["Normal"];
+            style.Font.Name = "Arial";
+            style.Font.Size = 11;
+
             Section section = document.AddSection();
 
-            // Add a title
-            Paragraph title = section.AddParagraph("Borrowing History");
-            title.Format.Font.Size = 16;
-            title.Format.Font.Bold = true;
-            title.Format.Alignment = ParagraphAlignment.Center;
-            section.AddParagraph("\n"); // Add spacing below title
+            // Company Title
+            // Company Title
+            Paragraph companyTitle = section.AddParagraph();
+            companyTitle.AddFormattedText("Hontrack", TextFormat.Bold).Font.Color = Colors.Green;
+            companyTitle.AddText(": Library Management");
+            companyTitle.Format.Font.Name = "Times New Roman";
+            companyTitle.Format.Font.Size = 20;
+            companyTitle.Format.Alignment = ParagraphAlignment.Left;
+            section.AddParagraph("\n");
 
-            // Add a table
+
+            // Date
+            Paragraph dateParagraph = section.AddParagraph($"PDF Generated on: {DateTime.Now:MMMM dd, yyyy HH:mm}");
+            dateParagraph.Format.Font.Name = "Calibri";
+            dateParagraph.Format.Font.Size = 10;
+            dateParagraph.Format.Font.Italic = true;
+            dateParagraph.Format.Alignment = ParagraphAlignment.Right;
+            section.AddParagraph("\n");
+
+            // Report Title
+            Paragraph reportTitle = section.AddParagraph("Borrowing History");
+            reportTitle.Format.Font.Name = "Arial";
+            reportTitle.Format.Font.Size = 16;
+            reportTitle.Format.Font.Bold = true;
+            reportTitle.Format.Alignment = ParagraphAlignment.Left;
+            section.AddParagraph("\n");
+
+            // Table
             Table table = section.AddTable();
             table.Borders.Width = 0.75;
 
-            // Define columns
-            table.AddColumn("4cm").Format.Alignment = ParagraphAlignment.Left; // Borrower
-            table.AddColumn("3cm").Format.Alignment = ParagraphAlignment.Left; // Book Number
-            table.AddColumn("3cm").Format.Alignment = ParagraphAlignment.Left; // Borrow Date
-            table.AddColumn("3cm").Format.Alignment = ParagraphAlignment.Left; // Return Date
-            table.AddColumn("3cm").Format.Alignment = ParagraphAlignment.Left; // Status
+            // Table Columns
+            table.AddColumn("3cm").Format.Alignment = ParagraphAlignment.Center; // Borrower
+            table.AddColumn("3cm").Format.Alignment = ParagraphAlignment.Center; // Book Title
+            table.AddColumn("3cm").Format.Alignment = ParagraphAlignment.Center; // Book Number
+            table.AddColumn("3cm").Format.Alignment = ParagraphAlignment.Center; // Borrow Date
+            table.AddColumn("3cm").Format.Alignment = ParagraphAlignment.Center; // Return Date
+            table.AddColumn("2cm").Format.Alignment = ParagraphAlignment.Center; // Status
 
-            // Add a row for headers
+            // Table Header
             Row headerRow = table.AddRow();
             headerRow.Shading.Color = Colors.LightGray;
-            headerRow.Cells[0].AddParagraph("Borrower");
-            headerRow.Cells[1].AddParagraph("Book Number");
-            headerRow.Cells[2].AddParagraph("Borrow Date");
-            headerRow.Cells[3].AddParagraph("Return Date");
-            headerRow.Cells[4].AddParagraph("Status");
+            headerRow.Format.Font.Name = "Verdana";
+            headerRow.Format.Font.Size = 12;
+            headerRow.Format.Font.Bold = true;
+            headerRow.TopPadding = 5;
+            headerRow.BottomPadding = 5;
 
-            // Populate the table with data
+            headerRow.Cells[0].AddParagraph("Borrower");
+            headerRow.Cells[1].AddParagraph("Book Title");
+            headerRow.Cells[2].AddParagraph("Book Number");
+            headerRow.Cells[3].AddParagraph("Borrow Date");
+            headerRow.Cells[4].AddParagraph("Return Date");
+            headerRow.Cells[5].AddParagraph("Status");
+
+            // Table Content with Alternating Row Colors
+            bool isAlternate = false;
             foreach (var entry in historyData)
             {
                 Row row = table.AddRow();
-                row.Cells[0].AddParagraph(entry.Borrower);
-                row.Cells[1].AddParagraph(entry.BookNum);
-                row.Cells[2].AddParagraph(entry.BorrowDate);
-                row.Cells[3].AddParagraph(entry.ReturnDate);
-                row.Cells[4].AddParagraph(entry.Status);
+                row.Format.Font.Name = "Arial";
+                row.Format.Font.Size = 11;
+                row.TopPadding = 7;
+                row.BottomPadding = 7;
 
+                // Apply alternating row color
+                if (isAlternate)
+                    row.Shading.Color = Colors.WhiteSmoke;
+
+                isAlternate = !isAlternate;
+
+                row.Cells[0].AddParagraph(entry.Borrower);
+                row.Cells[1].AddParagraph(entry.BookTitle);
+                row.Cells[2].AddParagraph(entry.BookNum);
+                row.Cells[3].AddParagraph(entry.BorrowDate);
+                row.Cells[4].AddParagraph(entry.ReturnDate);
+                row.Cells[5].AddParagraph(entry.Status);
+            }
+
+            section.AddParagraph("\n\n"); // Add spacing for the next section
+
+            // Add Borrow Count Section
+            Paragraph countTitle = section.AddParagraph("Books Borrowed Count (Most to Least)");
+            countTitle.Format.Font.Name = "Arial";
+            countTitle.Format.Font.Size = 14;
+            countTitle.Format.Font.Bold = true;
+            countTitle.Format.Alignment = ParagraphAlignment.Left;
+            section.AddParagraph("\n");
+
+            Table countTable = section.AddTable();
+            countTable.Borders.Width = 0.75;
+
+            countTable.AddColumn("6cm").Format.Alignment = ParagraphAlignment.Center; // Book Title
+            countTable.AddColumn("6cm").Format.Alignment = ParagraphAlignment.Center; // Book Number
+            countTable.AddColumn("5cm").Format.Alignment = ParagraphAlignment.Center; // Borrow Count
+
+            Row countHeader = countTable.AddRow();
+            countHeader.Shading.Color = Colors.LightGray;
+            countHeader.Format.Font.Name = "Verdana";
+            countHeader.Format.Font.Size = 12;
+            countHeader.Format.Font.Bold = true;
+            countHeader.TopPadding = 4;
+            countHeader.BottomPadding = 4;
+            countHeader.Cells[0].AddParagraph("Book Title");
+            countHeader.Cells[1].AddParagraph("Book Number");
+            countHeader.Cells[2].AddParagraph("Borrow Count");
+
+            isAlternate = false;
+            foreach (var count in borrowCountData)
+            {
+                Row countRow = countTable.AddRow();
+                countRow.Format.Font.Name = "Arial";
+                countRow.Format.Font.Size = 11;
+                countRow.TopPadding = 5;
+                countRow.BottomPadding = 5;
+
+                // Apply alternating row color
+                if (isAlternate)
+                    countRow.Shading.Color = Colors.WhiteSmoke;
+
+                isAlternate = !isAlternate;
+
+                countRow.Cells[0].AddParagraph(count.BookTitle);
+                countRow.Cells[1].AddParagraph(count.BookNum);
+                countRow.Cells[2].AddParagraph(count.BorrowCount.ToString());
             }
 
             return document;
         }
+
 
         public void clearField() 
         {
