@@ -81,7 +81,7 @@ namespace Hontrack_library
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(334, 175);
+            this.panel1.Size = new System.Drawing.Size(334, 167);
             this.panel1.TabIndex = 8;
             // 
             // pictureBox1
@@ -100,7 +100,7 @@ namespace Hontrack_library
             this.userLabel.BackColor = System.Drawing.Color.Transparent;
             this.userLabel.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.userLabel.ForeColor = System.Drawing.Color.DarkGreen;
-            this.userLabel.Location = new System.Drawing.Point(54, 141);
+            this.userLabel.Location = new System.Drawing.Point(51, 123);
             this.userLabel.Name = "userLabel";
             this.userLabel.Size = new System.Drawing.Size(105, 29);
             this.userLabel.TabIndex = 8;
@@ -118,9 +118,9 @@ namespace Hontrack_library
             this.MuButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.MuButton.Font = new System.Drawing.Font("Georgia", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MuButton.ForeColor = System.Drawing.Color.DarkGreen;
-            this.MuButton.Location = new System.Drawing.Point(0, 506);
+            this.MuButton.Location = new System.Drawing.Point(0, 523);
             this.MuButton.Name = "MuButton";
-            this.MuButton.Size = new System.Drawing.Size(337, 86);
+            this.MuButton.Size = new System.Drawing.Size(337, 69);
             this.MuButton.TabIndex = 10;
             this.MuButton.Text = "Manage User";
             this.MuButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -138,9 +138,9 @@ namespace Hontrack_library
             this.BiButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BiButton.Font = new System.Drawing.Font("Georgia", 15F, System.Drawing.FontStyle.Bold);
             this.BiButton.ForeColor = System.Drawing.Color.DarkGreen;
-            this.BiButton.Location = new System.Drawing.Point(-3, 438);
+            this.BiButton.Location = new System.Drawing.Point(-3, 448);
             this.BiButton.Name = "BiButton";
-            this.BiButton.Size = new System.Drawing.Size(340, 76);
+            this.BiButton.Size = new System.Drawing.Size(340, 79);
             this.BiButton.TabIndex = 9;
             this.BiButton.Text = "Book Inventory";
             this.BiButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -158,7 +158,7 @@ namespace Hontrack_library
             this.BhButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BhButton.Font = new System.Drawing.Font("Georgia", 15F, System.Drawing.FontStyle.Bold);
             this.BhButton.ForeColor = System.Drawing.Color.DarkGreen;
-            this.BhButton.Location = new System.Drawing.Point(-3, 366);
+            this.BhButton.Location = new System.Drawing.Point(-3, 375);
             this.BhButton.Name = "BhButton";
             this.BhButton.Size = new System.Drawing.Size(340, 76);
             this.BhButton.TabIndex = 8;
@@ -178,7 +178,7 @@ namespace Hontrack_library
             this.RbButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.RbButton.Font = new System.Drawing.Font("Georgia", 15F, System.Drawing.FontStyle.Bold);
             this.RbButton.ForeColor = System.Drawing.Color.DarkGreen;
-            this.RbButton.Location = new System.Drawing.Point(0, 308);
+            this.RbButton.Location = new System.Drawing.Point(-3, 305);
             this.RbButton.Name = "RbButton";
             this.RbButton.Size = new System.Drawing.Size(334, 76);
             this.RbButton.TabIndex = 7;
@@ -198,7 +198,7 @@ namespace Hontrack_library
             this.BbButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BbButton.Font = new System.Drawing.Font("Georgia", 15F, System.Drawing.FontStyle.Bold);
             this.BbButton.ForeColor = System.Drawing.Color.DarkGreen;
-            this.BbButton.Location = new System.Drawing.Point(0, 244);
+            this.BbButton.Location = new System.Drawing.Point(0, 237);
             this.BbButton.Name = "BbButton";
             this.BbButton.Size = new System.Drawing.Size(334, 78);
             this.BbButton.TabIndex = 6;
@@ -218,9 +218,9 @@ namespace Hontrack_library
             this.LogoutBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.LogoutBtn.Font = new System.Drawing.Font("Georgia", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LogoutBtn.ForeColor = System.Drawing.Color.DarkGreen;
-            this.LogoutBtn.Location = new System.Drawing.Point(0, 585);
+            this.LogoutBtn.Location = new System.Drawing.Point(0, 591);
             this.LogoutBtn.Name = "LogoutBtn";
-            this.LogoutBtn.Size = new System.Drawing.Size(334, 93);
+            this.LogoutBtn.Size = new System.Drawing.Size(334, 87);
             this.LogoutBtn.TabIndex = 5;
             this.LogoutBtn.Text = "Log Out";
             this.LogoutBtn.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -238,9 +238,9 @@ namespace Hontrack_library
             this.DbButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.DbButton.Font = new System.Drawing.Font("Georgia", 15F, System.Drawing.FontStyle.Bold);
             this.DbButton.ForeColor = System.Drawing.Color.DarkGreen;
-            this.DbButton.Location = new System.Drawing.Point(-3, 173);
+            this.DbButton.Location = new System.Drawing.Point(0, 155);
             this.DbButton.Name = "DbButton";
-            this.DbButton.Size = new System.Drawing.Size(340, 76);
+            this.DbButton.Size = new System.Drawing.Size(340, 88);
             this.DbButton.TabIndex = 2;
             this.DbButton.Text = "Dashboard";
             this.DbButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

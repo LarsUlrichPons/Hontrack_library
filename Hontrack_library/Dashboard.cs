@@ -207,7 +207,6 @@ namespace Hontrack_library
             // Highlight the active button
             activeButton.BackColor = Color.FromArgb(34, 139, 34); // Active button color (Forest Green)
             activeButton.ForeColor = Color.White; // White text for contrast
-            activeButton.FlatAppearance.BorderSize = 2; // Add border to active button
             activeButton.FlatAppearance.BorderColor = Color.FromArgb(28, 104, 28); // Border color (Darker Forest Green)
         }
 
