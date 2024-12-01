@@ -22,26 +22,39 @@ namespace Hontrack_library
         {
             if (keyData == Keys.Enter)
             {
-                button1_Click(this, EventArgs.Empty);
+                loginButton_Click(this, EventArgs.Empty);
                 return true;
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        private void label1_Click(object sender, EventArgs e)
+     
+       
+
+       
+        protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            Application.Exit();
+            base.OnFormClosing(e);
+            DialogResult result = MessageBox.Show("Are you sure you want to exit?", "Exit Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                Environment.Exit(0); // Fully terminates the application
+            }
+            else
+            {
+                e.Cancel = true; // Prevent closing if user chooses "No"
+            }
         }
 
-        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        protected override void OnFormClosed(FormClosedEventArgs e)
         {
-            // Toggle password visibility
-            PasswordInput.PasswordChar = showpass.Checked ? '\0' : '*';
+            base.OnFormClosed(e);
+            // Dispose of resources here, if necessary
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void loginButton_Click(object sender, EventArgs e)
         {
-            // Validate inputs
             if (string.IsNullOrWhiteSpace(UsernameInput.Text) || string.IsNullOrWhiteSpace(PasswordInput.Text))
             {
                 MessageBox.Show("Please fill in the blank fields.", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -102,25 +115,11 @@ namespace Hontrack_library
                 }
             }
         }
-        protected override void OnFormClosing(FormClosingEventArgs e)
-        {
-            base.OnFormClosing(e);
-            DialogResult result = MessageBox.Show("Are you sure you want to exit?", "Exit Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-            if (result == DialogResult.Yes)
-            {
-                Environment.Exit(0); // Fully terminates the application
-            }
-            else
-            {
-                e.Cancel = true; // Prevent closing if user chooses "No"
-            }
-        }
-
-        protected override void OnFormClosed(FormClosedEventArgs e)
+        private void showpass_CheckedChanged_1(object sender, EventArgs e)
         {
-            base.OnFormClosed(e);
-            // Dispose of resources here, if necessary
+            PasswordInput.PasswordChar = showpass.Checked ? '\0' : '*';
+
         }
     }
 }

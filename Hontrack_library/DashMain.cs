@@ -36,6 +36,9 @@ namespace Hontrack_library
             displayRb();
             LoadChart();
            SetupRealTimeUpdates();
+
+            filterDatePicker.Value = DateTime.Now.AddDays(-30); // Default to show the last 30 days
+            LoadChart();
         }
 
 
@@ -182,52 +185,74 @@ namespace Hontrack_library
             }
         }
 
-        public void LoadChart()
+        private void LoadChart()
         {
             try
             {
                 using (MySqlConnection conn = new MySqlConnection(connect))
                 {
-                    string query = @"
-                SELECT bookTitle, COUNT(*) AS count 
-                FROM tbl_booktransac
-                WHERE deleteDate IS NULL 
-                GROUP BY bookTitle";
+                    // Get the selected date from the DateTimePicker
+                    DateTime selectedDate = filterDatePicker.Value.Date;
 
-                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
+                    // SQL query to filter by a single date
+                    string query = @"
+            SELECT bookTitle, COUNT(*) AS count 
+            FROM tbl_booktransac
+            WHERE deleteDate IS NULL 
+            AND borrowDate BETWEEN @selectedDate AND NOW()
+            GROUP BY bookTitle";
+
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@selectedDate", selectedDate);
+
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
                     DataTable dataTable = new DataTable();
                     adapter.Fill(dataTable);
 
+                    // Modify book titles to be shorter
+                    foreach (DataRow row in dataTable.Rows)
+                    {
+                        string originalTitle = row["bookTitle"].ToString();
+                        row["bookTitle"] = ShortenTitle(originalTitle);
+                    }
+
+                    // Handle empty data
                     if (dataTable.Rows.Count == 0)
                     {
-                        // Add a placeholder row to the DataTable
-                      //  dataTable.Columns.Add("bookTitle", typeof(string));
-                        //dataTable.Columns.Add("count", typeof(int));
                         dataTable.Rows.Add("No Data Available", 0);
                     }
 
-                    // Set up the chart's data source
+                    // Configure and bind chart data
                     chart1.DataSource = dataTable;
-
-                    // Configure chart axes titles and appearance
                     ConfigureChartAxes();
-
-                    // Configure chart series appearance
                     ConfigureChartSeries();
-
-                    // Bind data to the chart series
                     BindChartData();
 
-                    // Refresh the chart to display the new data
+                    // Disable the chart legend
+                    ConfigureChartAppearance();
+
                     chart1.DataBind();
                 }
             }
             catch (Exception ex)
             {
-                // Show error message if any exception occurs
                 DisplayErrorMessage(ex);
             }
         }
+
+
+        private string ShortenTitle(string title)
+        {
+            // Limit the title length to 15 characters (or any preferred length)
+            int maxLength = 15;
+
+            if (string.IsNullOrEmpty(title))
+                return title;
+
+            // Append "..." if the title is truncated
+            return title.Length > maxLength ? title.Substring(0, maxLength) + "..." : title;
+        }
+
 
 
         // Configure chart axis labels and appearance
@@ -276,18 +301,16 @@ namespace Hontrack_library
         // Set up chart legend and other visual improvements
         private void ConfigureChartAppearance()
         {
-            // Enable and customize the legend
+            // Disable the chart legend completely
             chart1.Legends[0].Enabled = false;
-            chart1.Legends[0].Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Right;
-            chart1.Legends[0].Font = new Font("Arial", 7, FontStyle.Bold);
-            chart1.Legends[0].BackColor = Color.White;
 
             // Set chart background color
-            chart1.BackColor = Color.LightGray;
+            chart1.BackColor = Color.WhiteSmoke;
 
             // Set chart area background color for better contrast
-            chart1.ChartAreas["ChartArea1"].BackColor = Color.WhiteSmoke;
+            chart1.ChartAreas["ChartArea1"].BackColor = Color.White;
         }
+
 
 
         // Helper method to bind data to the chart series
@@ -309,13 +332,10 @@ namespace Hontrack_library
             );
         }
 
-       
-
-
-
-
-
-
+        private void applyFilterButton_Click(object sender, EventArgs e)
+        {
+            LoadChart();
+        }
     }
 }
 

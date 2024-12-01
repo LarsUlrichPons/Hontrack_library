@@ -207,9 +207,10 @@
             this.panel2.Controls.Add(this.addEmployee_FN);
             this.panel2.Controls.Add(this.label2);
             this.panel2.Cursor = System.Windows.Forms.Cursors.Default;
-            this.panel2.Location = new System.Drawing.Point(3, 400);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel2.Location = new System.Drawing.Point(0, 403);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(918, 261);
+            this.panel2.Size = new System.Drawing.Size(924, 261);
             this.panel2.TabIndex = 3;
             // 
             // clear
@@ -279,15 +280,17 @@
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.dataGridView1);
-            this.panel1.Location = new System.Drawing.Point(3, 3);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(918, 391);
+            this.panel1.Size = new System.Drawing.Size(924, 391);
             this.panel1.TabIndex = 2;
             // 
             // UserManagement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.AliceBlue;
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "UserManagement";

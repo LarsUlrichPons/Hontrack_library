@@ -20,6 +20,8 @@ namespace Hontrack_library
         {
             InitializeComponent();
             displayUser();
+            HighlightActiveButton(DbButton); // Default active button
+
         }
 
 
@@ -45,12 +47,13 @@ namespace Hontrack_library
 
         private void DbButton_Click(object sender, EventArgs e)
         {
-            dashMain1.Visible = true;
+    dashMain1.Visible = true;
             borrowBook1.Visible = false;
             returnbook1.Visible = false;
             borrowingHistory1.Visible = false;
             issueBook1.Visible = false;
             userManagement1.Visible = false;
+            HighlightActiveButton(DbButton);
 
 
         }
@@ -58,23 +61,25 @@ namespace Hontrack_library
         private void BbButton_Click(object sender, EventArgs e)
         {
 
-            dashMain1.Visible = false;
+       dashMain1.Visible = false;
             borrowBook1.Visible = true;
             returnbook1.Visible = false;
             borrowingHistory1.Visible = false;
             issueBook1.Visible = false;
             userManagement1.Visible = false;
+            HighlightActiveButton(BbButton);
         }
 
         private void RbButton_Click(object sender, EventArgs e)
         {
-            dashMain1.Visible = false;
+           dashMain1.Visible = false;
             borrowBook1.Visible = false;
             returnbook1.Visible = true;
             borrowingHistory1.Visible = false;
             issueBook1.Visible = false;
             userManagement1.Visible = false;
-
+            HighlightActiveButton(RbButton);
+        
 
         }
 
@@ -86,6 +91,7 @@ namespace Hontrack_library
             borrowingHistory1.Visible = true;
             issueBook1.Visible = false;
             userManagement1.Visible = false;
+            HighlightActiveButton(BhButton);
         }
 
         private void BiButton_Click(object sender, EventArgs e)
@@ -96,6 +102,7 @@ namespace Hontrack_library
             borrowingHistory1.Visible = false;
             issueBook1.Visible = true;
             userManagement1.Visible = false;
+            HighlightActiveButton(BiButton);
         }
 
         private void MuButton_Click(object sender, EventArgs e)
@@ -106,6 +113,7 @@ namespace Hontrack_library
             borrowingHistory1.Visible = false;
             issueBook1.Visible = false;
             userManagement1.Visible = true;
+            HighlightActiveButton(MuButton);
         }
 
     
@@ -183,5 +191,30 @@ namespace Hontrack_library
             }
         }
 
+        private void HighlightActiveButton(Button activeButton)
+        {
+            // Reset styles for all buttons
+            foreach (Control ctrl in panel2.Controls) // Assuming all buttons are in 'panel2'
+            {
+                if (ctrl is Button btn)
+                {
+                    btn.BackColor = Color.FromArgb(233, 245, 233); // Default light green background
+                    btn.ForeColor = Color.FromArgb(34, 77, 34); // Default dark green text
+                    btn.FlatAppearance.BorderSize = 0; // No border for inactive buttons
+                }
+            }
+
+            // Highlight the active button
+            activeButton.BackColor = Color.FromArgb(34, 139, 34); // Active button color (Forest Green)
+            activeButton.ForeColor = Color.White; // White text for contrast
+            activeButton.FlatAppearance.BorderSize = 2; // Add border to active button
+            activeButton.FlatAppearance.BorderColor = Color.FromArgb(28, 104, 28); // Border color (Darker Forest Green)
+        }
+
+
+        private void userLabel_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

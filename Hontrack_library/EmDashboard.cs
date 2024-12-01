@@ -19,57 +19,16 @@ namespace Hontrack_library
         {
             InitializeComponent();
             displayUser();
+            HighlightActiveButton(DbButton);
+
         }
 
-     
 
-      
-        
 
-        private void button6_Click(object sender, EventArgs e)
-        {
-            DialogResult check = MessageBox.Show("Are you sure you want to logout?", "Confirmation Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-            if (check == DialogResult.Yes)
-            {
-                LoginForm lForm = new LoginForm();
-                lForm.Show();
-                this.Hide();
-            }
-        }
 
-        private void button7_Click(object sender, EventArgs e)
-        {
-            dashMain2.Visible = true;
-            borrowBook2.Visible = false;
-            returnbook2.Visible = false;
-            borrowingHistory2.Visible = false;
-        }
 
-        private void button5_Click(object sender, EventArgs e)
-        {
-            dashMain2.Visible = false;
-            borrowBook2.Visible = true;
-            returnbook2.Visible = false;
-            borrowingHistory2.Visible = false;
-            
-        }
 
-        private void button4_Click(object sender, EventArgs e)
-        {
-            dashMain2.Visible = false;
-            borrowBook2.Visible = false;
-            returnbook2.Visible = true;
-            borrowingHistory2.Visible = false;
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            dashMain2.Visible = false;
-            borrowBook2.Visible = false;
-            returnbook2.Visible = false;
-            borrowingHistory2.Visible = true;
-        }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
@@ -142,6 +101,83 @@ namespace Hontrack_library
                 );
             }
         }
+
+        private void DbButton_Click(object sender, EventArgs e)
+        {
+            dashMain1.Visible = true;
+            borrowBook1.Visible = false;
+            returnbook1.Visible = false;
+            borrowingHistory1.Visible = false;
+            HighlightActiveButton(DbButton);
+
+
+
+        }
+
+        private void BbButton_Click(object sender, EventArgs e)
+        {
+            dashMain1.Visible = false;
+            borrowBook1.Visible = true;
+            returnbook1.Visible = false;
+            borrowingHistory1.Visible = false;
+            HighlightActiveButton(BbButton);
+
+
+        }
+
+        private void RbButton_Click(object sender, EventArgs e)
+        {
+            dashMain1.Visible = false;
+            borrowBook1.Visible = false;
+            returnbook1.Visible = true;
+            borrowingHistory1.Visible = false;
+            HighlightActiveButton(RbButton);
+
+        }
+
+        private void BhButton_Click(object sender, EventArgs e)
+        {
+            dashMain1.Visible = false;
+            borrowBook1.Visible = false;
+            returnbook1.Visible = false;
+            borrowingHistory1.Visible = true;
+            HighlightActiveButton(BhButton);
+
+
+        }
+
+        private void LogoutBtn_Click(object sender, EventArgs e)
+        {
+            DialogResult check = MessageBox.Show("Are you sure you want to logout?", "Confirmation Message", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (check == DialogResult.Yes)
+            {
+                LoginForm lForm = new LoginForm();
+                lForm.Show();
+                this.Hide();
+            }
+        }
+
+        private void HighlightActiveButton(Button activeButton)
+        {
+            // Reset styles for all buttons
+            foreach (Control ctrl in panel2.Controls) // Assuming all buttons are in 'panel2'
+            {
+                if (ctrl is Button btn)
+                {
+                    btn.BackColor = Color.FromArgb(233, 245, 233); // Default light green background
+                    btn.ForeColor = Color.FromArgb(34, 77, 34); // Default dark green text
+                    btn.FlatAppearance.BorderSize = 0; // No border for inactive buttons
+                }
+            }
+
+            // Highlight the active button
+            activeButton.BackColor = Color.FromArgb(34, 139, 34); // Active button color (Forest Green)
+            activeButton.ForeColor = Color.White; // White text for contrast
+            activeButton.FlatAppearance.BorderSize = 2; // Add border to active button
+            activeButton.FlatAppearance.BorderColor = Color.FromArgb(28, 104, 28); // Border color (Darker Forest Green)
+        }
+
 
     }
 }

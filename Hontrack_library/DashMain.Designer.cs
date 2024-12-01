@@ -37,34 +37,36 @@ namespace Hontrack_library
             this.panel2 = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
             this.BookQuantity = new System.Windows.Forms.Label();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.label4 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.label8 = new System.Windows.Forms.Label();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.returnQuantity = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.label7 = new System.Windows.Forms.Label();
             this.borrowQuantity = new System.Windows.Forms.Label();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.AvailBookQuantity = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.applyFilterButton = new System.Windows.Forms.Button();
+            this.filterDatePicker = new System.Windows.Forms.DateTimePicker();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.panel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -73,19 +75,21 @@ namespace Hontrack_library
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Controls.Add(this.panel4);
             this.panel1.Controls.Add(this.panel3);
-            this.panel1.Location = new System.Drawing.Point(3, 3);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(918, 243);
+            this.panel1.Size = new System.Drawing.Size(924, 207);
             this.panel1.TabIndex = 0;
             // 
             // panel2
             // 
-            this.panel2.BackColor = System.Drawing.Color.MediumSeaGreen;
+            this.panel2.BackColor = System.Drawing.Color.LightGray;
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel2.Controls.Add(this.label6);
             this.panel2.Controls.Add(this.BookQuantity);
             this.panel2.Controls.Add(this.pictureBox4);
             this.panel2.Controls.Add(this.label4);
-            this.panel2.Location = new System.Drawing.Point(67, 45);
+            this.panel2.Location = new System.Drawing.Point(68, 20);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(206, 152);
             this.panel2.TabIndex = 4;
@@ -110,16 +114,6 @@ namespace Hontrack_library
             this.BookQuantity.TabIndex = 2;
             this.BookQuantity.Text = "0";
             // 
-            // pictureBox4
-            // 
-            this.pictureBox4.Image = global::Hontrack_library.Properties.Resources._103408_text_book_icon11;
-            this.pictureBox4.Location = new System.Drawing.Point(16, 14);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(67, 76);
-            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox4.TabIndex = 1;
-            this.pictureBox4.TabStop = false;
-            // 
             // label4
             // 
             this.label4.Location = new System.Drawing.Point(0, 0);
@@ -129,12 +123,13 @@ namespace Hontrack_library
             // 
             // panel4
             // 
-            this.panel4.BackColor = System.Drawing.Color.MediumSeaGreen;
+            this.panel4.BackColor = System.Drawing.Color.LightGray;
+            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel4.Controls.Add(this.label8);
             this.panel4.Controls.Add(this.pictureBox3);
             this.panel4.Controls.Add(this.returnQuantity);
             this.panel4.Controls.Add(this.label5);
-            this.panel4.Location = new System.Drawing.Point(620, 45);
+            this.panel4.Location = new System.Drawing.Point(620, 20);
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(206, 152);
             this.panel4.TabIndex = 3;
@@ -148,16 +143,6 @@ namespace Hontrack_library
             this.label8.Size = new System.Drawing.Size(99, 22);
             this.label8.TabIndex = 7;
             this.label8.Text = "Return Book";
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Image = global::Hontrack_library.Properties.Resources._103400_book_sans_icon11;
-            this.pictureBox3.Location = new System.Drawing.Point(17, 14);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(67, 76);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox3.TabIndex = 3;
-            this.pictureBox3.TabStop = false;
             // 
             // returnQuantity
             // 
@@ -178,12 +163,13 @@ namespace Hontrack_library
             // 
             // panel3
             // 
-            this.panel3.BackColor = System.Drawing.Color.MediumSeaGreen;
+            this.panel3.BackColor = System.Drawing.Color.LightGray;
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel3.Controls.Add(this.label7);
             this.panel3.Controls.Add(this.borrowQuantity);
             this.panel3.Controls.Add(this.pictureBox2);
             this.panel3.Controls.Add(this.label3);
-            this.panel3.Location = new System.Drawing.Point(344, 45);
+            this.panel3.Location = new System.Drawing.Point(344, 20);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(206, 152);
             this.panel3.TabIndex = 3;
@@ -208,32 +194,12 @@ namespace Hontrack_library
             this.borrowQuantity.TabIndex = 2;
             this.borrowQuantity.Text = "0";
             // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = global::Hontrack_library.Properties.Resources._753918_library_book_books_education_study_icon1;
-            this.pictureBox2.Location = new System.Drawing.Point(18, 14);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(67, 76);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 1;
-            this.pictureBox2.TabStop = false;
-            // 
             // label3
             // 
             this.label3.Location = new System.Drawing.Point(0, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(100, 23);
             this.label3.TabIndex = 3;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::Hontrack_library.Properties.Resources._4243327_ux_book_app_basic_icon13;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 14);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(67, 76);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBox1.TabIndex = 2;
-            this.pictureBox1.TabStop = false;
             // 
             // AvailBookQuantity
             // 
@@ -258,21 +224,41 @@ namespace Hontrack_library
             // panel5
             // 
             this.panel5.BackColor = System.Drawing.Color.White;
+            this.panel5.Controls.Add(this.applyFilterButton);
+            this.panel5.Controls.Add(this.filterDatePicker);
             this.panel5.Controls.Add(this.chart1);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel5.Location = new System.Drawing.Point(0, 264);
+            this.panel5.Location = new System.Drawing.Point(0, 216);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(924, 400);
+            this.panel5.Size = new System.Drawing.Size(924, 448);
             this.panel5.TabIndex = 2;
+            // 
+            // applyFilterButton
+            // 
+            this.applyFilterButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.applyFilterButton.Location = new System.Drawing.Point(280, 6);
+            this.applyFilterButton.Name = "applyFilterButton";
+            this.applyFilterButton.Size = new System.Drawing.Size(93, 29);
+            this.applyFilterButton.TabIndex = 2;
+            this.applyFilterButton.Text = "Filter";
+            this.applyFilterButton.UseVisualStyleBackColor = true;
+            this.applyFilterButton.Click += new System.EventHandler(this.applyFilterButton_Click);
+            // 
+            // filterDatePicker
+            // 
+            this.filterDatePicker.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.filterDatePicker.Location = new System.Drawing.Point(6, 6);
+            this.filterDatePicker.Name = "filterDatePicker";
+            this.filterDatePicker.Size = new System.Drawing.Size(268, 26);
+            this.filterDatePicker.TabIndex = 1;
             // 
             // chart1
             // 
             chartArea1.Name = "ChartArea1";
             this.chart1.ChartAreas.Add(chartArea1);
-            this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
             legend1.Name = "Legend1";
             this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(0, 0);
+            this.chart1.Location = new System.Drawing.Point(0, 45);
             this.chart1.Name = "chart1";
             series1.ChartArea = "ChartArea1";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
@@ -283,10 +269,51 @@ namespace Hontrack_library
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
             // 
+            // pictureBox4
+            // 
+            this.pictureBox4.Image = global::Hontrack_library.Properties.Resources._103408_text_book_icon11;
+            this.pictureBox4.Location = new System.Drawing.Point(16, 14);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(67, 76);
+            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox4.TabIndex = 1;
+            this.pictureBox4.TabStop = false;
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = global::Hontrack_library.Properties.Resources._103400_book_sans_icon11;
+            this.pictureBox3.Location = new System.Drawing.Point(17, 14);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(67, 76);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox3.TabIndex = 3;
+            this.pictureBox3.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::Hontrack_library.Properties.Resources._753918_library_book_books_education_study_icon1;
+            this.pictureBox2.Location = new System.Drawing.Point(18, 14);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(67, 76);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 1;
+            this.pictureBox2.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::Hontrack_library.Properties.Resources._4243327_ux_book_app_basic_icon13;
+            this.pictureBox1.Location = new System.Drawing.Point(3, 14);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(67, 76);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox1.TabIndex = 2;
+            this.pictureBox1.TabStop = false;
+            // 
             // DashMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.AliceBlue;
             this.Controls.Add(this.panel5);
             this.Controls.Add(this.panel1);
             this.Name = "DashMain";
@@ -295,16 +322,16 @@ namespace Hontrack_library
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -336,6 +363,7 @@ namespace Hontrack_library
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
-
+        private System.Windows.Forms.Button applyFilterButton;
+        private System.Windows.Forms.DateTimePicker filterDatePicker;
     }
 }
