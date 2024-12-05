@@ -13,6 +13,7 @@ namespace Hontrack_library
         public string Author { get; set; }
         public DateTime Published { get; set; }
         public string Status { get; set; }
+        public string Condition { get; set; }
       public int Book_Quantity { get; set; }
 
         private readonly string connectionString = "server=127.0.0.1; user=root; database=hontrack; password=";
@@ -52,7 +53,8 @@ namespace Hontrack_library
                                     Author = reader.GetString("bookAuthor"),
                                     Published = reader.GetDateTime("datePublished"),
                                     Status = reader.GetString("bookStatus"),
-                                    Book_Quantity = reader.GetInt32("bookStock") 
+                                    Condition = reader.GetString("bookCondition"),
+                                    Book_Quantity = reader.GetInt32("bookStock")
                                 };
                                 listdata.Add(book);
                             }

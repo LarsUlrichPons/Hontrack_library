@@ -56,7 +56,7 @@ namespace Hontrack_library
                                 ID = reader.GetInt32("transac_id"),
                                 BookTitle = reader.IsDBNull(reader.GetOrdinal("bookTitle")) ? "Unknown Title" : reader.GetString("bookTitle"), // Handle nulls
                                 BookNumber = reader.GetInt64("bookISBN"),
-                                User_name = reader.GetString("borrowerName"),
+                                User_name = reader.GetString("borrowerID"),
                                 Status = reader.GetString("Status"),
                                 Borrow = reader.GetDateTime("borrowDate").ToString("yyyy-MM-dd"),
                                 // Check if the return_due date is overdue

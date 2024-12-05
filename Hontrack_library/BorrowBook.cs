@@ -28,10 +28,7 @@ namespace Hontrack_library
 
 
             // Initialize and start the timer to refresh every 1 second
-            refreshTimer = new Timer();
-            refreshTimer.Interval = 5000; // 1 second
-            refreshTimer.Tick += RefreshTimer_Tick; // Event handler
-
+         
 
             filterInfoCollection = new FilterInfoCollection(FilterCategory.VideoInputDevice);
 
@@ -56,19 +53,10 @@ namespace Hontrack_library
            
         }
 
-        private void RefreshTimer_Tick(object sender, EventArgs e)
-        {
-            // Refresh the book data every second
-            displayBookData();
-        }
-
+       
         private void ClearBtn_Click(object sender, EventArgs e)
         {
-            IDTextBox.Clear();
-            BookTitle.Clear();
-            Author.Clear();
-            BQuantity.Clear();
-            Status.Clear();
+           clearField();
         }
 
 
@@ -177,7 +165,7 @@ namespace Hontrack_library
                 {
                     conn.Open();
 
-                    string query = "SELECT bookTitle, bookAuthor, bookStock, bookStatus FROM tbl_book WHERE bookISBN = @barcode";
+                    string query = "SELECT bookTitle, bookAuthor, bookStock, bookStatus,bookCondition FROM tbl_book WHERE bookISBN = @barcode";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@barcode", barcode);
 
@@ -190,6 +178,7 @@ namespace Hontrack_library
                             Author.Text = reader["bookAuthor"].ToString();
                             BQuantity.Text = reader["bookStock"].ToString();
                             Status.Text = reader["bookStatus"].ToString();
+                            bookCondition.Text = reader["bookCondition"].ToString();
                         }
                         else
                         {
@@ -249,8 +238,10 @@ namespace Hontrack_library
             dataGridView1.Columns[2].HeaderText = "Book Number";
             dataGridView1.Columns[3].HeaderText = "Author";
             dataGridView1.Columns[4].HeaderText = "Published";
-            dataGridView1.Columns[5].HeaderText = "Status";
+            dataGridView1.Columns[5].HeaderText = "Status"; 
             dataGridView1.Columns[6].HeaderText = "Quantity";
+            dataGridView1.Columns[7].HeaderText = "Condition";
+          
 
 
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
@@ -268,8 +259,11 @@ namespace Hontrack_library
                 IDTextBox.Text = row.Cells[2].Value.ToString();
                
                 Author.Text = row.Cells[3].Value.ToString();
-                BQuantity.Text = row.Cells[6].Value.ToString();
                 Status.Text = row.Cells[5].Value.ToString();
+                bookCondition.Text = row.Cells[6].Value.ToString();
+                BQuantity.Text = row.Cells[7].Value.ToString();
+          
+                
             }
         }
 
@@ -282,6 +276,7 @@ namespace Hontrack_library
             BQuantity.Clear();
             NameTXT.Clear();
             SearchBox.Clear();
+            bookCondition.SelectedIndex = -1;
         }
 
         private void BorrowButton_Click(object sender, EventArgs e)
@@ -342,7 +337,7 @@ namespace Hontrack_library
 
                                         // Insert the transaction into the book_transaction table
                                         string insertTransactionQuery = @"
-    INSERT INTO tbl_booktransac (bookTitle, bookISBN,  Status,borrowerName, borrowDate,returnDue)
+    INSERT INTO tbl_booktransac (bookTitle, bookISBN,  Status,borrowerID, borrowDate,returnDue)
     VALUES (@bookTitle, @book_num, 'Borrowed', @user_name, NOW(), @return_due)";
 
                                         MySqlCommand insertTransactionCmd = new MySqlCommand(insertTransactionQuery, conn, transaction);

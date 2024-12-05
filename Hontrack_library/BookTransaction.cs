@@ -58,7 +58,7 @@ namespace Hontrack_library
                                     ID = reader.GetInt32("transac_id"),
                                     BookTitle = reader.IsDBNull(reader.GetOrdinal("bookTitle")) ? "Unknown Title" : reader.GetString("bookTitle"),
                                     BookNumber = reader.GetInt64("bookISBN"),
-                                    User_name = reader.GetString("borrowerName"),
+                                    User_name = reader.GetString("borrowerID"),
                                     Borrow = reader.GetDateTime("borrowDate").ToString("yyyy-MM-dd"),
                                     Status = reader.GetString("Status"),
                                     Return = reader.IsDBNull(reader.GetOrdinal("returnDate"))

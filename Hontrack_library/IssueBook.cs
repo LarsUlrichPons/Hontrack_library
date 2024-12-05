@@ -98,7 +98,8 @@ namespace Hontrack_library
             dataGridView1.Columns[3].HeaderText = "Author";
             dataGridView1.Columns[4].HeaderText = "Published Date";
             dataGridView1.Columns[5].HeaderText = "Status";
-            dataGridView1.Columns[6].HeaderText = "Quantity";
+            dataGridView1.Columns[6].HeaderText = "Condition";
+            dataGridView1.Columns[7].HeaderText = "Quantity";
 
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
@@ -234,7 +235,7 @@ namespace Hontrack_library
                     {
                         conn.Open();
 
-                        string insertData = "INSERT INTO tbl_book (bookISBN, bookTitle, bookAuthor, datePublished, bookStatus, bookStock, insertDate) VALUES (@book_num, @bookTitle, @author, @publishedDate, @status, @BQuantity, @insertDate)";
+                        string insertData = "INSERT INTO tbl_book (bookISBN, bookTitle, bookAuthor, datePublished, bookStatus, bookStock,bookCondition ,insertDate) VALUES (@book_num, @bookTitle, @author, @publishedDate, @status,@condition ,@BQuantity, @insertDate)";
 
                         using (MySqlCommand cmd = new MySqlCommand(insertData, conn))
                         {
@@ -243,6 +244,7 @@ namespace Hontrack_library
                             cmd.Parameters.AddWithValue("@author", author.Text.Trim());
                             cmd.Parameters.AddWithValue("@publishedDate", publishedDate.Value);
                             cmd.Parameters.AddWithValue("@status", Status.Text.Trim());
+                            cmd.Parameters.AddWithValue("@condition", bookCondition.Text.Trim());
                             cmd.Parameters.AddWithValue("@BQuantity", BQuantityTXT.Text.Trim());
                             cmd.Parameters.AddWithValue("@insertDate", DateTime.Now);
 
@@ -279,7 +281,7 @@ namespace Hontrack_library
                             conn.Open();
 
                           
-                            string updateData = "UPDATE tbl_book SET bookTitle = @bookTitle, bookAuthor = @author, datePublished = @publishedDate, bookStatus = @status,bookStock = @BQuantity ,updateDate = @updateDate WHERE bookISBN = @book_num";
+                            string updateData = "UPDATE tbl_book SET bookTitle = @bookTitle, bookAuthor = @author, datePublished = @publishedDate, bookStatus = @status,bookCondition = @condition,bookStock = @BQuantity ,updateDate = @updateDate WHERE bookISBN = @book_num";
 
                             using (MySqlCommand cmd = new MySqlCommand(updateData, conn))
                             {
@@ -288,6 +290,7 @@ namespace Hontrack_library
                                 cmd.Parameters.AddWithValue("@author", author.Text.Trim());
                                 cmd.Parameters.AddWithValue("@publishedDate", publishedDate.Value);
                                 cmd.Parameters.AddWithValue("@status", Status.Text.Trim());
+                                cmd.Parameters.AddWithValue("@condition", bookCondition.Text.Trim());
                                 cmd.Parameters.AddWithValue("@BQuantity", BQuantityTXT.Text.Trim());
                                 cmd.Parameters.AddWithValue("@updateDate", DateTime.Now);
 
@@ -331,7 +334,8 @@ namespace Hontrack_library
                     publishedDate.Value = DateTime.Now;
                 }
                 Status.Text = row.Cells[5].Value.ToString();
-                BQuantityTXT.Text = row.Cells[6].Value.ToString();
+                bookCondition.Text = row.Cells[6].Value.ToString();
+                BQuantityTXT.Text = row.Cells[7].Value.ToString();
             }
         }
 
@@ -343,6 +347,7 @@ namespace Hontrack_library
             BookNumTxt.Clear();
             BQuantityTXT.Clear();
             searchBox.Clear();
+            bookCondition.SelectedIndex = -1;
         }
 
         private void RemoveBtn_Click(object sender, EventArgs e)
@@ -437,6 +442,11 @@ namespace Hontrack_library
         }
 
         private void BQuantityTXT_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
         {
 
         }

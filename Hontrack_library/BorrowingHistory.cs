@@ -56,7 +56,7 @@ namespace Hontrack_library
         {
             BookTransaction bookData = new BookTransaction();
             List<BookTransaction> listdata = bookData.BookListTransaction();
-            listdata = listdata.OrderByDescending(b => b.Borrow).ToList();
+            listdata = listdata.OrderByDescending(b => b.ID).ToList();
 
             dataGridView1.Refresh();
             dataGridView1.DataSource = listdata;
@@ -90,7 +90,7 @@ namespace Hontrack_library
             dataGridView1.Columns[0].HeaderText = "ID";
             dataGridView1.Columns[1].HeaderText = "Title";
             dataGridView1.Columns[2].HeaderText = "Book Number";
-            dataGridView1.Columns[3].HeaderText = "User Name";
+            dataGridView1.Columns[3].HeaderText = "School ID";
             dataGridView1.Columns[4].HeaderText = "Borrow Date";
             dataGridView1.Columns[5].HeaderText = "Return Date";
             dataGridView1.Columns[6].HeaderText = "Status";
@@ -212,7 +212,7 @@ namespace Hontrack_library
                 using (MySqlConnection conn = new MySqlConnection(connect))
                 {
                     conn.Open();
-                    string query = "SELECT borrowerName, borrowDate, returnDate, Status,bookISBN,bookTitle FROM tbl_booktransac"; // Adjust table and column names as necessary
+                    string query = "SELECT borrowerID, borrowDate, returnDate, Status,bookISBN,bookTitle FROM tbl_booktransac"; // Adjust table and column names as necessary
 
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
@@ -220,7 +220,7 @@ namespace Hontrack_library
                     {
                         while (reader.Read())
                         {
-                            string borrower = reader["borrowerName"].ToString();
+                            string borrower = reader["borrowerID"].ToString();
                             string bookNum = reader["bookISBN"].ToString();
                             string bookTitle = reader["bookTitle"].ToString();
                             string borrowDate = Convert.ToDateTime(reader["borrowDate"]).ToShortDateString();
@@ -288,13 +288,13 @@ namespace Hontrack_library
         using (MySqlConnection conn = new MySqlConnection(connect))
         {
             conn.Open();
-            string query = "SELECT borrowerName, borrowDate, returnDate, Status, bookISBN, bookTitle FROM tbl_booktransac WHERE Status = 'Borrowed'"; // Fetch only Borrowed books
+            string query = "SELECT borrowerID, borrowDate, returnDate, Status, bookISBN, bookTitle FROM tbl_booktransac WHERE Status = 'Borrowed'"; // Fetch only Borrowed books
             using (MySqlCommand cmd = new MySqlCommand(query, conn))
             using (MySqlDataReader reader = cmd.ExecuteReader())
             {
                 while (reader.Read())
                 {
-                    string borrower = reader["borrowerName"].ToString();
+                    string borrower = reader["borrowerID"].ToString();
                     string bookNum = reader["bookISBN"].ToString();
                     string bookTitle = reader["bookTitle"].ToString();
                     string borrowDate = Convert.ToDateTime(reader["borrowDate"]).ToShortDateString();
@@ -322,13 +322,13 @@ private List<(string Borrower, string BookTitle, string BookNum, string BorrowDa
         using (MySqlConnection conn = new MySqlConnection(connect))
         {
             conn.Open();
-            string query = "SELECT borrowerName, borrowDate, returnDate, Status, bookISBN, bookTitle FROM tbl_booktransac WHERE Status = 'Returned'"; // Fetch only Returned books
+            string query = "SELECT borrowerID, borrowDate, returnDate, Status, bookISBN, bookTitle FROM tbl_booktransac WHERE Status = 'Returned'"; // Fetch only Returned books
             using (MySqlCommand cmd = new MySqlCommand(query, conn))
             using (MySqlDataReader reader = cmd.ExecuteReader())
             {
                 while (reader.Read())
                 {
-                    string borrower = reader["borrowerName"].ToString();
+                    string borrower = reader["borrowerID"].ToString();
                     string bookNum = reader["bookISBN"].ToString();
                     string bookTitle = reader["bookTitle"].ToString();
                     string borrowDate = Convert.ToDateTime(reader["borrowDate"]).ToShortDateString();
