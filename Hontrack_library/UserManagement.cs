@@ -87,12 +87,14 @@ namespace Hontrack_library
         {
             if (e.RowIndex >= 0)
             {
+                addEmployee_Pass.PasswordChar = '*';
                 DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
                 addEmployee_id.Text = row.Cells[0].Value.ToString();
                 addEmployee_FN.Text = row.Cells[1].Value.ToString();
                 addEmployee_UN.Text = row.Cells[2].Value.ToString();
                 addEmployee_Pass.Text = row.Cells[3].Value.ToString();
                 addEmployee_UT.Text = row.Cells[4].Value.ToString();
+                addEmployee_ST.Text = row.Cells[5].Value.ToString();
             }
         }
 
@@ -209,7 +211,7 @@ namespace Hontrack_library
             // Step 1: Validate input fields
             if (string.IsNullOrWhiteSpace(addEmployee_FN.Text) ||
                 string.IsNullOrWhiteSpace(addEmployee_UN.Text) ||
-                string.IsNullOrWhiteSpace(addEmployee_Pass.Text) ||
+              
                 string.IsNullOrWhiteSpace(addEmployee_UT.Text))
             {
                 MessageBox.Show("Please fill all blank fields.", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -275,7 +277,7 @@ namespace Hontrack_library
 
 
                             // Step 4: Update user data
-                            string updatedata = "UPDATE tbl_users SET fullname = @fullname, username = @username, password = @password, usertype = @usertype, updatedate = @updateDate WHERE ID = @ID";
+                            string updatedata = "UPDATE tbl_users SET fullname = @fullname, username = @username, password = @password, usertype = @usertype, updatedate = @updateDate,accountStatus = @accountStatus WHERE ID = @ID";
                             using (MySqlCommand cmd = new MySqlCommand(updatedata, mysql))
                             {
                                 cmd.Parameters.AddWithValue("@ID", addEmployee_id.Text.Trim());
@@ -286,6 +288,8 @@ namespace Hontrack_library
                                 cmd.Parameters.AddWithValue("@password", addEmployee_Pass.Text.Trim());
 
                                 cmd.Parameters.AddWithValue("@usertype", addEmployee_UT.Text.Trim());
+                                cmd.Parameters.AddWithValue("@accountStatus", addEmployee_ST.Text.Trim());
+
                                 cmd.Parameters.AddWithValue("@updateDate", DateTime.Now);
 
                                 cmd.ExecuteNonQuery();
@@ -305,81 +309,7 @@ namespace Hontrack_library
             }
         }
 
-        private void RemoveBtn_Click(object sender, EventArgs e)
-        {
-            // Check if a row is selected
-            if (dataGridView1.SelectedCells.Count == 0)
-            {
-                MessageBox.Show("Please select an employee to delete", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            // Check if the selected row is the first row
-            int selectedRowIndex = dataGridView1.SelectedCells[0].RowIndex;
-            if (selectedRowIndex == 0)
-            {
-                MessageBox.Show("The first row cannot be deleted.", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            // Get the fullname from the selected row
-            string selectedFullname = dataGridView1.Rows[selectedRowIndex].Cells["fullname"].Value.ToString();
-
-            // Proceed with delete confirmation
-            using (AdminPasswordPrompt passwordPrompt = new AdminPasswordPrompt())
-            {
-                if (passwordPrompt.ShowDialog() == DialogResult.OK)
-                {
-                    string adminPassword = passwordPrompt.AdminPassword;
-
-                    // Validate admin password
-                    try
-                    {
-                        using (MySqlConnection mysql = new MySqlConnection(connect))
-                        {
-                            mysql.Open();
-
-                            // Query to check the logged-in admin's password
-                            string query = "SELECT password FROM users WHERE username = @username AND usertype = 'Administrator'";
-                            using (MySqlCommand cmd = new MySqlCommand(query, mysql))
-                            {
-                                cmd.Parameters.AddWithValue("@username", LoginForm.LoggedInUsername); // Use the logged-in admin's username
-
-                                string storedPassword = cmd.ExecuteScalar()?.ToString();
-
-                                if (storedPassword == null)
-                                {
-                                    MessageBox.Show("Admin user not found. Delete operation canceled.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    return;
-                                }
-
-                                if (adminPassword != storedPassword)
-                                {
-                                    MessageBox.Show("Invalid admin password. Delete operation canceled.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    return;
-                                }
-                            }
-
-                            // Delete the user from the database using fullname
-                            string deleteQuery = "DELETE FROM users WHERE fullname = @fullname";
-                            using (MySqlCommand cmd = new MySqlCommand(deleteQuery, mysql))
-                            {
-                                cmd.Parameters.AddWithValue("@fullname", selectedFullname); // Use selected fullname
-                                cmd.ExecuteNonQuery();
-                            }
-
-                            MessageBox.Show("Deleted Successfully!", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            displayEmployeeData();  // Refresh data
-                            clearfield();  // Clear fields
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Error: " + ex.Message, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-            }
-        }
+   
 
         private void refreshBtn_Click(object sender, EventArgs e)
         {
@@ -403,11 +333,32 @@ namespace Hontrack_library
             addEmployee_Pass.Clear();
             addEmployee_UN.Clear();
             addEmployee_UT.SelectedIndex = -1;
+            addEmployee_ST.SelectedIndex = -1;
         }
 
         private void clear_Click(object sender, EventArgs e)
         {
             clearfield();
         }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void addEmployee_id_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (e.ColumnIndex == 3 && e.Value != null) 
+            {
+                e.Value = new string('*', e.Value.ToString().Length);
+            }
+        }
+
+      
     }
 }

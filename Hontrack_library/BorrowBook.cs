@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows.Forms;
 using ZXing;
 
+
 namespace Hontrack_library
 {
     public partial class BorrowBook : UserControl
@@ -15,6 +16,9 @@ namespace Hontrack_library
        
         string connect = "server=127.0.0.1; user=root; database=hontrack; password=";
         private Timer refreshTimer; // Declare Timer here
+        private FilterInfoCollection filterInfoCollection;
+        private VideoCaptureDevice videoCaptureDevice;
+        private bool isCameraRunning = false;
 
         public BorrowBook()
         {
@@ -27,6 +31,22 @@ namespace Hontrack_library
             refreshTimer = new Timer();
             refreshTimer.Interval = 5000; // 1 second
             refreshTimer.Tick += RefreshTimer_Tick; // Event handler
+
+
+            filterInfoCollection = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+
+            if (filterInfoCollection != null && filterInfoCollection.Count > 0)
+            {
+                foreach (FilterInfo device in filterInfoCollection)
+                {
+                    Camera.Items.Add(device.Name);
+                }
+                Camera.SelectedIndex = 0;
+            }
+            else
+            {
+                MessageBox.Show("No camera devices found.");
+            }
 
             IDTextBox.ReadOnly = true;
             BookTitle.ReadOnly = true;
@@ -47,11 +67,150 @@ namespace Hontrack_library
             IDTextBox.Clear();
             BookTitle.Clear();
             Author.Clear();
+            BQuantity.Clear();
+            Status.Clear();
         }
 
-     
 
-      
+        private void StartBtn_Click(object sender, EventArgs e)
+        {
+            if (!isCameraRunning)
+            {
+                StartCamera();
+            }
+            else
+            {
+                StopCamera();
+            }
+        }
+
+        private void StartCamera()
+        {
+            if (filterInfoCollection.Count > 0)
+            {
+                StopCamera();
+
+                videoCaptureDevice = new VideoCaptureDevice(filterInfoCollection[Camera.SelectedIndex].MonikerString);
+
+
+                if (videoCaptureDevice.VideoCapabilities.Length > 0)
+                {
+                    var highestResolution = videoCaptureDevice.VideoCapabilities
+                        .OrderByDescending(vc => vc.FrameSize.Width * vc.FrameSize.Height)
+                        .First();
+                    videoCaptureDevice.VideoResolution = highestResolution;
+                }
+
+                videoCaptureDevice.NewFrame += VideoCaptureDevice_NewFrame;
+                videoCaptureDevice.Start();
+                isCameraRunning = true;
+                StartBtn.Text = "Stop";
+            }
+            else
+            {
+                MessageBox.Show("No camera selected.");
+            }
+        }
+
+        private void StopCamera()
+        {
+            if (videoCaptureDevice != null && videoCaptureDevice.IsRunning)
+            {
+                videoCaptureDevice.SignalToStop();
+                videoCaptureDevice.WaitForStop();
+                videoCaptureDevice.NewFrame -= VideoCaptureDevice_NewFrame;
+                isCameraRunning = false;
+                StartBtn.Text = "Start";
+
+                // Set the PictureBox to a blank (black) image
+                CameraFrame.Image = new Bitmap(CameraFrame.Width, CameraFrame.Height);
+                using (Graphics g = Graphics.FromImage(CameraFrame.Image))
+                {
+                    g.Clear(Color.Black); // Fill the image with black
+                }
+            }
+        }
+
+        private void VideoCaptureDevice_NewFrame(object sender, AForge.Video.NewFrameEventArgs eventArgs)
+        {
+            Bitmap bitmap = (Bitmap)eventArgs.Frame.Clone();
+            BarcodeReader reader = new BarcodeReader();
+
+            Bitmap resizedBitmap = new Bitmap(bitmap, new Size(640, 480));
+
+            var result = reader.Decode(resizedBitmap);
+            if (result != null && !string.IsNullOrEmpty(result.Text))
+            {
+                string scannedBarcode = result.Text;
+
+                // Ensure barcode is processed only once
+                if (IDTextBox.InvokeRequired)
+                {
+                    IDTextBox.Invoke(new MethodInvoker(delegate
+                    {
+                        if (IDTextBox.Text != scannedBarcode)
+                        {
+                            IDTextBox.Text = scannedBarcode;
+                            FetchBookDetails(scannedBarcode); // Call the method to fetch details
+                        }
+                    }));
+                }
+                else
+                {
+                    if (IDTextBox.Text != scannedBarcode)
+                    {
+                        IDTextBox.Text = scannedBarcode;
+                        FetchBookDetails(scannedBarcode);
+                    }
+                }
+            }
+
+            CameraFrame.Image = resizedBitmap;
+        }
+
+
+        private void FetchBookDetails(string barcode)
+        {
+            using (MySqlConnection conn = new MySqlConnection(connect))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string query = "SELECT bookTitle, bookAuthor, bookStock, bookStatus FROM tbl_book WHERE bookISBN = @barcode";
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@barcode", barcode);
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            // Populate fields with book details
+                            BookTitle.Text = reader["bookTitle"].ToString();
+                            Author.Text = reader["bookAuthor"].ToString();
+                            BQuantity.Text = reader["bookStock"].ToString();
+                            Status.Text = reader["bookStatus"].ToString();
+                        }
+                        else
+                        {
+                            // Clear fields and show an error if the book is not found
+                            ClearBtn_Click(null, null); // Clear all fields
+                            MessageBox.Show("No book registered with the scanned barcode.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error fetching book details: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+
+
+
+
+
         public void displayBookData()
         {
             BookData bookData = new BookData();
@@ -174,7 +333,7 @@ namespace Hontrack_library
                                         // If the stock reaches zero, set the status to 'Unavailable'
                                         if (newStock == 0)
                                         {
-                                            string updateStatusQuery = "UPDATE tbl_book SET bookStatus = 'Unavailable' WHERE bookISBN = @book_num";
+                                            string updateStatusQuery = "UPDATE tbl_book SET bookStatus = 'outofstock' WHERE bookISBN = @book_num";
                                             MySqlCommand updateStatusCmd = new MySqlCommand(updateStatusQuery, conn, transaction);
                                             updateStatusCmd.Parameters.AddWithValue("@book_num", IDTextBox.Text.Trim());
 
@@ -279,5 +438,18 @@ namespace Hontrack_library
                 MessageBox.Show("Error: " + ex.Message + "\nStack Trace: " + ex.StackTrace, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void ReturnDue_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+       
+
     }
 }

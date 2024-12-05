@@ -39,10 +39,7 @@ namespace Hontrack_library
             displayBookData();
         }
 
-        private void ClearBtn_Click(object sender, EventArgs e)
-        {
-            clearField();
-        }
+        
 
       
 
@@ -271,7 +268,45 @@ namespace Hontrack_library
                 MessageBox.Show("Error: " + ex.Message + "\nStack Trace: " + ex.StackTrace, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-    
 
+        private void NameTXT_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Status_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ClearBtn_Click_1(object sender, EventArgs e)
+        {
+            NameTXT.Clear();
+            bookTitle.Clear();
+            IDTextBox.Clear();
+            Status.Clear();
+            borrowDate.Clear();
+            ReturnDueText.Clear();
+        }
+
+        private void borrowDate_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ReturnDueText_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -79,8 +79,16 @@ namespace Hontrack_library
                             {
                                 string userType = reader["usertype"]?.ToString()?.Trim();
                                 string username = reader["username"]?.ToString()?.Trim();
+                                string status = reader["accountStatus"].ToString()?.Trim();
+
 
                                 LoggedInUsername = username; // Store the logged-in username
+
+                                if (status == "Suspended")
+                                {
+                                    MessageBox.Show("Your account has been suspended. Please contact the administrator.", "Account Suspended", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    return;
+                                }
 
                                 // Handle user types
                                 if (userType == "Librarian")
@@ -106,7 +114,9 @@ namespace Hontrack_library
                             {
                                 MessageBox.Show("Incorrect Username or Password. Please try again.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             }
+
                         }
+
                     }
                 }
                 catch (Exception ex)
@@ -119,6 +129,21 @@ namespace Hontrack_library
         private void showpass_CheckedChanged_1(object sender, EventArgs e)
         {
             PasswordInput.PasswordChar = showpass.Checked ? '\0' : '*';
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void LoginForm_Load(object sender, EventArgs e)
+        {
 
         }
     }

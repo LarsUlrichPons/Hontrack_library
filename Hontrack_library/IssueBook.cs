@@ -234,7 +234,7 @@ namespace Hontrack_library
                     {
                         conn.Open();
 
-                        string insertData = "INSERT INTO book (bookISBN, bookTitle, bookAuthor, datePublished, bookStatus, bookStock, insertDate) VALUES (@book_num, @bookTitle, @author, @publishedDate, @status, @BQuantity, @insertDate)";
+                        string insertData = "INSERT INTO tbl_book (bookISBN, bookTitle, bookAuthor, datePublished, bookStatus, bookStock, insertDate) VALUES (@book_num, @bookTitle, @author, @publishedDate, @status, @BQuantity, @insertDate)";
 
                         using (MySqlCommand cmd = new MySqlCommand(insertData, conn))
                         {
@@ -279,7 +279,7 @@ namespace Hontrack_library
                             conn.Open();
 
                           
-                            string updateData = "UPDATE book SET bookTitle = @bookTitle, bookAuthor = @author, datePublished = @publishedDate, bookStatus = @status,bookStock = @BQuantity ,updateDate = @updateDate WHERE bookISBN = @book_num";
+                            string updateData = "UPDATE tbl_book SET bookTitle = @bookTitle, bookAuthor = @author, datePublished = @publishedDate, bookStatus = @status,bookStock = @BQuantity ,updateDate = @updateDate WHERE bookISBN = @book_num";
 
                             using (MySqlCommand cmd = new MySqlCommand(updateData, conn))
                             {
@@ -424,6 +424,21 @@ namespace Hontrack_library
             {
                 MessageBox.Show("Error: " + ex.Message + "\nStack Trace: " + ex.StackTrace, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BQuantityTXT_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
     

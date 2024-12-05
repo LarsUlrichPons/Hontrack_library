@@ -15,6 +15,8 @@ namespace Hontrack_library
         public string Password { get; set; }
         public string Usertype { get; set; }
 
+        public string Status { get; set; }
+
         public List<EmployeeData> GetEmployeeListData()
         {
             List<EmployeeData> listData = new List<EmployeeData>();
@@ -38,7 +40,8 @@ namespace Hontrack_library
                                     Fullname = reader.GetString("fullname"),
                                     Username = reader.GetString("username"),
                                     Password = reader.GetString("password"),
-                                    Usertype = reader.GetString("usertype")
+                                    Usertype = reader.GetString("usertype"),
+                                    Status = reader.GetString("accountStatus")
                                 };
                                 listData.Add(employee);
                             }

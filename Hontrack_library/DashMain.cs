@@ -26,7 +26,7 @@ namespace Hontrack_library
             InitializeComponent();
 
             // Call display methods to initialize data
-          
+
         }
 
         private void DashMain_Load(object sender, EventArgs e)
@@ -34,11 +34,9 @@ namespace Hontrack_library
             displayAb();
             displayBb();
             displayRb();
-            LoadChart();
-           SetupRealTimeUpdates();
-
-            filterDatePicker.Value = DateTime.Now.AddDays(-30); // Default to show the last 30 days
-            LoadChart();
+         
+            LoadChart(); 
+            //  SetupRealTimeUpdates();
         }
 
 
@@ -46,11 +44,11 @@ namespace Hontrack_library
         {
             refreshTimer = new Timer();
             refreshTimer.Interval = 5000; // Update every 5 seconds (5000 ms)
-            refreshTimer.Tick += RefreshData; // Bind to the Tick event
+            //refreshTimer.Tick += RefreshData; // Bind to the Tick event
             refreshTimer.Start(); // Start the timer
         }
 
-        private void RefreshData(object sender, EventArgs e)
+          private void RefreshData(object sender, EventArgs e)
         {
             if (this.InvokeRequired)
             {
@@ -72,6 +70,7 @@ namespace Hontrack_library
                 LoadChart();
             }
         }
+        
 
 
         public void displayAb()
@@ -185,58 +184,76 @@ namespace Hontrack_library
             }
         }
 
+
+        private bool isLoadingChart = false;
+        private bool isDisposed = false;
+
         private void LoadChart()
         {
+            if (isLoadingChart || isDisposed) return;
+            isLoadingChart = true;
             try
             {
                 using (MySqlConnection conn = new MySqlConnection(connect))
                 {
-                    // Get the selected date from the DateTimePicker
+                    conn.Open();
                     DateTime selectedDate = filterDatePicker.Value.Date;
 
-                    // SQL query to filter by a single date
                     string query = @"
-            SELECT bookTitle, COUNT(*) AS count 
-            FROM tbl_booktransac
-            WHERE deleteDate IS NULL 
-            AND borrowDate BETWEEN @selectedDate AND NOW()
-            GROUP BY bookTitle";
+SELECT bookTitle, COUNT(*) AS count 
+FROM tbl_booktransac
+WHERE deleteDate IS NULL 
+AND DATE(borrowDate) = @selectedDate
+GROUP BY bookTitle";
 
-                    MySqlCommand cmd = new MySqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@selectedDate", selectedDate);
-
-                    MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
-                    DataTable dataTable = new DataTable();
-                    adapter.Fill(dataTable);
-
-                    // Modify book titles to be shorter
-                    foreach (DataRow row in dataTable.Rows)
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
-                        string originalTitle = row["bookTitle"].ToString();
-                        row["bookTitle"] = ShortenTitle(originalTitle);
+                        cmd.Parameters.AddWithValue("@selectedDate", selectedDate);
+
+                        using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
+                        {
+                            DataTable dataTable = new DataTable();
+                            adapter.Fill(dataTable);
+
+                            if (isDisposed) return;
+
+                            // Modify book titles to be shorter
+                            foreach (DataRow row in dataTable.Rows)
+                            {
+                                string originalTitle = row["bookTitle"].ToString();
+                                row["bookTitle"] = ShortenTitle(originalTitle);
+                            }
+
+                            // Handle empty data
+                            if (dataTable.Rows.Count == 0)
+                            {
+                                dataTable.Rows.Add("No Data Available", 0);
+                            }
+
+                            // Configure and bind chart data
+                            if (chart1 != null && !isDisposed)
+                            {
+                                chart1.DataSource = dataTable;
+                                ConfigureChartAxes();
+                                ConfigureChartSeries();
+                                BindChartData();
+                                ConfigureChartAppearance();
+                                chart1.DataBind();
+                            }
+                        }
                     }
-
-                    // Handle empty data
-                    if (dataTable.Rows.Count == 0)
-                    {
-                        dataTable.Rows.Add("No Data Available", 0);
-                    }
-
-                    // Configure and bind chart data
-                    chart1.DataSource = dataTable;
-                    ConfigureChartAxes();
-                    ConfigureChartSeries();
-                    BindChartData();
-
-                    // Disable the chart legend
-                    ConfigureChartAppearance();
-
-                    chart1.DataBind();
                 }
             }
             catch (Exception ex)
             {
-                DisplayErrorMessage(ex);
+                if (!isDisposed)
+                {
+                    DisplayErrorMessage(ex);
+                }
+            }
+            finally
+            {
+                isLoadingChart = false;
             }
         }
 
@@ -259,7 +276,7 @@ namespace Hontrack_library
         private void ConfigureChartAxes()
         {
             // Set X and Y axis titles with larger font for better readability
-          
+
 
             chart1.ChartAreas["ChartArea1"].AxisY.Title = "Number of Borrows";
             chart1.ChartAreas["ChartArea1"].AxisY.TitleFont = new Font("Arial", 10, FontStyle.Bold);
@@ -287,9 +304,9 @@ namespace Hontrack_library
             chart1.Series["bookChart"].LabelForeColor = Color.Black;
 
             // Enable automatic coloring of series
-         
-           
-           // chart1.ChartAreas["ChartArea1"].AxisX.LabelStyle.Enabled = false;
+
+
+            // chart1.ChartAreas["ChartArea1"].AxisX.LabelStyle.Enabled = false;
 
             // Set tooltip for data points
             chart1.Series["bookChart"].ToolTip = "#VALX: #VALY borrows";
@@ -332,10 +349,35 @@ namespace Hontrack_library
             );
         }
 
+
         private void applyFilterButton_Click(object sender, EventArgs e)
         {
             LoadChart();
         }
+
+        private void BookQuantity_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void returnQuantity_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
-

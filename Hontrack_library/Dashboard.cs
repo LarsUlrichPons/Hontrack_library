@@ -21,7 +21,7 @@ namespace Hontrack_library
             InitializeComponent();
             displayUser();
             HighlightActiveButton(DbButton); // Default active button
-
+            this.StartPosition = FormStartPosition.CenterScreen;
         }
 
 
@@ -35,10 +35,12 @@ namespace Hontrack_library
             if (check == DialogResult.Yes)
             {
                 LoginForm lForm = new LoginForm();
+                lForm.StartPosition = FormStartPosition.CenterScreen;
                 lForm.Show();
                 this.Hide();
             }
         }
+
 
 
 
@@ -114,9 +116,12 @@ namespace Hontrack_library
             issueBook1.Visible = false;
             userManagement1.Visible = true;
             HighlightActiveButton(MuButton);
+
+            MuButton.BackColor = ColorTranslator.FromHtml("#212529");
         }
 
-    
+
+
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
@@ -198,20 +203,39 @@ namespace Hontrack_library
             {
                 if (ctrl is Button btn)
                 {
-                    btn.BackColor = Color.FromArgb(233, 245, 233); // Default light green background
-                    btn.ForeColor = Color.FromArgb(34, 77, 34); // Default dark green text
-                    btn.FlatAppearance.BorderSize = 0; // No border for inactive buttons
+                    btn.BackColor = Color.FromArgb(39, 43, 47); // Default background color
+                    btn.ForeColor = Color.White; // Default text color
                 }
             }
 
             // Highlight the active button
-            activeButton.BackColor = Color.FromArgb(34, 139, 34); // Active button color (Forest Green)
-            activeButton.ForeColor = Color.White; // White text for contrast
-            activeButton.FlatAppearance.BorderColor = Color.FromArgb(28, 104, 28); // Border color (Darker Forest Green)
+            activeButton.BackColor = Color.FromArgb(33, 37, 41); // Active background color
+            activeButton.ForeColor = Color.White; // Text color remains white
         }
 
 
+
         private void userLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dashMain1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox4_Click(object sender, EventArgs e)
         {
 
         }
