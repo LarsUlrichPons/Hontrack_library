@@ -40,6 +40,8 @@
             this.UpdateBtn = new System.Windows.Forms.Button();
             this.RemoveBtn = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.bookGenre = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.bookCondition = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
             this.search = new System.Windows.Forms.Button();
@@ -55,8 +57,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.bookTitle = new System.Windows.Forms.TextBox();
             this.author = new System.Windows.Forms.TextBox();
-            this.bookGenre = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel2.SuspendLayout();
@@ -252,6 +252,26 @@
             this.panel2.TabIndex = 1;
             this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
+            // bookGenre
+            // 
+            this.bookGenre.Location = new System.Drawing.Point(159, 387);
+            this.bookGenre.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.bookGenre.Multiline = true;
+            this.bookGenre.Name = "bookGenre";
+            this.bookGenre.Size = new System.Drawing.Size(200, 26);
+            this.bookGenre.TabIndex = 32;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.ForeColor = System.Drawing.Color.White;
+            this.label8.Location = new System.Drawing.Point(61, 395);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(53, 18);
+            this.label8.TabIndex = 31;
+            this.label8.Text = "Genre:";
+            // 
             // bookCondition
             // 
             this.bookCondition.FormattingEnabled = true;
@@ -404,25 +424,6 @@
             this.author.Name = "author";
             this.author.Size = new System.Drawing.Size(200, 26);
             this.author.TabIndex = 18;
-            // 
-            // bookGenre
-            // 
-            this.bookGenre.Location = new System.Drawing.Point(159, 387);
-            this.bookGenre.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.bookGenre.Name = "bookGenre";
-            this.bookGenre.Size = new System.Drawing.Size(200, 26);
-            this.bookGenre.TabIndex = 32;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.ForeColor = System.Drawing.Color.White;
-            this.label8.Location = new System.Drawing.Point(61, 395);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(53, 18);
-            this.label8.TabIndex = 31;
-            this.label8.Text = "Genre:";
             // 
             // IssueBook
             // 

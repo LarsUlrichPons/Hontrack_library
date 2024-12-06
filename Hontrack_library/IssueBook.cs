@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 using ZXing;
@@ -27,6 +28,7 @@ namespace Hontrack_library
             displayBookData();
             Status.DropDownStyle = ComboBoxStyle.DropDownList;
             Camera.DropDownStyle = ComboBoxStyle.DropDownList;
+            bookCondition.DropDownStyle = ComboBoxStyle.DropDownList;
           
           
            
@@ -208,67 +210,89 @@ namespace Hontrack_library
         private void AddBtn_Click(object sender, EventArgs e)
         {
             MySqlConnection mysql = new MySqlConnection(connect);
-            if (string.IsNullOrEmpty(BookNumTxt.Text) || string.IsNullOrEmpty(bookTitle.Text) || string.IsNullOrEmpty(author.Text) || string.IsNullOrEmpty(Status.Text))
+
+            if (string.IsNullOrEmpty(BookNumTxt.Text) || string.IsNullOrEmpty(bookTitle.Text) ||
+                string.IsNullOrEmpty(author.Text) || string.IsNullOrEmpty(Status.Text))
             {
                 MessageBox.Show("Please fill all blank fields", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
-            else
+
+            try
             {
-                try
+                if (mysql.State == ConnectionState.Closed)
+                    mysql.Open();
+
+                // Check if the book title already exists
+                string checkTitleQuery = "SELECT COUNT(*) FROM tbl_book WHERE bookTitle = @bookTitle";
+                using (MySqlCommand checkTitleCmd = new MySqlCommand(checkTitleQuery, mysql))
                 {
-
-                    if (mysql.State == ConnectionState.Closed)
-                        mysql.Open();
-
-                    // Check if the username already exists
-                    string checkUsername = "SELECT COUNT(*) FROM tbl_book WHERE bookTitle = @bookTitle";
-
-                    using (MySqlCommand checkUser = new MySqlCommand(checkUsername, mysql))
+                    checkTitleCmd.Parameters.AddWithValue("@bookTitle", bookTitle.Text.Trim());
+                    int titleCount = Convert.ToInt32(checkTitleCmd.ExecuteScalar());
+                    if (titleCount >= 1)
                     {
-                        checkUser.Parameters.AddWithValue("@bookTitle", bookTitle.Text.Trim());
-                        int countUser = Convert.ToInt32(checkUser.ExecuteScalar());
-                        if (countUser >= 1)
-                        {
-                            MessageBox.Show(bookTitle.Text.Trim() + " is already taken", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                        }
+                        MessageBox.Show($"Book Title '{bookTitle.Text.Trim()}' is already taken.", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
                     }
-                    using (MySqlConnection conn = new MySqlConnection(connect))
-                    {
-                        conn.Open();
-
-                        string insertData = "INSERT INTO tbl_book (bookISBN, bookTitle, bookAuthor, datePublished, bookStatus, bookStock,bookCondition ,bookGenre,insertDate) VALUES (@book_num, @bookTitle, @author, @publishedDate, @status,@condition ,@Genre,@BQuantity, @insertDate)";
-
-                        using (MySqlCommand cmd = new MySqlCommand(insertData, conn))
-                        {
-                            cmd.Parameters.AddWithValue("@book_num", BookNumTxt.Text.Trim()); 
-                            cmd.Parameters.AddWithValue("@bookTitle", bookTitle.Text.Trim());
-                            cmd.Parameters.AddWithValue("@author", author.Text.Trim());
-                            cmd.Parameters.AddWithValue("@publishedDate", publishedDate.Value);
-                            cmd.Parameters.AddWithValue("@status", Status.Text.Trim());
-                            cmd.Parameters.AddWithValue("@condition", bookCondition.Text.Trim());
-                            cmd.Parameters.AddWithValue("@Genre", bookCondition.Text.Trim());
-                            cmd.Parameters.AddWithValue("@BQuantity", BQuantityTXT.Text.Trim());
-                            cmd.Parameters.AddWithValue("@insertDate", DateTime.Now);
-
-                            cmd.ExecuteNonQuery();
-                            MessageBox.Show("Added Successfully!", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                    }
-
-                    displayBookData();
-                    clearField();
                 }
-                catch (Exception ex)
+
+                // Check if the ISBN already exists
+                string checkIsbnQuery = "SELECT COUNT(*) FROM tbl_book WHERE bookISBN = @bookISBN";
+                using (MySqlCommand checkIsbnCmd = new MySqlCommand(checkIsbnQuery, mysql))
                 {
-                    MessageBox.Show("Error: " + ex.Message + "\nStack Trace: " + ex.StackTrace, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    checkIsbnCmd.Parameters.AddWithValue("@bookISBN", BookNumTxt.Text.Trim());
+                    int isbnCount = Convert.ToInt32(checkIsbnCmd.ExecuteScalar());
+                    if (isbnCount >= 1)
+                    {
+                        MessageBox.Show($"ISBN '{BookNumTxt.Text.Trim()}' is already taken.", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
                 }
+
+                using (MySqlConnection conn = new MySqlConnection(connect))
+                {
+                    conn.Open();
+
+                    // Process multi-genre input (split by commas, trim, and apply proper case)
+                    string combinedGenres = string.Join(", ", bookGenre.Text
+                        .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                        .Select(g => ToProperCase(g.Trim())));
+
+                    // Insert the book data
+                    string insertData = "INSERT INTO tbl_book (bookISBN, bookTitle, bookAuthor, datePublished, bookStatus, bookStock, bookCondition, bookGenre, insertDate) " +
+                                        "VALUES (@book_num, @bookTitle, @bookAuthor, @publishedDate, @status, @condition, @genre, @BQuantity, @insertDate)";
+
+                    using (MySqlCommand cmd = new MySqlCommand(insertData, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@book_num", BookNumTxt.Text.Trim());
+                        cmd.Parameters.AddWithValue("@bookTitle", ToProperCase(bookTitle.Text.Trim())); // Apply proper case to title
+                        cmd.Parameters.AddWithValue("@bookAuthor", ToProperCase(author.Text.Trim()));
+                        cmd.Parameters.AddWithValue("@publishedDate", publishedDate.Value);
+                        cmd.Parameters.AddWithValue("@status", Status.Text.Trim());
+                        cmd.Parameters.AddWithValue("@condition", bookCondition.Text.Trim());
+                        cmd.Parameters.AddWithValue("@genre", combinedGenres); // Use combined genres
+                        cmd.Parameters.AddWithValue("@BQuantity", BQuantityTXT.Text.Trim());
+                        cmd.Parameters.AddWithValue("@insertDate", DateTime.Now);
+
+                        cmd.ExecuteNonQuery();
+                        MessageBox.Show("Book added successfully!", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+
+                displayBookData();
+                clearField();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}\nStack Trace: {ex.StackTrace}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
+
         private void UpdateBtn_Click(object sender, EventArgs e)
         {
-            if (bookTitle.Text == "" || author.Text == "" || Status.Text == "")
+            MySqlConnection mysql = new MySqlConnection(connect);
+            if (string.IsNullOrEmpty(bookTitle.Text) || string.IsNullOrEmpty(author.Text) || string.IsNullOrEmpty(Status.Text))
             {
                 MessageBox.Show("Please fill all blank fields", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -279,27 +303,68 @@ namespace Hontrack_library
                 {
                     try
                     {
+                        if (mysql.State == ConnectionState.Closed)
+                            mysql.Open();
+
+                        // Check for duplicate bookTitle in other records
+                        string checkTitleQuery = "SELECT COUNT(*) FROM tbl_book WHERE bookTitle = @bookTitle AND bookISBN != @bookISBN";
+                        using (MySqlCommand checkTitleCmd = new MySqlCommand(checkTitleQuery, mysql))
+                        {
+                            checkTitleCmd.Parameters.AddWithValue("@bookTitle", bookTitle.Text.Trim());
+                            checkTitleCmd.Parameters.AddWithValue("@bookISBN", BookNumTxt.Text.Trim());
+                            int titleCount = Convert.ToInt32(checkTitleCmd.ExecuteScalar());
+                            if (titleCount > 0)
+                            {
+                                MessageBox.Show("Book Title '" + bookTitle.Text.Trim() + "' is already in use.", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
+                        }
+
+                        // Check for duplicate bookISBN in other records
+                        string checkIsbnQuery = "SELECT COUNT(*) FROM tbl_book WHERE bookISBN = @bookISBN AND bookISBN != @book_num";
+                        using (MySqlCommand checkIsbnCmd = new MySqlCommand(checkIsbnQuery, mysql))
+                        {
+                            checkIsbnCmd.Parameters.AddWithValue("@bookISBN", BookNumTxt.Text.Trim());
+                            checkIsbnCmd.Parameters.AddWithValue("@book_num", BookNumTxt.Text.Trim());
+                            int isbnCount = Convert.ToInt32(checkIsbnCmd.ExecuteScalar());
+                            if (isbnCount > 0)
+                            {
+                                MessageBox.Show("ISBN '" + BookNumTxt.Text.Trim() + "' is already in use.", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
+                        }
+
+                        // Combine and format genres
+                        string combinedGenres = string.Join(", ", bookGenre.Text.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(g => g.Trim()));
+                        string properCaseGenre = ToProperCase(combinedGenres);
+
+                        // Apply proper case to bookTitle
+                        string properCaseTitle = ToProperCase(bookTitle.Text.Trim());
+                        
+
+                        // Proceed to update the record
                         using (MySqlConnection conn = new MySqlConnection(connect))
                         {
                             conn.Open();
 
-                          
-                            string updateData = "UPDATE tbl_book SET bookTitle = @bookTitle, bookAuthor = @author, datePublished = @publishedDate, bookStatus = @status,bookCondition = @condition,bookGenre = @Genre,bookStock = @BQuantity ,updateDate = @updateDate WHERE bookISBN = @book_num";
+                            string updateData = "UPDATE tbl_book SET bookTitle = @bookTitle, bookAuthor = @bookAuthor, datePublished = @publishedDate, " +
+                                                "bookStatus = @bookStatus, bookCondition = @bookCondition, bookGenre = @bookGenre, " +
+                                                "bookStock = @bookStock, updateDate = @updateDate WHERE bookISBN = @bookISBN";
 
                             using (MySqlCommand cmd = new MySqlCommand(updateData, conn))
                             {
-                                cmd.Parameters.AddWithValue("@book_num", BookNumTxt.Text.Trim());
-                                cmd.Parameters.AddWithValue("@bookTitle", bookTitle.Text.Trim());
-                                cmd.Parameters.AddWithValue("@author", author.Text.Trim());
+                                cmd.Parameters.AddWithValue("@bookISBN", BookNumTxt.Text.Trim());
+                                cmd.Parameters.AddWithValue("@bookTitle", properCaseTitle);
+                                cmd.Parameters.AddWithValue("@bookAuthor", ToProperCase(author.Text.Trim()));
                                 cmd.Parameters.AddWithValue("@publishedDate", publishedDate.Value);
-                                cmd.Parameters.AddWithValue("@status", Status.Text.Trim());
-                                cmd.Parameters.AddWithValue("@condition", bookCondition.Text.Trim());
-                                cmd.Parameters.AddWithValue("@Genre", bookGenre.Text.Trim());
-                                cmd.Parameters.AddWithValue("@BQuantity", BQuantityTXT.Text.Trim());
+                                cmd.Parameters.AddWithValue("@bookStatus", Status.Text.Trim());
+                                cmd.Parameters.AddWithValue("@bookCondition", bookCondition.Text.Trim());
+                                cmd.Parameters.AddWithValue("@bookGenre", properCaseGenre);
+                                cmd.Parameters.AddWithValue("@bookStock", BQuantityTXT.Text.Trim());
                                 cmd.Parameters.AddWithValue("@updateDate", DateTime.Now);
 
                                 cmd.ExecuteNonQuery();
-                                MessageBox.Show("Update Successfully!", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                MessageBox.Show("Updated Successfully!", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             }
                         }
 
@@ -317,6 +382,7 @@ namespace Hontrack_library
                 }
             }
         }
+
 
         private int BookID = 0;
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -367,7 +433,7 @@ namespace Hontrack_library
                     {
                         conn.Open();
 
-                        string deleteQuery = "DELETE FROM book WHERE book_num = @book_num";
+                        string deleteQuery = "DELETE FROM tbl_book WHERE bookISBN = @book_num";
 
                         using (MySqlCommand cmd = new MySqlCommand(deleteQuery, conn))
                         {
@@ -436,6 +502,17 @@ namespace Hontrack_library
                 MessageBox.Show("Error: " + ex.Message + "\nStack Trace: " + ex.StackTrace, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+
+        private string ToProperCase(string input)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+                return string.Empty;
+
+            TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
+            return textInfo.ToTitleCase(input.ToLower());
+        }
+
 
         private void label4_Click(object sender, EventArgs e)
         {

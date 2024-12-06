@@ -168,18 +168,22 @@ namespace Hontrack_library
 
         private void PdfBtn_Click(object sender, EventArgs e)
         {
-            string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Hontrack:Library Management(Book Inventory).pdf");
+            string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Hontrack(BookInventory).pdf");
+          //  string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "BorrowingStatus.pdf");
+
 
             try
             {
                 // Fetch data from the database
                 var borrowingHistory = FetchBorrowingHistoryFromDatabase();
-                var borrowCountData = FetchBorrowCountFromDatabase();
+               
                 var borrowedBooks = FetchBorrowedBooksFromDatabase();  // Fetch Borrowed Books
                 var returnedBooks = FetchReturnedBooksFromDatabase();  // Fetch Returned Books
+                var borrowCountData = FetchBorrowCountFromDatabase();
+                var popularGenreData= FetchPopularGenresFromDatabase();
 
                 // Create the MigraDoc document
-                Document document = CreateDocument(borrowingHistory, borrowCountData, borrowedBooks, returnedBooks);
+                Document document = CreateDocument(borrowingHistory,  borrowedBooks, returnedBooks,borrowCountData,popularGenreData);
 
                 // Render the document into a PDF
                 PdfDocumentRenderer renderer = new PdfDocumentRenderer();
@@ -239,9 +243,9 @@ namespace Hontrack_library
             return historyData;
         }
 
-        private List<(string BookTitle, string BookNum, int BorrowCount)> FetchBorrowCountFromDatabase()
+        private List<(string BookTitle, string BookNum,string bookGenre ,int BorrowCount)> FetchBorrowCountFromDatabase()
         {
-            var borrowCountData = new List<(string BookTitle, string BookNum, int BorrowCount)>();
+            var borrowCountData = new List<(string BookTitle, string BookNum, string BookGenre,int BorrowCount)>();
 
             try
             {
@@ -249,7 +253,7 @@ namespace Hontrack_library
                 {
                     conn.Open();
 
-                    string query = "SELECT bookTitle, COUNT(*) AS borrowCount, bookISBN " +
+                    string query = "SELECT bookTitle, COUNT(*) AS borrowCount, bookISBN, bookGenre " +
                            "FROM tbl_booktransac " +
                            "WHERE deleteDate IS NULL " +
                            "GROUP BY bookTitle, bookISBN " + // Group by book title and ISBN
@@ -262,8 +266,9 @@ namespace Hontrack_library
                         {
                             string bookTitle = reader["bookTitle"].ToString();
                             string bookNum = reader["bookISBN"].ToString();
+                            string bookGenre = reader["bookGenre"].ToString();
                             int borrowCount = Convert.ToInt32(reader["borrowCount"]);
-                            borrowCountData.Add((bookTitle, bookNum, borrowCount));
+                            borrowCountData.Add((bookTitle, bookNum, bookGenre, borrowCount));
                         }
                     }
                 }
@@ -346,12 +351,52 @@ private List<(string Borrower, string BookTitle, string BookNum, string BorrowDa
     return returnedData;
 }
 
+
+        private List<(string Genre, int BorrowCount)> FetchPopularGenresFromDatabase()
+        {
+            var genreData = new List<(string Genre, int BorrowCount)>();
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(connect))
+                {
+                    conn.Open();
+                    string query = @"
+                SELECT bookGenre, COUNT(*) AS borrowCount 
+                FROM tbl_booktransac 
+                WHERE deleteDate IS NULL 
+                GROUP BY bookGenre 
+                ORDER BY borrowCount DESC";
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string genre = reader["bookGenre"].ToString();
+                            int borrowCount = Convert.ToInt32(reader["borrowCount"]);
+                            genreData.Add((genre, borrowCount));
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error fetching genre data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return genreData;
+        }
+
+
+
         // Create MigraDoc document from the fetched data
         private Document CreateDocument(
             List<(string Borrower, string BookTitle, string BookNum, string BorrowDate, string ReturnDate, string Status)> historyData,
-            List<(string BookTitle, string BookNum, int BorrowCount)> borrowCountData,
+           
             List<(string Borrower, string BookTitle, string BookNum, string BorrowDate, string ReturnDate, string Status)> borrowedBooks,
-            List<(string Borrower, string BookTitle, string BookNum, string BorrowDate, string ReturnDate, string Status)> returnedBooks)
+            List<(string Borrower, string BookTitle, string BookNum, string BorrowDate, string ReturnDate, string Status)> returnedBooks ,
+            List<(string BookTitle, string BookNum,string bookGenre ,int BorrowCount)> borrowCountData,
+           List<(string Genre, int BorrowCount)>genreData )
         {
             Document document = new Document();
             Style style = document.Styles["Normal"];
@@ -365,13 +410,16 @@ private List<(string Borrower, string BookTitle, string BookNum, string BorrowDa
             AddTableToSection(section, historyData, "Borrowing History");
 
             // Create Borrow Count Table
-            AddBorrowCountTable(section, borrowCountData);
+     
 
             // Create Borrowed Books Table
             AddTableToSection(section, borrowedBooks, "Borrowed Books");
 
             // Create Returned Books Table
             AddTableToSection(section, returnedBooks, "Returned Books");
+            
+            AddBorrowCountTable(section, borrowCountData);
+            AddPopularGenresTable(section, genreData);
 
             return document;
         }
@@ -457,7 +505,7 @@ private List<(string Borrower, string BookTitle, string BookNum, string BorrowDa
             section.AddParagraph("\n\n");
         }
 
-        private void AddBorrowCountTable(Section section, List<(string BookTitle, string BookNum, int BorrowCount)> borrowCountData)
+        private void AddBorrowCountTable(Section section, List<(string BookTitle, string BookNum, string bookGenre, int BorrowCount)> borrowCountData)
         {
             Paragraph countTitle = section.AddParagraph("Books Borrowed Count (Most to Least)");
             countTitle.Format.Font.Name = "Arial";
@@ -469,8 +517,9 @@ private List<(string Borrower, string BookTitle, string BookNum, string BorrowDa
             Table countTable = section.AddTable();
             countTable.Borders.Width = 0.75;
 
-            countTable.AddColumn("6cm").Format.Alignment = ParagraphAlignment.Center; // Book Title
-            countTable.AddColumn("6cm").Format.Alignment = ParagraphAlignment.Center; // Book Number
+            countTable.AddColumn("4cm").Format.Alignment = ParagraphAlignment.Center; // Book Title
+            countTable.AddColumn("4cm").Format.Alignment = ParagraphAlignment.Center; // Book Number
+            countTable.AddColumn("4cm").Format.Alignment= ParagraphAlignment.Center;
             countTable.AddColumn("5cm").Format.Alignment = ParagraphAlignment.Center; // Borrow Count
 
             Row countHeader = countTable.AddRow();
@@ -482,7 +531,8 @@ private List<(string Borrower, string BookTitle, string BookNum, string BorrowDa
             countHeader.BottomPadding = 4;
             countHeader.Cells[0].AddParagraph("Book Title");
             countHeader.Cells[1].AddParagraph("Book Number");
-            countHeader.Cells[2].AddParagraph("Borrow Count");
+            countHeader.Cells[2].AddParagraph("Book Genre");
+            countHeader.Cells[3].AddParagraph("Borrow Count");
 
             bool isAlternate = false;
             foreach (var count in borrowCountData)
@@ -501,10 +551,63 @@ private List<(string Borrower, string BookTitle, string BookNum, string BorrowDa
 
                 countRow.Cells[0].AddParagraph(count.BookTitle);
                 countRow.Cells[1].AddParagraph(count.BookNum);
-                countRow.Cells[2].AddParagraph(count.BorrowCount.ToString());
+                countRow.Cells[2].AddParagraph(count.bookGenre);
+                countRow.Cells[3].AddParagraph(count.BorrowCount.ToString());
             }
             section.AddParagraph("\n\n");
         }
+
+
+        private void AddPopularGenresTable(Section section, List<(string Genre, int BorrowCount)> genreData)
+        {
+            Paragraph genreTitle = section.AddParagraph("Most Popular Genres (Most to Least)");
+            genreTitle.Format.Font.Name = "Arial";
+            genreTitle.Format.Font.Size = 14;
+            genreTitle.Format.Font.Bold = true;
+            genreTitle.Format.Alignment = ParagraphAlignment.Left;
+            section.AddParagraph("\n");
+
+            Table genreTable = section.AddTable();
+            genreTable.Borders.Width = 0.75;
+
+            // Add Columns
+            genreTable.AddColumn("9cm").Format.Alignment = ParagraphAlignment.Center; // Genre
+            genreTable.AddColumn("8cm").Format.Alignment = ParagraphAlignment.Center; // Borrow Count
+
+            // Add Header
+            Row headerRow = genreTable.AddRow();
+            headerRow.Shading.Color = Colors.LightGray;
+            headerRow.Format.Font.Name = "Verdana";
+            headerRow.Format.Font.Size = 12;
+            headerRow.Format.Font.Bold = true;
+            headerRow.TopPadding = 4;
+            headerRow.BottomPadding = 4;
+            headerRow.Cells[0].AddParagraph("Genre");
+            headerRow.Cells[1].AddParagraph("Borrow Count");
+
+            // Add Rows
+            bool isAlternate = false;
+            foreach (var genre in genreData)
+            {
+                Row row = genreTable.AddRow();
+                row.Format.Font.Name = "Arial";
+                row.Format.Font.Size = 11;
+                row.TopPadding = 5;
+                row.BottomPadding = 5;
+
+                // Apply alternating row color
+                if (isAlternate)
+                    row.Shading.Color = Colors.WhiteSmoke;
+
+                isAlternate = !isAlternate;
+
+                row.Cells[0].AddParagraph(genre.Genre);
+                row.Cells[1].AddParagraph(genre.BorrowCount.ToString());
+            }
+
+            section.AddParagraph("\n\n");
+        }
+
 
         public void clearField() 
         {
