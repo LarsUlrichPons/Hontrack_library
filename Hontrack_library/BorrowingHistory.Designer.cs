@@ -48,6 +48,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.refreshBtn = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.datetime = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -128,6 +129,7 @@
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(37)))), ((int)(((byte)(41)))));
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel2.Controls.Add(this.datetime);
             this.panel2.Controls.Add(this.bookTitle);
             this.panel2.Controls.Add(this.label6);
             this.panel2.Controls.Add(this.PdfBtn);
@@ -299,6 +301,14 @@
             this.panel1.Size = new System.Drawing.Size(544, 664);
             this.panel1.TabIndex = 2;
             // 
+            // datetime
+            // 
+            this.datetime.Location = new System.Drawing.Point(22, 502);
+            this.datetime.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.datetime.Name = "datetime";
+            this.datetime.Size = new System.Drawing.Size(300, 26);
+            this.datetime.TabIndex = 32;
+            // 
             // BorrowingHistory
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -339,5 +349,6 @@
         private System.Windows.Forms.Button PdfBtn;
         private System.Windows.Forms.TextBox bookTitle;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.DateTimePicker datetime;
     }
 }

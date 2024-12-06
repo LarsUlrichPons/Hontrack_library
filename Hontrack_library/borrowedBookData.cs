@@ -32,7 +32,7 @@ namespace Hontrack_library
 
             if (!string.IsNullOrEmpty(userNameFilter))
             {
-                query += " AND borrowerName LIKE @userNameFilter";
+                query += " AND borrowerID LIKE @userNameFilter";
 
             }
 

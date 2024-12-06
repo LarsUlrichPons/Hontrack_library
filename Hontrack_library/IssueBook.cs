@@ -259,7 +259,7 @@ namespace Hontrack_library
                         .Select(g => ToProperCase(g.Trim())));
 
                     // Insert the book data
-                    string insertData = "INSERT INTO tbl_book (bookISBN, bookTitle, bookAuthor, datePublished, bookStatus, bookStock, bookCondition, bookGenre, insertDate) " +
+                    string insertData = "INSERT INTO tbl_book (bookISBN, bookTitle, bookAuthor, datePublished, bookStatus,  bookCondition, bookGenre,bookStock, insertDate) " +
                                         "VALUES (@book_num, @bookTitle, @bookAuthor, @publishedDate, @status, @condition, @genre, @BQuantity, @insertDate)";
 
                     using (MySqlCommand cmd = new MySqlCommand(insertData, conn))
@@ -269,8 +269,8 @@ namespace Hontrack_library
                         cmd.Parameters.AddWithValue("@bookAuthor", ToProperCase(author.Text.Trim()));
                         cmd.Parameters.AddWithValue("@publishedDate", publishedDate.Value);
                         cmd.Parameters.AddWithValue("@status", Status.Text.Trim());
-                        cmd.Parameters.AddWithValue("@condition", bookCondition.Text.Trim());
-                        cmd.Parameters.AddWithValue("@genre", combinedGenres); // Use combined genres
+                        cmd.Parameters.AddWithValue("@condition",bookCondition.Text.Trim());
+                        cmd.Parameters.AddWithValue("@genre", ToProperCase(bookGenre.Text.Trim()));
                         cmd.Parameters.AddWithValue("@BQuantity", BQuantityTXT.Text.Trim());
                         cmd.Parameters.AddWithValue("@insertDate", DateTime.Now);
 

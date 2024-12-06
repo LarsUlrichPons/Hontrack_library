@@ -168,22 +168,22 @@ namespace Hontrack_library
 
         private void PdfBtn_Click(object sender, EventArgs e)
         {
-            string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Hontrack(BookInventory).pdf");
-          //  string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "BorrowingStatus.pdf");
-
+            string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Hontrack-BookInventory.pdf");
 
             try
             {
-                // Fetch data from the database
-                var borrowingHistory = FetchBorrowingHistoryFromDatabase();
-               
-                var borrowedBooks = FetchBorrowedBooksFromDatabase();  // Fetch Borrowed Books
-                var returnedBooks = FetchReturnedBooksFromDatabase();  // Fetch Returned Books
-                var borrowCountData = FetchBorrowCountFromDatabase();
-                var popularGenreData= FetchPopularGenresFromDatabase();
+                // Get selected date from the DateTimePicker
+                DateTime selectedDate = datetime.Value.Date;
+
+                // Fetch data from the database using the selected date
+                var borrowingHistory = FetchBorrowingHistoryFromDatabase(selectedDate);
+                var borrowedBooks = FetchBorrowedBooksFromDatabase(selectedDate);
+                var returnedBooks = FetchReturnedBooksFromDatabase(selectedDate);
+                var borrowCountData = FetchBorrowCountFromDatabase(selectedDate);
+                var popularGenreData = FetchPopularGenresFromDatabase(selectedDate);
 
                 // Create the MigraDoc document
-                Document document = CreateDocument(borrowingHistory,  borrowedBooks, returnedBooks,borrowCountData,popularGenreData);
+                Document document = CreateDocument(borrowingHistory, borrowedBooks, returnedBooks, borrowCountData, popularGenreData);
 
                 // Render the document into a PDF
                 PdfDocumentRenderer renderer = new PdfDocumentRenderer();
@@ -206,7 +206,8 @@ namespace Hontrack_library
         }
 
 
-        private List<(string Borrower, string BookTitle, string BookNum, string BorrowDate, string ReturnDate, string Status)> FetchBorrowingHistoryFromDatabase()
+
+        private List<(string Borrower, string BookTitle, string BookNum, string BorrowDate, string ReturnDate, string Status)> FetchBorrowingHistoryFromDatabase(DateTime selectedDate)
         {
             var historyData = new List<(string Borrower, string BookTitle, string BookNum, string BorrowDate, string ReturnDate, string Status)>();
             try
@@ -214,23 +215,29 @@ namespace Hontrack_library
                 using (MySqlConnection conn = new MySqlConnection(connect))
                 {
                     conn.Open();
-                    string query = "SELECT borrowerID, borrowDate, returnDate, Status,bookISBN,bookTitle FROM tbl_booktransac"; // Adjust table and column names as necessary
-
+                    string query = @"
+                SELECT borrowerID, borrowDate, returnDate, Status, bookISBN, bookTitle 
+                FROM tbl_booktransac 
+                WHERE DATE(borrowDate) = @SelectedDate";  // Filter by selected date
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
-                        while (reader.Read())
+                        cmd.Parameters.AddWithValue("@SelectedDate", selectedDate.ToString("yyyy-MM-dd"));
+
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
-                            string borrower = reader["borrowerID"].ToString();
-                            string bookNum = reader["bookISBN"].ToString();
-                            string bookTitle = reader["bookTitle"].ToString();
-                            string borrowDate = Convert.ToDateTime(reader["borrowDate"]).ToShortDateString();
-                            string returnDate = reader["returnDate"] != DBNull.Value
-                        ? Convert.ToDateTime(reader["returnDate"]).ToShortDateString()
-                        : "Not yet return"; // If null, set a default value
-                            string status = reader["Status"].ToString();
-                            historyData.Add((borrower, bookTitle, bookNum, borrowDate, returnDate, status));
+                            while (reader.Read())
+                            {
+                                string borrower = reader["borrowerID"].ToString();
+                                string bookNum = reader["bookISBN"].ToString();
+                                string bookTitle = reader["bookTitle"].ToString();
+                                string borrowDate = Convert.ToDateTime(reader["borrowDate"]).ToShortDateString();
+                                string returnDate = reader["returnDate"] != DBNull.Value
+                                    ? Convert.ToDateTime(reader["returnDate"]).ToShortDateString()
+                                    : "Not yet return";
+                                string status = reader["Status"].ToString();
+                                historyData.Add((borrower, bookTitle, bookNum, borrowDate, returnDate, status));
+                            }
                         }
                     }
                 }
@@ -243,32 +250,34 @@ namespace Hontrack_library
             return historyData;
         }
 
-        private List<(string BookTitle, string BookNum,string bookGenre ,int BorrowCount)> FetchBorrowCountFromDatabase()
-        {
-            var borrowCountData = new List<(string BookTitle, string BookNum, string BookGenre,int BorrowCount)>();
 
+        private List<(string BookTitle, string BookNum, string BookGenre, int BorrowCount)> FetchBorrowCountFromDatabase(DateTime selectedDate)
+        {
+            var borrowCountData = new List<(string BookTitle, string BookNum, string BookGenre, int BorrowCount)>();
             try
             {
                 using (MySqlConnection conn = new MySqlConnection(connect))
                 {
                     conn.Open();
-
                     string query = "SELECT bookTitle, COUNT(*) AS borrowCount, bookISBN, bookGenre " +
-                           "FROM tbl_booktransac " +
-                           "WHERE deleteDate IS NULL " +
-                           "GROUP BY bookTitle, bookISBN " + // Group by book title and ISBN
-                           "ORDER BY borrowCount DESC"; // Sort by borrow count, most to least
+                                   "FROM tbl_booktransac WHERE DATE(borrowDate) = @SelectedDate " +
+                                   "GROUP BY bookTitle, bookISBN " +
+                                   "ORDER BY borrowCount DESC"; // Filter by selected date
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
-                        while (reader.Read())
+                        cmd.Parameters.AddWithValue("@SelectedDate", selectedDate.ToString("yyyy-MM-dd"));
+
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
-                            string bookTitle = reader["bookTitle"].ToString();
-                            string bookNum = reader["bookISBN"].ToString();
-                            string bookGenre = reader["bookGenre"].ToString();
-                            int borrowCount = Convert.ToInt32(reader["borrowCount"]);
-                            borrowCountData.Add((bookTitle, bookNum, bookGenre, borrowCount));
+                            while (reader.Read())
+                            {
+                                string bookTitle = reader["bookTitle"].ToString();
+                                string bookNum = reader["bookISBN"].ToString();
+                                string bookGenre = reader["bookGenre"].ToString();
+                                int borrowCount = Convert.ToInt32(reader["borrowCount"]);
+                                borrowCountData.Add((bookTitle, bookNum, bookGenre, borrowCount));
+                            }
                         }
                     }
                 }
@@ -277,82 +286,94 @@ namespace Hontrack_library
             {
                 MessageBox.Show($"Error fetching borrow count data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
             return borrowCountData;
         }
 
 
 
-        private List<(string Borrower, string BookTitle, string BookNum, string BorrowDate, string ReturnDate, string Status)> FetchBorrowedBooksFromDatabase()
-{
-    var borrowedData = new List<(string Borrower, string BookTitle, string BookNum, string BorrowDate, string ReturnDate, string Status)>();
-    try
-    {
-        using (MySqlConnection conn = new MySqlConnection(connect))
+
+        private List<(string Borrower, string BookTitle, string BookNum, string BorrowDate, string ReturnDate, string Status)> FetchBorrowedBooksFromDatabase(DateTime selectedDate)
         {
-            conn.Open();
-            string query = "SELECT borrowerID, borrowDate, returnDate, Status, bookISBN, bookTitle FROM tbl_booktransac WHERE Status = 'Borrowed'"; // Fetch only Borrowed books
-            using (MySqlCommand cmd = new MySqlCommand(query, conn))
-            using (MySqlDataReader reader = cmd.ExecuteReader())
+            var borrowedData = new List<(string Borrower, string BookTitle, string BookNum, string BorrowDate, string ReturnDate, string Status)>();
+            try
             {
-                while (reader.Read())
+                using (MySqlConnection conn = new MySqlConnection(connect))
                 {
-                    string borrower = reader["borrowerID"].ToString();
-                    string bookNum = reader["bookISBN"].ToString();
-                    string bookTitle = reader["bookTitle"].ToString();
-                    string borrowDate = Convert.ToDateTime(reader["borrowDate"]).ToShortDateString();
-                    string returnDate = reader["returnDate"] != DBNull.Value
-                        ? Convert.ToDateTime(reader["returnDate"]).ToShortDateString()
-                        : "Not yet return";
-                    string status = reader["Status"].ToString();
-                    borrowedData.Add((borrower, bookTitle, bookNum, borrowDate, returnDate, status));
+                    conn.Open();
+                    string query = "SELECT borrowerID, borrowDate, returnDate, Status, bookISBN, bookTitle " +
+                                   "FROM tbl_booktransac WHERE Status = 'Borrowed' AND DATE(borrowDate) = @SelectedDate"; // Filter by selected date
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@SelectedDate", selectedDate.ToString("yyyy-MM-dd"));
+
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                string borrower = reader["borrowerID"].ToString();
+                                string bookNum = reader["bookISBN"].ToString();
+                                string bookTitle = reader["bookTitle"].ToString();
+                                string borrowDate = Convert.ToDateTime(reader["borrowDate"]).ToShortDateString();
+                                string returnDate = reader["returnDate"] != DBNull.Value
+                                    ? Convert.ToDateTime(reader["returnDate"]).ToShortDateString()
+                                    : "Not yet return";
+                                string status = reader["Status"].ToString();
+                                borrowedData.Add((borrower, bookTitle, bookNum, borrowDate, returnDate, status));
+                            }
+                        }
+                    }
                 }
             }
-        }
-    }
-    catch (Exception ex)
-    {
-        MessageBox.Show($"Error fetching borrowed data from database: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-    }
-    return borrowedData;
-}
-
-private List<(string Borrower, string BookTitle, string BookNum, string BorrowDate, string ReturnDate, string Status)> FetchReturnedBooksFromDatabase()
-{
-    var returnedData = new List<(string Borrower, string BookTitle, string BookNum, string BorrowDate, string ReturnDate, string Status)>();
-    try
-    {
-        using (MySqlConnection conn = new MySqlConnection(connect))
-        {
-            conn.Open();
-            string query = "SELECT borrowerID, borrowDate, returnDate, Status, bookISBN, bookTitle FROM tbl_booktransac WHERE Status = 'Returned'"; // Fetch only Returned books
-            using (MySqlCommand cmd = new MySqlCommand(query, conn))
-            using (MySqlDataReader reader = cmd.ExecuteReader())
+            catch (Exception ex)
             {
-                while (reader.Read())
+                MessageBox.Show($"Error fetching borrowed data from database: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            return borrowedData;
+        }
+
+
+        private List<(string Borrower, string BookTitle, string BookNum, string BorrowDate, string ReturnDate, string Status)> FetchReturnedBooksFromDatabase(DateTime selectedDate)
+        {
+            var returnedData = new List<(string Borrower, string BookTitle, string BookNum, string BorrowDate, string ReturnDate, string Status)>();
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(connect))
                 {
-                    string borrower = reader["borrowerID"].ToString();
-                    string bookNum = reader["bookISBN"].ToString();
-                    string bookTitle = reader["bookTitle"].ToString();
-                    string borrowDate = Convert.ToDateTime(reader["borrowDate"]).ToShortDateString();
-                    string returnDate = reader["returnDate"] != DBNull.Value
-                        ? Convert.ToDateTime(reader["returnDate"]).ToShortDateString()
-                        : "Not yet return";
-                    string status = reader["Status"].ToString();
-                    returnedData.Add((borrower, bookTitle, bookNum, borrowDate, returnDate, status));
+                    conn.Open();
+                    string query = "SELECT borrowerID, borrowDate, returnDate, Status, bookISBN, bookTitle " +
+                                   "FROM tbl_booktransac WHERE Status = 'Returned' AND DATE(returnDate) = @SelectedDate"; // Filter by selected date
+
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@SelectedDate", selectedDate.ToString("yyyy-MM-dd"));
+
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                string borrower = reader["borrowerID"].ToString();
+                                string bookNum = reader["bookISBN"].ToString();
+                                string bookTitle = reader["bookTitle"].ToString();
+                                string borrowDate = Convert.ToDateTime(reader["borrowDate"]).ToShortDateString();
+                                string returnDate = Convert.ToDateTime(reader["returnDate"]).ToShortDateString();
+                                string status = reader["Status"].ToString();
+                                returnedData.Add((borrower, bookTitle, bookNum, borrowDate, returnDate, status));
+                            }
+                        }
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error fetching returned data from database: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            return returnedData;
         }
-    }
-    catch (Exception ex)
-    {
-        MessageBox.Show($"Error fetching returned data from database: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-    }
-    return returnedData;
-}
 
 
-        private List<(string Genre, int BorrowCount)> FetchPopularGenresFromDatabase()
+
+        private List<(string Genre, int BorrowCount)> FetchPopularGenresFromDatabase(DateTime selectedDate)
         {
             var genreData = new List<(string Genre, int BorrowCount)>();
             try
@@ -363,18 +384,22 @@ private List<(string Borrower, string BookTitle, string BookNum, string BorrowDa
                     string query = @"
                 SELECT bookGenre, COUNT(*) AS borrowCount 
                 FROM tbl_booktransac 
-                WHERE deleteDate IS NULL 
+                WHERE DATE(borrowDate) = @SelectedDate 
                 GROUP BY bookGenre 
-                ORDER BY borrowCount DESC";
+                ORDER BY borrowCount DESC";  // Filter by selected date
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                    using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
-                        while (reader.Read())
+                        cmd.Parameters.AddWithValue("@SelectedDate", selectedDate.ToString("yyyy-MM-dd"));
+
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
-                            string genre = reader["bookGenre"].ToString();
-                            int borrowCount = Convert.ToInt32(reader["borrowCount"]);
-                            genreData.Add((genre, borrowCount));
+                            while (reader.Read())
+                            {
+                                string genre = reader["bookGenre"].ToString();
+                                int borrowCount = Convert.ToInt32(reader["borrowCount"]);
+                                genreData.Add((genre, borrowCount));
+                            }
                         }
                     }
                 }
@@ -383,7 +408,6 @@ private List<(string Borrower, string BookTitle, string BookNum, string BorrowDa
             {
                 MessageBox.Show($"Error fetching genre data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
             return genreData;
         }
 
@@ -403,8 +427,10 @@ private List<(string Borrower, string BookTitle, string BookNum, string BorrowDa
             style.Font.Name = "Arial";
             style.Font.Size = 11;
             Section section = document.AddSection();
+            DateTime selectedDate = datetime.Value.Date;
 
-            AddHeader(section);
+
+            AddHeader(section, selectedDate);
 
             // Create Borrowing History Table
             AddTableToSection(section, historyData, "Borrowing History");
@@ -424,7 +450,7 @@ private List<(string Borrower, string BookTitle, string BookNum, string BorrowDa
             return document;
         }
 
-        private void AddHeader(Section section)
+        private void AddHeader(Section section, DateTime selectedDate)
         {
             Paragraph companyTitle = section.AddParagraph();
             companyTitle.AddFormattedText("Hontrack", TextFormat.Bold).Font.Color = Colors.Green;
@@ -435,11 +461,18 @@ private List<(string Borrower, string BookTitle, string BookNum, string BorrowDa
             section.AddParagraph("\n");
 
             // Date
-            Paragraph dateParagraph = section.AddParagraph($"PDF Generated on: {DateTime.Now:MMMM dd, yyyy HH:mm}");
+            Paragraph dateParagraph = section.AddParagraph($"PDF Generated on: {DateTime.Now:MMMM dd, yyyy}");
             dateParagraph.Format.Font.Name = "Calibri";
             dateParagraph.Format.Font.Size = 10;
             dateParagraph.Format.Font.Italic = true;
             dateParagraph.Format.Alignment = ParagraphAlignment.Right;
+            section.AddParagraph("\n");
+
+            Paragraph recordedDateParagraph = section.AddParagraph($"Data Recorded on: {selectedDate:MMMM dd, yyyy}");
+            recordedDateParagraph.Format.Font.Name = "Calibri";
+            recordedDateParagraph.Format.Font.Size = 10;
+            recordedDateParagraph.Format.Font.Italic = true;
+            recordedDateParagraph.Format.Alignment = ParagraphAlignment.Right;
             section.AddParagraph("\n");
         }
 
@@ -479,29 +512,43 @@ private List<(string Borrower, string BookTitle, string BookNum, string BorrowDa
             headerRow.Cells[4].AddParagraph("Return Date");
             headerRow.Cells[5].AddParagraph("Status");
 
-            // Table Content with Alternating Row Colors
-            bool isAlternate = false;
-            foreach (var entry in data)
+            // If data is empty, add a single row with "No data available"
+            if (data.Count == 0)
             {
-                Row row = table.AddRow();
-                row.Format.Font.Name = "Arial";
-                row.Format.Font.Size = 11;
-                row.TopPadding = 7;
-                row.BottomPadding = 7;
+                Row noDataRow = table.AddRow();
+                noDataRow.Cells[0].AddParagraph("No data available");
+                
 
-                // Apply alternating row color
-                if (isAlternate)
-                    row.Shading.Color = Colors.WhiteSmoke;
-
-                isAlternate = !isAlternate;
-
-                row.Cells[0].AddParagraph(entry.Borrower);
-                row.Cells[1].AddParagraph(entry.BookTitle);
-                row.Cells[2].AddParagraph(entry.BookNum);
-                row.Cells[3].AddParagraph(entry.BorrowDate);
-                row.Cells[4].AddParagraph(entry.ReturnDate);
-                row.Cells[5].AddParagraph(entry.Status);
             }
+            else 
+            {
+
+                bool isAlternate = false;
+                foreach (var entry in data)
+                {
+                    Row row = table.AddRow();
+                    row.Format.Font.Name = "Arial";
+                    row.Format.Font.Size = 11;
+                    row.TopPadding = 7;
+                    row.BottomPadding = 7;
+
+                    // Apply alternating row color
+                    if (isAlternate)
+                        row.Shading.Color = Colors.WhiteSmoke;
+
+                    isAlternate = !isAlternate;
+
+                    row.Cells[0].AddParagraph(entry.Borrower);
+                    row.Cells[1].AddParagraph(entry.BookTitle);
+                    row.Cells[2].AddParagraph(entry.BookNum);
+                    row.Cells[3].AddParagraph(entry.BorrowDate);
+                    row.Cells[4].AddParagraph(entry.ReturnDate);
+                    row.Cells[5].AddParagraph(entry.Status);
+                }
+
+            }
+            // Table Content with Alternating Row Colors
+           
             section.AddParagraph("\n\n");
         }
 
@@ -534,25 +581,33 @@ private List<(string Borrower, string BookTitle, string BookNum, string BorrowDa
             countHeader.Cells[2].AddParagraph("Book Genre");
             countHeader.Cells[3].AddParagraph("Borrow Count");
 
-            bool isAlternate = false;
-            foreach (var count in borrowCountData)
+            if (borrowCountData.Count == 0)
             {
-                Row countRow = countTable.AddRow();
-                countRow.Format.Font.Name = "Arial";
-                countRow.Format.Font.Size = 11;
-                countRow.TopPadding = 5;
-                countRow.BottomPadding = 5;
+                Row noDataRow = countTable.AddRow();
+                noDataRow.Cells[0].AddParagraph("No data available");
+            }
+            else
+            {
+                bool isAlternate = false;
+                foreach (var count in borrowCountData)
+                {
+                    Row countRow = countTable.AddRow();
+                    countRow.Format.Font.Name = "Arial";
+                    countRow.Format.Font.Size = 11;
+                    countRow.TopPadding = 5;
+                    countRow.BottomPadding = 5;
 
-                // Apply alternating row color
-                if (isAlternate)
-                    countRow.Shading.Color = Colors.WhiteSmoke;
+                    // Apply alternating row color
+                    if (isAlternate)
+                        countRow.Shading.Color = Colors.WhiteSmoke;
 
-                isAlternate = !isAlternate;
+                    isAlternate = !isAlternate;
 
-                countRow.Cells[0].AddParagraph(count.BookTitle);
-                countRow.Cells[1].AddParagraph(count.BookNum);
-                countRow.Cells[2].AddParagraph(count.bookGenre);
-                countRow.Cells[3].AddParagraph(count.BorrowCount.ToString());
+                    countRow.Cells[0].AddParagraph(count.BookTitle);
+                    countRow.Cells[1].AddParagraph(count.BookNum);
+                    countRow.Cells[2].AddParagraph(count.bookGenre);
+                    countRow.Cells[3].AddParagraph(count.BorrowCount.ToString());
+                }
             }
             section.AddParagraph("\n\n");
         }
@@ -586,25 +641,32 @@ private List<(string Borrower, string BookTitle, string BookNum, string BorrowDa
             headerRow.Cells[1].AddParagraph("Borrow Count");
 
             // Add Rows
-            bool isAlternate = false;
-            foreach (var genre in genreData)
+            if (genreData.Count == 0)
             {
-                Row row = genreTable.AddRow();
-                row.Format.Font.Name = "Arial";
-                row.Format.Font.Size = 11;
-                row.TopPadding = 5;
-                row.BottomPadding = 5;
-
-                // Apply alternating row color
-                if (isAlternate)
-                    row.Shading.Color = Colors.WhiteSmoke;
-
-                isAlternate = !isAlternate;
-
-                row.Cells[0].AddParagraph(genre.Genre);
-                row.Cells[1].AddParagraph(genre.BorrowCount.ToString());
+                Row noDataRow = genreTable.AddRow();
+                noDataRow.Cells[0].AddParagraph("No data available");
             }
+            else
+            {
+                bool isAlternate = false;
+                foreach (var genre in genreData)
+                {
+                    Row row = genreTable.AddRow();
+                    row.Format.Font.Name = "Arial";
+                    row.Format.Font.Size = 11;
+                    row.TopPadding = 5;
+                    row.BottomPadding = 5;
 
+                    // Apply alternating row color
+                    if (isAlternate)
+                        row.Shading.Color = Colors.WhiteSmoke;
+
+                    isAlternate = !isAlternate;
+
+                    row.Cells[0].AddParagraph(genre.Genre);
+                    row.Cells[1].AddParagraph(genre.BorrowCount.ToString());
+                }
+            }
             section.AddParagraph("\n\n");
         }
 

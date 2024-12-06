@@ -21,21 +21,29 @@ namespace Hontrack_library
         private Timer refreshTimer; // Timer for real-time updates
 
 
+
         public DashMain()
         {
             InitializeComponent();
+            genreComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            
+
+        
+
 
             // Call display methods to initialize data
 
         }
+
+     
 
         private void DashMain_Load(object sender, EventArgs e)
         {
             displayAb();
             displayBb();
             displayRb();
-         
-            LoadChart(); 
+            LoadGenres();
+            LoadChart();
             //  SetupRealTimeUpdates();
         }
 
@@ -48,7 +56,7 @@ namespace Hontrack_library
             refreshTimer.Start(); // Start the timer
         }
 
-          private void RefreshData(object sender, EventArgs e)
+        private void RefreshData(object sender, EventArgs e)
         {
             if (this.InvokeRequired)
             {
@@ -59,6 +67,7 @@ namespace Hontrack_library
                     displayBb();
                     displayRb();
                     LoadChart();
+                    LoadGenres();
                 }));
             }
             else
@@ -68,9 +77,10 @@ namespace Hontrack_library
                 displayBb();
                 displayRb();
                 LoadChart();
+                LoadGenres();
             }
         }
-        
+
 
 
         public void displayAb()
@@ -183,7 +193,40 @@ namespace Hontrack_library
                 );
             }
         }
+        private void LoadGenres()
+        {
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(connect))
+                {
+                    conn.Open();
+                    string query = "SELECT DISTINCT bookGenre FROM tbl_book WHERE deleteDate IS NULL";
+                    using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                    {
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            genreComboBox.Items.Clear(); // Clear existing items
 
+                            // Add "All Genres" option to the ComboBox (if needed)
+                            genreComboBox.Items.Add("All Genres");
+                         
+
+                            while (reader.Read())
+                            {
+                                genreComboBox.Items.Add(reader.GetString("bookGenre"));
+                            }
+
+                            // Set the default selected item (e.g., "All Genres")
+                            genreComboBox.SelectedIndex = 0;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading genres: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
         private bool isLoadingChart = false;
         private bool isDisposed = false;
@@ -198,17 +241,22 @@ namespace Hontrack_library
                 {
                     conn.Open();
                     DateTime selectedDate = filterDatePicker.Value.Date;
+                    string selectedGenre = genreComboBox.SelectedItem != null ? genreComboBox.SelectedItem.ToString().Trim() : "All Genres";
 
+
+                    // Updated SQL query to show books even if "All Genres" is selected
                     string query = @"
-SELECT bookTitle, COUNT(*) AS count 
-FROM tbl_booktransac
-WHERE deleteDate IS NULL 
-AND DATE(borrowDate) = @selectedDate
-GROUP BY bookTitle";
+                SELECT bookTitle, COUNT(*) AS count
+                FROM tbl_booktransac
+                WHERE deleteDate IS NULL
+                  AND DATE(borrowDate) = @selectedDate
+                  AND (@genre = 'All Genres' OR bookGenre = @genre)
+                GROUP BY bookTitle";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@selectedDate", selectedDate);
+                        cmd.Parameters.AddWithValue("@genre", selectedGenre); // Filter by genre
 
                         using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
                         {
@@ -256,6 +304,10 @@ GROUP BY bookTitle";
                 isLoadingChart = false;
             }
         }
+
+
+
+
 
 
         private string ShortenTitle(string title)
@@ -352,32 +404,13 @@ GROUP BY bookTitle";
 
         private void applyFilterButton_Click(object sender, EventArgs e)
         {
+         
+
             LoadChart();
+            LoadGenres();
+            MessageBox.Show("Filter applied successfully.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void BookQuantity_Click(object sender, EventArgs e)
-        {
 
-        }
-
-        private void label7_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label8_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void returnQuantity_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
     }
 }
