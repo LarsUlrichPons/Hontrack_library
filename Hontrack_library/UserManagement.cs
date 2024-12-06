@@ -5,6 +5,7 @@ using MySql.Data.MySqlClient;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 
 
 namespace Hontrack_library
@@ -184,7 +185,7 @@ namespace Hontrack_library
                 using (MySqlCommand cmd = new MySqlCommand(insertData, mysql))
                 {
                     cmd.Parameters.AddWithValue("@fullname", addEmployee_FN.Text.Trim());
-                    cmd.Parameters.AddWithValue("@username", addEmployee_UN.Text.Trim());
+                    cmd.Parameters.AddWithValue("@fullname", ToProperCase(addEmployee_FN.Text.Trim()));
                     cmd.Parameters.AddWithValue("@password", addEmployee_Pass.Text.Trim());
                     cmd.Parameters.AddWithValue("@usertype", addEmployee_UT.Text.Trim());
                     cmd.Parameters.AddWithValue("@insertDate", DateTime.Now);
@@ -281,7 +282,7 @@ namespace Hontrack_library
                             using (MySqlCommand cmd = new MySqlCommand(updatedata, mysql))
                             {
                                 cmd.Parameters.AddWithValue("@ID", addEmployee_id.Text.Trim());
-                                cmd.Parameters.AddWithValue("@fullname", addEmployee_FN.Text.Trim());
+                                cmd.Parameters.AddWithValue("@fullname", ToProperCase(addEmployee_FN.Text.Trim()));
                                 cmd.Parameters.AddWithValue("@username", addEmployee_UN.Text.Trim());
 
                                 // Directly store the password in plain text
@@ -349,6 +350,16 @@ namespace Hontrack_library
         private void addEmployee_id_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+
+        private string ToProperCase(string input)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+                return string.Empty;
+
+            TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
+            return textInfo.ToTitleCase(input.ToLower());
         }
 
         private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
