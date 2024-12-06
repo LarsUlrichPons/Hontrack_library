@@ -31,9 +31,7 @@ namespace Hontrack_library
             InitializeComponent();
             displayBookData();
 
-            refreshTimer = new Timer();
-            refreshTimer.Interval = 5000; // 1 second
-            refreshTimer.Tick += RefreshTimer_Tick; // Event handler
+           
            
 
             IDtxt.ReadOnly = true;
@@ -41,22 +39,19 @@ namespace Hontrack_library
             UserNametxt.ReadOnly = true;    
             status.ReadOnly = true; 
             borrowdate.ReadOnly = true;
+           
             returndate.ReadOnly = true;
         }
 
        
 
-        private void RefreshTimer_Tick(object sender, EventArgs e)
-        {
-            // Refresh the book data every second
-            displayBookData();
-        }
+      
         
         public void displayBookData()
         {
             BookTransaction bookData = new BookTransaction();
             List<BookTransaction> listdata = bookData.BookListTransaction();
-            listdata = listdata.OrderByDescending(b => b.ID).ToList();
+            listdata = listdata.OrderBy(b => b.Borrow).ToList();
 
             dataGridView1.Refresh();
             dataGridView1.DataSource = listdata;
@@ -87,10 +82,12 @@ namespace Hontrack_library
             dataGridView1.AllowUserToAddRows = false;
 
             // Ensure correct column headers
-            dataGridView1.Columns[0].HeaderText = "ID";
+           // dataGridView1.Columns[0].HeaderText = "ID";
+            dataGridView1.Columns[0].HeaderText = "School ID";
             dataGridView1.Columns[1].HeaderText = "Title";
             dataGridView1.Columns[2].HeaderText = "Book Number";
-            dataGridView1.Columns[3].HeaderText = "School ID";
+            dataGridView1.Columns[3].HeaderText = "Genre";
+          
             dataGridView1.Columns[4].HeaderText = "Borrow Date";
             dataGridView1.Columns[5].HeaderText = "Return Date";
             dataGridView1.Columns[6].HeaderText = "Status";
@@ -106,11 +103,12 @@ namespace Hontrack_library
 
 
                 DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
-                
+                 UserNametxt.Text = row.Cells[0].Value.ToString();
                 bookTitle.Text = row.Cells[1].Value.ToString();
                 IDtxt.Text = row.Cells[2].Value.ToString();
+                
                
-                UserNametxt.Text = row.Cells[3].Value.ToString();
+              
                 borrowdate.Text = row.Cells[4].Value.ToString();
                 returndate.Text = row.Cells[5].Value.ToString();
                 status.Text = row.Cells[6].Value.ToString();
@@ -170,7 +168,7 @@ namespace Hontrack_library
 
         private void PdfBtn_Click(object sender, EventArgs e)
         {
-            string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "BorrowingStatus.pdf");
+            string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Hontrack:Library Management(Book Inventory).pdf");
 
             try
             {

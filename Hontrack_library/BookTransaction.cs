@@ -6,10 +6,14 @@ namespace Hontrack_library
 {
     internal class BookTransaction
     {
-        public int ID { get; set; }
+       //public int ID { get; set; }
+       //
+       public string User_name { get; set; }
         public string BookTitle { get; set; }
-        public long BookNumber { get; set; }
-        public string User_name { get; set; }
+        public long BookNumber { get; set; } 
+        public string bookGenre { get; set; }
+
+      
         // public DateTime Published { get; set; }
         public string Borrow { get; set; }
         public string Return { get; set; }  // Store return date as string for easy checking
@@ -55,10 +59,11 @@ namespace Hontrack_library
                             {
                                 BookTransaction bookTransaction = new BookTransaction
                                 {
-                                    ID = reader.GetInt32("transac_id"),
+                                  //  ID = reader.GetInt32("transac_id"),
                                     BookTitle = reader.IsDBNull(reader.GetOrdinal("bookTitle")) ? "Unknown Title" : reader.GetString("bookTitle"),
                                     BookNumber = reader.GetInt64("bookISBN"),
                                     User_name = reader.GetString("borrowerID"),
+                                    bookGenre = reader.GetString("bookGenre"),
                                     Borrow = reader.GetDateTime("borrowDate").ToString("yyyy-MM-dd"),
                                     Status = reader.GetString("Status"),
                                     Return = reader.IsDBNull(reader.GetOrdinal("returnDate"))

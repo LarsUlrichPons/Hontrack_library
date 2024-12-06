@@ -12,11 +12,12 @@ namespace Hontrack_library
 {
     public class borrowedBookData
     {
-        public int ID { get; set; }
+     //   public int ID { get; set; }
 
         public string User_name { get; set; }
         public string BookTitle { get; set; }
         public long BookNumber { get; set; }
+        public string bookGenre {  get; set; }
        
         public string Borrow { get; set; }
         public string Return_due { get; set; }
@@ -53,11 +54,12 @@ namespace Hontrack_library
                         {
                             borrowedBookData transaction = new borrowedBookData
                             {
-                                ID = reader.GetInt32("transac_id"),
+                             //   ID = reader.GetInt32("transac_id"),
                                 BookTitle = reader.IsDBNull(reader.GetOrdinal("bookTitle")) ? "Unknown Title" : reader.GetString("bookTitle"), // Handle nulls
                                 BookNumber = reader.GetInt64("bookISBN"),
                                 User_name = reader.GetString("borrowerID"),
                                 Status = reader.GetString("Status"),
+                                bookGenre = reader.GetString("bookGenre"),
                                 Borrow = reader.GetDateTime("borrowDate").ToString("yyyy-MM-dd"),
                                 // Check if the return_due date is overdue
                                 Return_due = reader.IsDBNull(reader.GetOrdinal("returnDue"))

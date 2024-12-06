@@ -73,7 +73,7 @@
             // 
             // UserNametxt
             // 
-            this.UserNametxt.Location = new System.Drawing.Point(127, 269);
+            this.UserNametxt.Location = new System.Drawing.Point(127, 173);
             this.UserNametxt.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.UserNametxt.Name = "UserNametxt";
             this.UserNametxt.Size = new System.Drawing.Size(195, 26);
@@ -82,7 +82,7 @@
             // 
             // IDtxt
             // 
-            this.IDtxt.Location = new System.Drawing.Point(127, 224);
+            this.IDtxt.Location = new System.Drawing.Point(127, 261);
             this.IDtxt.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.IDtxt.Name = "IDtxt";
             this.IDtxt.Size = new System.Drawing.Size(195, 26);
@@ -94,7 +94,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(40, 229);
+            this.label2.Location = new System.Drawing.Point(40, 266);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(66, 18);
             this.label2.TabIndex = 0;
@@ -153,7 +153,7 @@
             // 
             // bookTitle
             // 
-            this.bookTitle.Location = new System.Drawing.Point(127, 179);
+            this.bookTitle.Location = new System.Drawing.Point(127, 216);
             this.bookTitle.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.bookTitle.Name = "bookTitle";
             this.bookTitle.Size = new System.Drawing.Size(195, 26);
@@ -164,7 +164,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.White;
-            this.label6.Location = new System.Drawing.Point(17, 184);
+            this.label6.Location = new System.Drawing.Point(17, 221);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(79, 18);
             this.label6.TabIndex = 30;
@@ -261,7 +261,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(25, 274);
+            this.label3.Location = new System.Drawing.Point(25, 178);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(77, 18);
             this.label3.TabIndex = 2;

@@ -50,6 +50,8 @@
             this.SearchBtn = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.bookGenre = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
@@ -173,7 +175,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(43, 326);
+            this.label4.Location = new System.Drawing.Point(43, 365);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(54, 18);
             this.label4.TabIndex = 20;
@@ -182,7 +184,7 @@
             // Status
             // 
             this.Status.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Status.Location = new System.Drawing.Point(122, 316);
+            this.Status.Location = new System.Drawing.Point(122, 355);
             this.Status.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Status.Name = "Status";
             this.Status.Size = new System.Drawing.Size(182, 32);
@@ -215,7 +217,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(4, 385);
+            this.label3.Location = new System.Drawing.Point(4, 424);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(96, 18);
             this.label3.TabIndex = 25;
@@ -224,7 +226,7 @@
             // borrowDate
             // 
             this.borrowDate.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.borrowDate.Location = new System.Drawing.Point(122, 375);
+            this.borrowDate.Location = new System.Drawing.Point(122, 414);
             this.borrowDate.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.borrowDate.Name = "borrowDate";
             this.borrowDate.Size = new System.Drawing.Size(182, 32);
@@ -256,7 +258,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.White;
-            this.label6.Location = new System.Drawing.Point(12, 438);
+            this.label6.Location = new System.Drawing.Point(12, 477);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(87, 18);
             this.label6.TabIndex = 29;
@@ -266,7 +268,7 @@
             // ReturnDueText
             // 
             this.ReturnDueText.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ReturnDueText.Location = new System.Drawing.Point(122, 428);
+            this.ReturnDueText.Location = new System.Drawing.Point(122, 467);
             this.ReturnDueText.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ReturnDueText.Name = "ReturnDueText";
             this.ReturnDueText.Size = new System.Drawing.Size(182, 32);
@@ -308,6 +310,8 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(37)))), ((int)(((byte)(41)))));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.bookGenre);
+            this.panel1.Controls.Add(this.label9);
             this.panel1.Controls.Add(this.SearchBtn);
             this.panel1.Controls.Add(this.SearchBox);
             this.panel1.Controls.Add(this.ReturnDueText);
@@ -331,6 +335,26 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(355, 664);
             this.panel1.TabIndex = 4;
+            // 
+            // bookGenre
+            // 
+            this.bookGenre.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bookGenre.Location = new System.Drawing.Point(121, 308);
+            this.bookGenre.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.bookGenre.Name = "bookGenre";
+            this.bookGenre.Size = new System.Drawing.Size(182, 32);
+            this.bookGenre.TabIndex = 30;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ForeColor = System.Drawing.Color.White;
+            this.label9.Location = new System.Drawing.Point(32, 317);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(53, 18);
+            this.label9.TabIndex = 31;
+            this.label9.Text = "Genre:";
             // 
             // Returnbook
             // 
@@ -375,5 +399,7 @@
         private System.Windows.Forms.Button SearchBtn;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.TextBox bookGenre;
+        private System.Windows.Forms.Label label9;
     }
 }

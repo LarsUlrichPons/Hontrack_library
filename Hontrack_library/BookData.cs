@@ -6,11 +6,12 @@ namespace Hontrack_library
 {
     internal class BookData
     {
-        public int ID { get; set; }
+     //   public int ID { get; set; }
        
         public string BookTitle { get; set; } 
         public long BookNumber { get; set; }
         public string Author { get; set; }
+        public string Genre { get; set; }   
         public DateTime Published { get; set; }
         public string Status { get; set; }
         public string Condition { get; set; }
@@ -47,10 +48,11 @@ namespace Hontrack_library
                             {
                                 BookData book = new BookData
                                 {
-                                    ID = reader.GetInt32("ID"),
+                                    //ID = reader.GetInt32("ID"),
                                     BookNumber = reader.GetInt64("bookISBN"),
                                     BookTitle = reader.GetString("bookTitle"),
                                     Author = reader.GetString("bookAuthor"),
+                                    Genre = reader.GetString("bookGenre"),
                                     Published = reader.GetDateTime("datePublished"),
                                     Status = reader.GetString("bookStatus"),
                                     Condition = reader.GetString("bookCondition"),

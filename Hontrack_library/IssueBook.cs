@@ -26,6 +26,7 @@ namespace Hontrack_library
             InitializeComponent();
             displayBookData();
             Status.DropDownStyle = ComboBoxStyle.DropDownList;
+            Camera.DropDownStyle = ComboBoxStyle.DropDownList;
           
           
            
@@ -92,10 +93,11 @@ namespace Hontrack_library
             dataGridView1.AllowUserToAddRows = false;
 
             // Ensure correct column headers
-            dataGridView1.Columns[0].HeaderText = "Book ID";
-            dataGridView1.Columns[1].HeaderText = "Title";
-            dataGridView1.Columns[2].HeaderText = "Book Number";
-            dataGridView1.Columns[3].HeaderText = "Author";
+           // dataGridView1.Columns[0].HeaderText = "Book ID";
+            dataGridView1.Columns[0].HeaderText = "Title";
+            dataGridView1.Columns[1].HeaderText = "Book Number";
+            dataGridView1.Columns[2].HeaderText = "Author";
+            dataGridView1.Columns[3].HeaderText = "Genre";
             dataGridView1.Columns[4].HeaderText = "Published Date";
             dataGridView1.Columns[5].HeaderText = "Status";
             dataGridView1.Columns[6].HeaderText = "Condition";
@@ -235,7 +237,7 @@ namespace Hontrack_library
                     {
                         conn.Open();
 
-                        string insertData = "INSERT INTO tbl_book (bookISBN, bookTitle, bookAuthor, datePublished, bookStatus, bookStock,bookCondition ,insertDate) VALUES (@book_num, @bookTitle, @author, @publishedDate, @status,@condition ,@BQuantity, @insertDate)";
+                        string insertData = "INSERT INTO tbl_book (bookISBN, bookTitle, bookAuthor, datePublished, bookStatus, bookStock,bookCondition ,bookGenre,insertDate) VALUES (@book_num, @bookTitle, @author, @publishedDate, @status,@condition ,@Genre,@BQuantity, @insertDate)";
 
                         using (MySqlCommand cmd = new MySqlCommand(insertData, conn))
                         {
@@ -245,6 +247,7 @@ namespace Hontrack_library
                             cmd.Parameters.AddWithValue("@publishedDate", publishedDate.Value);
                             cmd.Parameters.AddWithValue("@status", Status.Text.Trim());
                             cmd.Parameters.AddWithValue("@condition", bookCondition.Text.Trim());
+                            cmd.Parameters.AddWithValue("@Genre", bookCondition.Text.Trim());
                             cmd.Parameters.AddWithValue("@BQuantity", BQuantityTXT.Text.Trim());
                             cmd.Parameters.AddWithValue("@insertDate", DateTime.Now);
 
@@ -281,7 +284,7 @@ namespace Hontrack_library
                             conn.Open();
 
                           
-                            string updateData = "UPDATE tbl_book SET bookTitle = @bookTitle, bookAuthor = @author, datePublished = @publishedDate, bookStatus = @status,bookCondition = @condition,bookStock = @BQuantity ,updateDate = @updateDate WHERE bookISBN = @book_num";
+                            string updateData = "UPDATE tbl_book SET bookTitle = @bookTitle, bookAuthor = @author, datePublished = @publishedDate, bookStatus = @status,bookCondition = @condition,bookGenre = @Genre,bookStock = @BQuantity ,updateDate = @updateDate WHERE bookISBN = @book_num";
 
                             using (MySqlCommand cmd = new MySqlCommand(updateData, conn))
                             {
@@ -291,6 +294,7 @@ namespace Hontrack_library
                                 cmd.Parameters.AddWithValue("@publishedDate", publishedDate.Value);
                                 cmd.Parameters.AddWithValue("@status", Status.Text.Trim());
                                 cmd.Parameters.AddWithValue("@condition", bookCondition.Text.Trim());
+                                cmd.Parameters.AddWithValue("@Genre", bookGenre.Text.Trim());
                                 cmd.Parameters.AddWithValue("@BQuantity", BQuantityTXT.Text.Trim());
                                 cmd.Parameters.AddWithValue("@updateDate", DateTime.Now);
 
@@ -320,11 +324,12 @@ namespace Hontrack_library
             if (e.RowIndex >= 0)
             {
                 DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
-                BookID = (int)row.Cells[0].Value;  
+               // BookID = (int)row.Cells[0].Value;  
               
-                bookTitle.Text = row.Cells[1].Value.ToString(); 
-                BookNumTxt.Text = row.Cells[2].Value.ToString();
-                author.Text = row.Cells[3].Value.ToString();
+                bookTitle.Text = row.Cells[0].Value.ToString(); 
+                BookNumTxt.Text = row.Cells[1].Value.ToString();
+                author.Text = row.Cells[2].Value.ToString();
+                bookGenre.Text = row.Cells[3].Value.ToString();
                 if (DateTime.TryParse(row.Cells[4].Value.ToString(), out DateTime publishedDateValue))
                 {
                     publishedDate.Value = publishedDateValue;
@@ -347,6 +352,7 @@ namespace Hontrack_library
             BookNumTxt.Clear();
             BQuantityTXT.Clear();
             searchBox.Clear();
+            bookGenre.Clear();
             bookCondition.SelectedIndex = -1;
         }
 

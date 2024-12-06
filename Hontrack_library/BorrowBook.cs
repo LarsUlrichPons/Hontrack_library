@@ -50,6 +50,9 @@ namespace Hontrack_library
             Author.ReadOnly = true;
             BQuantity.ReadOnly = true;
             Status.ReadOnly = true;
+            bookGenre.ReadOnly = true;
+            bookCondition.DropDownStyle =  ComboBoxStyle.DropDownList;
+            Camera.DropDownStyle = ComboBoxStyle.DropDownList;
            
         }
 
@@ -233,10 +236,11 @@ namespace Hontrack_library
             dataGridView1.AllowUserToAddRows = false;
 
             // Ensure correct column headers
-            dataGridView1.Columns[0].HeaderText = "ID";
-            dataGridView1.Columns[1].HeaderText = "Title";
-            dataGridView1.Columns[2].HeaderText = "Book Number";
-            dataGridView1.Columns[3].HeaderText = "Author";
+           // dataGridView1.Columns[0].HeaderText = "ID";
+            dataGridView1.Columns[0].HeaderText = "Title";
+            dataGridView1.Columns[1].HeaderText = "Book Number";
+            dataGridView1.Columns[2].HeaderText = "Author";
+            dataGridView1.Columns[3].HeaderText = "Genre";
             dataGridView1.Columns[4].HeaderText = "Published";
             dataGridView1.Columns[5].HeaderText = "Status"; 
             dataGridView1.Columns[6].HeaderText = "Quantity";
@@ -254,11 +258,12 @@ namespace Hontrack_library
             if (e.RowIndex >= 0)
             {
                 DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
-                BookID = (int)row.Cells[0].Value;  // Ensure the ID column is the first column
-                BookTitle.Text = row.Cells[1].Value.ToString();
-                IDTextBox.Text = row.Cells[2].Value.ToString();
+               // BookID = (int)row.Cells[0].Value;  // Ensure the ID column is the first column
+                BookTitle.Text = row.Cells[0].Value.ToString();
+                IDTextBox.Text = row.Cells[1].Value.ToString();
                
-                Author.Text = row.Cells[3].Value.ToString();
+                Author.Text = row.Cells[2].Value.ToString();
+                bookGenre.Text = row.Cells[3].Value.ToString();
                 Status.Text = row.Cells[5].Value.ToString();
                 bookCondition.Text = row.Cells[6].Value.ToString();
                 BQuantity.Text = row.Cells[7].Value.ToString();
@@ -277,6 +282,7 @@ namespace Hontrack_library
             NameTXT.Clear();
             SearchBox.Clear();
             bookCondition.SelectedIndex = -1;
+            bookGenre.Clear();
         }
 
         private void BorrowButton_Click(object sender, EventArgs e)
@@ -337,14 +343,16 @@ namespace Hontrack_library
 
                                         // Insert the transaction into the book_transaction table
                                         string insertTransactionQuery = @"
-    INSERT INTO tbl_booktransac (bookTitle, bookISBN,  Status,borrowerID, borrowDate,returnDue)
-    VALUES (@bookTitle, @book_num, 'Borrowed', @user_name, NOW(), @return_due)";
+    INSERT INTO tbl_booktransac (bookTitle, bookISBN,  Status,bookGenre,borrowerID, borrowDate,returnDue)
+    VALUES (@bookTitle, @book_num, 'Borrowed',@Genre ,@user_name, NOW(), @return_due)";
 
                                         MySqlCommand insertTransactionCmd = new MySqlCommand(insertTransactionQuery, conn, transaction);
                                         insertTransactionCmd.Parameters.AddWithValue("@bookTitle", BookTitle.Text.Trim());
                                         insertTransactionCmd.Parameters.AddWithValue("@book_num", IDTextBox.Text.Trim());
                                         insertTransactionCmd.Parameters.AddWithValue("@user_name", NameTXT.Text.Trim());
                                         insertTransactionCmd.Parameters.AddWithValue("@return_due", ReturnDue.Value);
+                                        insertTransactionCmd.Parameters.AddWithValue("@Genre", bookGenre.Text.Trim());
+
 
                                         insertTransactionCmd.ExecuteNonQuery();
 

@@ -20,11 +20,6 @@ namespace Hontrack_library
             InitializeComponent();
             displayBookData();
 
-         
-
-            refreshTimer = new Timer();
-            refreshTimer.Interval = 5000;
-            refreshTimer.Tick += RefreshTimer_Tick;
 
             NameTXT.ReadOnly = true;
             IDTextBox.ReadOnly = true;
@@ -32,28 +27,17 @@ namespace Hontrack_library
             borrowDate.ReadOnly = true;
             bookTitle.ReadOnly = true;
             ReturnDueText.ReadOnly = true;
-        }
-
-        private void RefreshTimer_Tick(object sender, EventArgs e)
-        {
-            displayBookData();
+            bookGenre.ReadOnly = true;
+            
         }
 
         
-
-      
-
-      
-
-       
-       
-
         public void displayBookData()
         {
             borrowedBookData bookData = new borrowedBookData();
             List<borrowedBookData> listdata = bookData.BookListTransaction();
 
-            listdata = listdata.OrderByDescending(b => b.ID).ToList();
+            listdata = listdata.OrderBy(b => b.Borrow).ToList();
 
             dataGridView1.Refresh();
             dataGridView1.DataSource = listdata;
@@ -84,10 +68,11 @@ namespace Hontrack_library
             dataGridView1.AllowUserToAddRows = false;
 
             // Ensure correct column headers
-            dataGridView1.Columns[0].HeaderText = "ID";
-            dataGridView1.Columns[1].HeaderText = "School ID";
-            dataGridView1.Columns[2].HeaderText = "Title";
-            dataGridView1.Columns[3].HeaderText = "Book Number";
+          //  dataGridView1.Columns[0].HeaderText = "ID";
+            dataGridView1.Columns[0].HeaderText = "School ID";
+            dataGridView1.Columns[1].HeaderText = "Title";
+            dataGridView1.Columns[2].HeaderText = "Book Number";
+            dataGridView1.Columns[3].HeaderText = "Genre";
             dataGridView1.Columns[4].HeaderText = "Return Due";
             dataGridView1.Columns[5].HeaderText = "Borrow Date";
             dataGridView1.Columns[6].HeaderText = "Status";
@@ -109,6 +94,7 @@ namespace Hontrack_library
             bookTitle.Clear();
             ReturnDueText.Clear();
             SearchBox.Clear();
+            bookGenre.Clear();
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -118,10 +104,11 @@ namespace Hontrack_library
 
 
                 DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
-                BookID = (int)row.Cells[0].Value;  // Ensure the ID column is the first column
-                NameTXT.Text = row.Cells[1].Value.ToString();
-                bookTitle.Text = row.Cells[2].Value.ToString();
-                IDTextBox.Text = row.Cells[3].Value.ToString();
+               // BookID = (int)row.Cells[0].Value;  // Ensure the ID column is the first column
+                NameTXT.Text = row.Cells[0].Value.ToString();
+                bookTitle.Text = row.Cells[1].Value.ToString();
+                IDTextBox.Text = row.Cells[2].Value.ToString();
+                bookGenre.Text = row.Cells[3].Value.ToString();
                 borrowDate.Text = row.Cells[4].Value.ToString();
                 ReturnDueText.Text = row.Cells[5].Value.ToString();
                 Status.Text = row.Cells[6].Value.ToString();
