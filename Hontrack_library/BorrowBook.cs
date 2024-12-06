@@ -168,7 +168,7 @@ namespace Hontrack_library
                 {
                     conn.Open();
 
-                    string query = "SELECT bookTitle, bookAuthor, bookStock, bookStatus,bookCondition FROM tbl_book WHERE bookISBN = @barcode";
+                    string query = "SELECT bookTitle, bookAuthor, bookStock, bookStatus,bookCondition,bookGenre FROM tbl_book WHERE bookISBN = @barcode";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
                     cmd.Parameters.AddWithValue("@barcode", barcode);
 
@@ -180,6 +180,7 @@ namespace Hontrack_library
                             BookTitle.Text = reader["bookTitle"].ToString();
                             Author.Text = reader["bookAuthor"].ToString();
                             BQuantity.Text = reader["bookStock"].ToString();
+                            bookGenre.Text = reader["bookGenre"].ToString();
                             Status.Text = reader["bookStatus"].ToString();
                             bookCondition.Text = reader["bookCondition"].ToString();
                         }
@@ -187,7 +188,7 @@ namespace Hontrack_library
                         {
                             // Clear fields and show an error if the book is not found
                             ClearBtn_Click(null, null); // Clear all fields
-                            MessageBox.Show("No book registered with the scanned barcode.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show($"No book registered with the scanned barcode.\nBook Number: {barcode}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                 }

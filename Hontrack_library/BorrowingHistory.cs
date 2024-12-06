@@ -51,7 +51,7 @@ namespace Hontrack_library
         {
             BookTransaction bookData = new BookTransaction();
             List<BookTransaction> listdata = bookData.BookListTransaction();
-            listdata = listdata.OrderBy(b => b.Borrow).ToList();
+            listdata = listdata.OrderByDescending(b => b.Borrow).ToList();
 
             dataGridView1.Refresh();
             dataGridView1.DataSource = listdata;

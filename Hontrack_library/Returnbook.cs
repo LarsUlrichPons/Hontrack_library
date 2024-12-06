@@ -37,7 +37,7 @@ namespace Hontrack_library
             borrowedBookData bookData = new borrowedBookData();
             List<borrowedBookData> listdata = bookData.BookListTransaction();
 
-            listdata = listdata.OrderBy(b => b.Borrow).ToList();
+            listdata = listdata.OrderByDescending(b => b.Borrow).ToList();
 
             dataGridView1.Refresh();
             dataGridView1.DataSource = listdata;
@@ -73,8 +73,9 @@ namespace Hontrack_library
             dataGridView1.Columns[1].HeaderText = "Title";
             dataGridView1.Columns[2].HeaderText = "Book Number";
             dataGridView1.Columns[3].HeaderText = "Genre";
-            dataGridView1.Columns[4].HeaderText = "Return Due";
-            dataGridView1.Columns[5].HeaderText = "Borrow Date";
+            dataGridView1.Columns[4].HeaderText = "Borrow Date";
+            dataGridView1.Columns[5].HeaderText = "Return Due";
+          
             dataGridView1.Columns[6].HeaderText = "Status";
 
 
