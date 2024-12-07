@@ -1,7 +1,9 @@
 ﻿using AForge.Video.DirectShow;
 using MySql.Data.MySqlClient;
+using PdfSharp.Snippets;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -11,7 +13,7 @@ namespace Hontrack_library
 {
     public partial class Returnbook : UserControl
     {
-      
+
         private string connect = "server=127.0.0.1; user=root; database=hontrack; password=";
         private Timer refreshTimer;
 
@@ -28,19 +30,8 @@ namespace Hontrack_library
             bookTitle.ReadOnly = true;
             ReturnDueText.ReadOnly = true;
             bookGenre.ReadOnly = true;
-            
-        }
 
-        
-        public void displayBookData()
-        {
-            borrowedBookData bookData = new borrowedBookData();
-            List<borrowedBookData> listdata = bookData.BookListTransaction();
 
-            listdata = listdata.OrderByDescending(b => b.Borrow).ToList();
-
-            dataGridView1.Refresh();
-            dataGridView1.DataSource = listdata;
 
             dataGridView1.AutoGenerateColumns = true;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
@@ -67,19 +58,41 @@ namespace Hontrack_library
             // Disable extra rows
             dataGridView1.AllowUserToAddRows = false;
 
-            // Ensure correct column headers
-          //  dataGridView1.Columns[0].HeaderText = "ID";
-            dataGridView1.Columns[0].HeaderText = "School ID";
-            dataGridView1.Columns[1].HeaderText = "Title";
-            dataGridView1.Columns[2].HeaderText = "Book Number";
-            dataGridView1.Columns[3].HeaderText = "Genre";
-            dataGridView1.Columns[4].HeaderText = "Borrow Date";
-            dataGridView1.Columns[5].HeaderText = "Return Due";
-          
-            dataGridView1.Columns[6].HeaderText = "Status";
-
-
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+
+        }
+
+
+        public void displayBookData()
+        {
+            borrowedBookData bookData = new borrowedBookData();
+            List<borrowedBookData> listdata = bookData.BookListTransaction();
+
+            listdata = listdata.OrderByDescending(b => b.Borrow).ToList();
+            dataGridView1.DataSource = listdata;
+
+            dataGridView1.Refresh();
+
+
+            // Ensure correct column headers
+            dataGridView1.Columns[0].HeaderText = "ID";
+            dataGridView1.Columns[1].HeaderText = "School ID";
+            dataGridView1.Columns[2].HeaderText = "Title";
+            dataGridView1.Columns[3].HeaderText = "Book Number";
+            dataGridView1.Columns[4].HeaderText = "Genre";
+            dataGridView1.Columns[5].HeaderText = "Borrow Date";
+            dataGridView1.Columns[6].HeaderText = "Return Due";
+
+            dataGridView1.Columns[7].HeaderText = "Status";
+
+            if (dataGridView1.Columns[5] != null || dataGridView1.Columns[6] != null)
+            {
+                dataGridView1.Columns[5].DefaultCellStyle.Format = "yyyy-MM-dd";
+                dataGridView1.Columns[6].DefaultCellStyle.Format = "yyyy-MM-dd";
+            }
+
+
         }
 
 
@@ -87,7 +100,7 @@ namespace Hontrack_library
 
         public void clearField()
         {
-          
+
             Status.Clear();
             IDTextBox.Clear();
             NameTXT.Clear();
@@ -105,16 +118,16 @@ namespace Hontrack_library
 
 
                 DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
-               // BookID = (int)row.Cells[0].Value;  // Ensure the ID column is the first column
-                NameTXT.Text = row.Cells[0].Value.ToString();
-                bookTitle.Text = row.Cells[1].Value.ToString();
-                IDTextBox.Text = row.Cells[2].Value.ToString();
-                bookGenre.Text = row.Cells[3].Value.ToString();
-                borrowDate.Text = row.Cells[4].Value.ToString();
-                ReturnDueText.Text = row.Cells[5].Value.ToString();
-                Status.Text = row.Cells[6].Value.ToString();
-               
-                
+                 BookID = (int)row.Cells[0].Value;  // Ensure the ID column is the first column
+                NameTXT.Text = row.Cells[1].Value.ToString();
+                bookTitle.Text = row.Cells[2].Value.ToString();
+                IDTextBox.Text = row.Cells[3].Value.ToString();
+                bookGenre.Text = row.Cells[4].Value.ToString();
+                borrowDate.Text = row.Cells[5].Value.ToString();
+                ReturnDueText.Text = row.Cells[6].Value.ToString();
+                Status.Text = row.Cells[7].Value.ToString();
+
+
             }
         }
 
@@ -209,7 +222,7 @@ namespace Hontrack_library
 
 
 
-       
+
         private void refreshBtn_Click(object sender, EventArgs e)
         {
             try
@@ -229,33 +242,83 @@ namespace Hontrack_library
 
         private void SearchBtn_Click(object sender, EventArgs e)
         {
+            MySqlConnection conn = new MySqlConnection(connect);
+
             try
             {
-                string searchQuery = SearchBox.Text.Trim(); // Assuming you have a TextBox named searchBox
-                borrowedBookData bookData = new borrowedBookData();
-                Console.WriteLine("Search Query: " + searchQuery); // Add this to log the search query
-
-
-                List<borrowedBookData> filteredData = bookData.BookListTransaction(
-                 searchQuery
-
-
-                );
-
-                // Refresh the DataGridView
-                dataGridView1.Refresh();
-                dataGridView1.DataSource = filteredData;
-
-                if (filteredData.Count == 0)
+                // Open the connection if it's closed
+                if (conn.State == ConnectionState.Closed)
                 {
-                    MessageBox.Show("No records found for the specified search query.", "Search Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    conn.Open();
+
+                    // Create a DataTable to hold the search results
+                    using (DataTable dt = new DataTable())
+                    {
+                        // Correct SQL query with proper WHERE and ORDER BY placement
+                        string searchData = @"
+                SELECT 
+                    transac_id, borrowerID, bookTitle, bookISBN, 
+                    bookGenre, borrowDate, returnDue, Status
+                FROM tbl_booktransac 
+                WHERE (bookISBN LIKE @SearchQuery 
+                    OR bookTitle LIKE @SearchQuery 
+                    OR borrowerID LIKE @SearchQuery
+                    OR bookGenre LIKE @SearchQuery
+                    OR Status LIKE @SearchQuery)
+                    AND Status = 'Borrowed' -- Ensure we're filtering borrowed books
+                ORDER BY borrowDate DESC; -- Order by borrow date for recent entries";
+
+                        // Create the command and add parameters
+                        using (MySqlCommand cmd = new MySqlCommand(searchData, conn))
+                        {
+                            string searchQuery = "%" + SearchBox.Text.Trim() + "%"; // Add wildcards for LIKE search
+                            cmd.Parameters.AddWithValue("@SearchQuery", searchQuery); // Use @SearchQuery for all fields
+
+                            // Execute the command and fill the DataTable
+                            using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
+                            {
+                                adapter.Fill(dt);
+                            }
+
+                            // Bind the DataTable to the DataGridView
+                            dataGridView1.DataSource = dt;
+                            dataGridView1.Refresh();
+
+                            // Set headers and formats (set this globally if possible)
+                            dataGridView1.Columns[0].HeaderText = "ID";
+                            dataGridView1.Columns[1].HeaderText = "School ID";
+                            dataGridView1.Columns[2].HeaderText = "Title";
+                            dataGridView1.Columns[3].HeaderText = "Book Number";
+                            dataGridView1.Columns[4].HeaderText = "Genre";
+                            dataGridView1.Columns[5].HeaderText = "Borrow Date";
+                            dataGridView1.Columns[6].HeaderText = "Return Due";
+                            dataGridView1.Columns[7].HeaderText = "Status";
+
+                            // Format date columns (if present)
+                            if (dataGridView1.Columns[5] != null && dataGridView1.Columns[6] != null)
+                            {
+                                dataGridView1.Columns[5].DefaultCellStyle.Format = "yyyy-MM-dd";
+                                dataGridView1.Columns[6].DefaultCellStyle.Format = "yyyy-MM-dd";
+                            }
+                        }
+                    }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message + "\nStack Trace: " + ex.StackTrace, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                // Ensure the connection is closed properly
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
             }
         }
+
+
 
         private void NameTXT_TextChanged(object sender, EventArgs e)
         {

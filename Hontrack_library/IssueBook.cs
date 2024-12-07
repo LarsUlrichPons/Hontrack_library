@@ -95,8 +95,12 @@ namespace Hontrack_library
         {
             BookData bookData = new BookData();
             List<BookData> listdata = bookData.BookListData();
+
+            listdata = listdata.OrderBy(b=>b.BookTitle).ToList();
             dataGridView1.DataSource = listdata;
-          
+
+            dataGridView1.Refresh();
+
 
             // Enable data auto-generation and auto-sizing
          
@@ -540,16 +544,17 @@ namespace Hontrack_library
                     // Create a DataTable to hold the search results
                     using (DataTable dt = new DataTable())
                     {
-                        // Modify the query so that 'bookTitle' is the first column and 'bookISBN' comes after
+                        // Modify the query to include ORDER BY for alphabetical sorting
                         string searchData = @"
-                    SELECT bookTitle, bookISBN, bookAuthor, 
-                           bookGenre, datePublished, 
-                           bookStatus, bookCondition, bookStock 
-                    FROM tbl_book 
-                    WHERE bookISBN LIKE @SearchQuery 
-                    OR bookTitle LIKE @SearchQuery 
-                    OR bookAuthor LIKE @SearchQuery
-                    OR bookGenre LIKE @SearchQuery";
+                SELECT bookTitle, bookISBN, bookAuthor, 
+                       bookGenre, datePublished, 
+                       bookStatus, bookCondition, bookStock 
+                FROM tbl_book 
+                WHERE bookISBN LIKE @SearchQuery 
+                   OR bookTitle LIKE @SearchQuery 
+                   OR bookAuthor LIKE @SearchQuery
+                   OR bookGenre LIKE @SearchQuery
+                ORDER BY bookTitle ASC"; // Sort alphabetically by bookTitle
 
                         // Create the command and add parameters
                         using (MySqlCommand cmd = new MySqlCommand(searchData, conn))
@@ -565,8 +570,7 @@ namespace Hontrack_library
 
                             // Bind the DataTable to the DataGridView
                             dataGridView1.DataSource = dt;
-
-
+                            dataGridView1.Refresh();
 
                             // Set the custom headers after binding the data
                             dataGridView1.Columns[0].HeaderText = "Title";
@@ -577,9 +581,6 @@ namespace Hontrack_library
                             dataGridView1.Columns[5].HeaderText = "Status";
                             dataGridView1.Columns[6].HeaderText = "Condition";
                             dataGridView1.Columns[7].HeaderText = "Quantity";
-
-                            // Optional: Adjust column width and alignment for readability
-
 
                             // Optional: Format the 'Published Date' column (if it's a DateTime type)
                             if (dataGridView1.Columns[4] != null)
@@ -592,7 +593,7 @@ namespace Hontrack_library
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -603,6 +604,7 @@ namespace Hontrack_library
                 }
             }
         }
+
 
 
 

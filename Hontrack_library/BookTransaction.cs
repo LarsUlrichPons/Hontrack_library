@@ -7,7 +7,7 @@ namespace Hontrack_library
     internal class BookTransaction
     {
        //public int ID { get; set; }
-       //
+       
        public string User_name { get; set; }
         public string BookTitle { get; set; }
         public long BookNumber { get; set; } 
@@ -36,20 +36,13 @@ namespace Hontrack_library
 
                     // Only add filters if the corresponding parameter is not null or empty
                   
-                    if (!string.IsNullOrEmpty(userNameFilter))
-                    {
-                        selectData += " AND borrowerName LIKE @userNameFilter";
-                       
-                    }
+                  
                  
 
 
                     using (MySqlCommand cmd = new MySqlCommand(selectData, mysql))
                     {
-                        if (!string.IsNullOrEmpty(userNameFilter))
-                        {
-                            cmd.Parameters.AddWithValue("@userNameFilter", "%" + userNameFilter + "%");
-                        }
+                        
                        
 
 
@@ -59,7 +52,7 @@ namespace Hontrack_library
                             {
                                 BookTransaction bookTransaction = new BookTransaction
                                 {
-                                  //  ID = reader.GetInt32("transac_id"),
+                                  // ID = reader.GetInt32("transac_id"),
                                     BookTitle = reader.IsDBNull(reader.GetOrdinal("bookTitle")) ? "Unknown Title" : reader.GetString("bookTitle"),
                                     BookNumber = reader.GetInt64("bookISBN"),
                                     User_name = reader.GetString("borrowerID"),

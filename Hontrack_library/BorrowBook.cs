@@ -2,6 +2,7 @@
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -12,8 +13,8 @@ namespace Hontrack_library
 {
     public partial class BorrowBook : UserControl
     {
-       
-       
+
+
         string connect = "server=127.0.0.1; user=root; database=hontrack; password=";
         private Timer refreshTimer; // Declare Timer here
         private FilterInfoCollection filterInfoCollection;
@@ -28,7 +29,7 @@ namespace Hontrack_library
 
 
             // Initialize and start the timer to refresh every 1 second
-         
+
 
             filterInfoCollection = new FilterInfoCollection(FilterCategory.VideoInputDevice);
 
@@ -51,15 +52,43 @@ namespace Hontrack_library
             BQuantity.ReadOnly = true;
             Status.ReadOnly = true;
             bookGenre.ReadOnly = true;
-            bookCondition.DropDownStyle =  ComboBoxStyle.DropDownList;
+            bookCondition.DropDownStyle = ComboBoxStyle.DropDownList;
             Camera.DropDownStyle = ComboBoxStyle.DropDownList;
-           
+
+            dataGridView1.AutoGenerateColumns = true;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
+            // Header styling
+            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 11, FontStyle.Bold);
+            dataGridView1.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView1.ColumnHeadersDefaultCellStyle.Padding = new Padding(5);
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+
+            // Row styling
+            dataGridView1.DefaultCellStyle.Font = new Font("Arial", 9);
+            dataGridView1.DefaultCellStyle.BackColor = Color.WhiteSmoke;
+            dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.LightGray;
+            dataGridView1.DefaultCellStyle.SelectionBackColor = Color.Blue;
+            dataGridView1.DefaultCellStyle.SelectionForeColor = Color.White;
+            dataGridView1.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView1.DefaultCellStyle.Padding = new Padding(5);
+
+            // Borders and grid lines
+            dataGridView1.CellBorderStyle = DataGridViewCellBorderStyle.Single;
+            dataGridView1.GridColor = Color.Gray;
+
+            // Disable extra rows
+            dataGridView1.AllowUserToAddRows = false;
+
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+
         }
 
-       
+
         private void ClearBtn_Click(object sender, EventArgs e)
         {
-           clearField();
+            clearField();
         }
 
 
@@ -209,47 +238,25 @@ namespace Hontrack_library
             BookData bookData = new BookData();
             List<BookData> listdata = bookData.BookListData();
             dataGridView1.Refresh();
+            listdata = listdata.OrderBy(b=>b.BookTitle).ToList();
             dataGridView1.DataSource = listdata;
 
-            dataGridView1.AutoGenerateColumns = true;
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-
-            // Header styling
-            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 11, FontStyle.Bold);
-            dataGridView1.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.ColumnHeadersDefaultCellStyle.Padding = new Padding(5);
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-
-            // Row styling
-            dataGridView1.DefaultCellStyle.Font = new Font("Arial", 9);
-            dataGridView1.DefaultCellStyle.BackColor = Color.WhiteSmoke;
-            dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.LightGray;
-            dataGridView1.DefaultCellStyle.SelectionBackColor = Color.Blue;
-            dataGridView1.DefaultCellStyle.SelectionForeColor = Color.White;
-            dataGridView1.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.DefaultCellStyle.Padding = new Padding(5);
-
-            // Borders and grid lines
-            dataGridView1.CellBorderStyle = DataGridViewCellBorderStyle.Single;
-            dataGridView1.GridColor = Color.Gray;
-
-            // Disable extra rows
-            dataGridView1.AllowUserToAddRows = false;
+         
 
             // Ensure correct column headers
-           // dataGridView1.Columns[0].HeaderText = "ID";
+            // dataGridView1.Columns[0].HeaderText = "ID";
             dataGridView1.Columns[0].HeaderText = "Title";
             dataGridView1.Columns[1].HeaderText = "Book Number";
             dataGridView1.Columns[2].HeaderText = "Author";
             dataGridView1.Columns[3].HeaderText = "Genre";
-            dataGridView1.Columns[4].HeaderText = "Published";
-            dataGridView1.Columns[5].HeaderText = "Status"; 
-            dataGridView1.Columns[6].HeaderText = "Quantity";
-            dataGridView1.Columns[7].HeaderText = "Condition";
-          
+            dataGridView1.Columns[4].HeaderText = "Published Date";
+            dataGridView1.Columns[5].HeaderText = "Status";
+            dataGridView1.Columns[6].HeaderText = "Condition";
+            dataGridView1.Columns[7].HeaderText = "Quantity";
 
 
-            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+
         }
 
         private int BookID = 0;
@@ -259,17 +266,17 @@ namespace Hontrack_library
             if (e.RowIndex >= 0)
             {
                 DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
-               // BookID = (int)row.Cells[0].Value;  // Ensure the ID column is the first column
+                // BookID = (int)row.Cells[0].Value;  // Ensure the ID column is the first column
                 BookTitle.Text = row.Cells[0].Value.ToString();
                 IDTextBox.Text = row.Cells[1].Value.ToString();
-               
+
                 Author.Text = row.Cells[2].Value.ToString();
                 bookGenre.Text = row.Cells[3].Value.ToString();
                 Status.Text = row.Cells[5].Value.ToString();
                 bookCondition.Text = row.Cells[6].Value.ToString();
                 BQuantity.Text = row.Cells[7].Value.ToString();
-          
-                
+
+
             }
         }
 
@@ -401,47 +408,94 @@ namespace Hontrack_library
             {
                 // Refresh data instantly
                 displayBookData();
-              
+
                 MessageBox.Show("Data refreshed successfully.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error refreshing data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            } 
+            }
             clearField();
         }
 
-       
+
 
         private void searchBtn_Click(object sender, EventArgs e)
         {
+            MySqlConnection conn = new MySqlConnection(connect);
+
             try
             {
-                string searchQuery = SearchBox.Text.Trim(); // Assuming you have a TextBox named searchBox
-                BookData bookData = new BookData();
-                Console.WriteLine("Search Query: " + searchQuery); // Add this to log the search query
-
-
-                List<BookData> filteredData = bookData.BookListData(
-                 searchQuery
-
-
-                );
-
-                // Refresh the DataGridView
-                dataGridView1.Refresh();
-                dataGridView1.DataSource = filteredData;
-
-                if (filteredData.Count == 0)
+                // Open the connection if it's closed
+                if (conn.State == ConnectionState.Closed)
                 {
-                    MessageBox.Show("No records found for the specified search query.", "Search Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    conn.Open();
+
+                    // Create a DataTable to hold the search results
+                    using (DataTable dt = new DataTable())
+                    {
+                        // Modify the query to include ORDER BY for alphabetical sorting
+                        string searchData = @"
+                SELECT bookTitle, bookISBN, bookAuthor, 
+                       bookGenre, datePublished, 
+                       bookStatus, bookCondition, bookStock 
+                FROM tbl_book 
+                WHERE bookISBN LIKE @SearchQuery 
+                   OR bookTitle LIKE @SearchQuery 
+                   OR bookAuthor LIKE @SearchQuery
+                   OR bookGenre LIKE @SearchQuery
+                ORDER BY bookTitle ASC"; // Sort alphabetically by bookTitle
+
+                        // Create the command and add parameters
+                        using (MySqlCommand cmd = new MySqlCommand(searchData, conn))
+                        {
+                            string searchQuery = "%" + SearchBox.Text.Trim() + "%"; // Add wildcards for LIKE search
+                            cmd.Parameters.AddWithValue("@SearchQuery", searchQuery); // Use @SearchQuery for all fields
+
+                            // Execute the command and fill the DataTable
+                            using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
+                            {
+                                adapter.Fill(dt);
+                            }
+
+                            // Bind the DataTable to the DataGridView
+                            dataGridView1.DataSource = dt;
+                            dataGridView1.Refresh();
+
+                            // Set the custom headers after binding the data
+                            dataGridView1.Columns[0].HeaderText = "Title";
+                            dataGridView1.Columns[1].HeaderText = "Book Number";
+                            dataGridView1.Columns[2].HeaderText = "Author";
+                            dataGridView1.Columns[3].HeaderText = "Genre";
+                            dataGridView1.Columns[4].HeaderText = "Published Date";
+                            dataGridView1.Columns[5].HeaderText = "Status";
+                            dataGridView1.Columns[6].HeaderText = "Condition";
+                            dataGridView1.Columns[7].HeaderText = "Quantity";
+
+                            // Optional: Format the 'Published Date' column (if it's a DateTime type)
+                            if (dataGridView1.Columns[4] != null)
+                            {
+                                dataGridView1.Columns[4].DefaultCellStyle.Format = "yyyy-MM-dd";
+                            }
+                        }
+                    }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message + "\nStack Trace: " + ex.StackTrace, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                // Ensure the connection is closed properly
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
             }
         }
+
+    
 
         private void ReturnDue_ValueChanged(object sender, EventArgs e)
         {

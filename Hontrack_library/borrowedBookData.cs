@@ -12,7 +12,7 @@ namespace Hontrack_library
 {
     public class borrowedBookData
     {
-     //   public int ID { get; set; }
+        public int ID { get; set; }
 
         public string User_name { get; set; }
         public string BookTitle { get; set; }
@@ -30,11 +30,7 @@ namespace Hontrack_library
             List<borrowedBookData> bookTransactions = new List<borrowedBookData>();
             string query = "SELECT * FROM tbl_booktransac WHERE Status = 'Borrowed'";
 
-            if (!string.IsNullOrEmpty(userNameFilter))
-            {
-                query += " AND borrowerID LIKE @userNameFilter";
-
-            }
+          
 
 
             using (MySqlConnection conn = new MySqlConnection(connectionString))
@@ -44,17 +40,14 @@ namespace Hontrack_library
                 conn.Open();
                 using (MySqlCommand cmd = new MySqlCommand(query, conn))
                 {
-                    if (!string.IsNullOrEmpty(userNameFilter))
-                    {
-                        cmd.Parameters.AddWithValue("@userNameFilter", "%" + userNameFilter + "%");
-                    }
+                 
                     using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
                             borrowedBookData transaction = new borrowedBookData
                             {
-                             //   ID = reader.GetInt32("transac_id"),
+                             ID = reader.GetInt32("transac_id"),
                                 BookTitle = reader.IsDBNull(reader.GetOrdinal("bookTitle")) ? "Unknown Title" : reader.GetString("bookTitle"), // Handle nulls
                                 BookNumber = reader.GetInt64("bookISBN"),
                                 User_name = reader.GetString("borrowerID"),

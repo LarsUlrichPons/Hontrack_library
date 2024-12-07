@@ -42,20 +42,6 @@ namespace Hontrack_library
             borrowdate.ReadOnly = true;
            
             returndate.ReadOnly = true;
-        }
-
-       
-
-      
-        
-        public void displayBookData()
-        {
-            BookTransaction bookData = new BookTransaction();
-            List<BookTransaction> listdata = bookData.BookListTransaction();
-            listdata = listdata.OrderByDescending(b => b.Borrow).ToList();
-
-            dataGridView1.Refresh();
-            dataGridView1.DataSource = listdata;
 
             dataGridView1.AutoGenerateColumns = true;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
@@ -82,6 +68,25 @@ namespace Hontrack_library
             // Disable extra rows
             dataGridView1.AllowUserToAddRows = false;
 
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+        }
+
+
+
+
+
+        public void displayBookData()
+        {
+            BookTransaction bookData = new BookTransaction();
+            List<BookTransaction> listdata = bookData.BookListTransaction();
+            listdata = listdata.OrderByDescending(b => b.Borrow).ToList();
+
+            dataGridView1.Refresh();
+            dataGridView1.DataSource = listdata;
+
+            
+
             // Ensure correct column headers
            // dataGridView1.Columns[0].HeaderText = "ID";
             dataGridView1.Columns[0].HeaderText = "School ID";
@@ -93,8 +98,10 @@ namespace Hontrack_library
             dataGridView1.Columns[5].HeaderText = "Return Date";
             dataGridView1.Columns[6].HeaderText = "Status";
 
+            dataGridView1.Columns[5].DefaultCellStyle.Format = "yyyy-MM-dd";
+            dataGridView1.Columns[6].DefaultCellStyle.Format = "yyyy-MM-dd";
 
-            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -113,6 +120,8 @@ namespace Hontrack_library
                 borrowdate.Text = row.Cells[4].Value.ToString();
                 returndate.Text = row.Cells[5].Value.ToString();
                 status.Text = row.Cells[6].Value.ToString();
+
+
             }
         }
 
@@ -120,37 +129,83 @@ namespace Hontrack_library
 
         private void searchBtn_Click(object sender, EventArgs e)
         {
+            MySqlConnection conn = new MySqlConnection(connect);
+
             try
             {
-                string searchQuery = searchBox.Text.Trim(); // Assuming you have a TextBox named searchBox
-                BookTransaction bookData = new BookTransaction();
-                Console.WriteLine("Search Query: " + searchQuery); // Add this to log the search query
-
-
-                List<BookTransaction> filteredData = bookData.BookListTransaction(
-                 searchQuery
-                  
-                   
-                );
-
-                // Refresh the DataGridView
-                dataGridView1.Refresh();
-                dataGridView1.DataSource = filteredData;
-
-                if (filteredData.Count == 0)
+                // Open the connection if it's closed
+                if (conn.State == ConnectionState.Closed)
                 {
-                    MessageBox.Show("No records found for the specified search query.", "Search Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    conn.Open();
+
+                    // Create a DataTable to hold the search results
+                    using (DataTable dt = new DataTable())
+                    {
+                        // SQL query with proper WHERE and ORDER BY placement
+                        string searchData = @"
+                SELECT 
+                    transac_id, borrowerID, bookTitle, bookISBN, 
+                    bookGenre, borrowDate, returnDue, Status
+                FROM tbl_booktransac 
+                WHERE (bookISBN LIKE @SearchQuery 
+                    OR bookTitle LIKE @SearchQuery 
+                    OR borrowerID LIKE @SearchQuery
+                    OR bookGenre LIKE @SearchQuery
+                    OR Status LIKE @SearchQuery)
+                ORDER BY borrowDate DESC;"; // Order by borrow date for recent entries
+
+                        // Create the command and add parameters
+                        using (MySqlCommand cmd = new MySqlCommand(searchData, conn))
+                        {
+                            string searchQuery = "%" + searchBox.Text.Trim() + "%"; // Add wildcards for LIKE search
+                            cmd.Parameters.AddWithValue("@SearchQuery", searchQuery);
+
+                            // Execute the command and fill the DataTable
+                            using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
+                            {
+                                adapter.Fill(dt);
+                            }
+
+                            // Bind the DataTable to the DataGridView
+                            dataGridView1.DataSource = dt;
+                            dataGridView1.Refresh();
+
+                            // Ensure column headers are correctly set
+                            if (dataGridView1.Columns.Count > 0)
+                            {
+                                dataGridView1.Columns[0].HeaderText = "Transaction ID";
+                                dataGridView1.Columns[1].HeaderText = "School ID";
+                                dataGridView1.Columns[2].HeaderText = "Title";
+                                dataGridView1.Columns[3].HeaderText = "Book Number";
+                                dataGridView1.Columns[4].HeaderText = "Genre";
+                                dataGridView1.Columns[5].HeaderText = "Borrow Date";
+                                dataGridView1.Columns[6].HeaderText = "Return Due";
+                                dataGridView1.Columns[7].HeaderText = "Status";
+
+                                // Format date columns (if present)
+                                dataGridView1.Columns[5].DefaultCellStyle.Format = "yyyy-MM-dd";
+                                dataGridView1.Columns[6].DefaultCellStyle.Format = "yyyy-MM-dd";
+                            }
+                        }
+                    }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message + "\nStack Trace: " + ex.StackTrace, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                // Ensure the connection is closed properly
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
             }
         }
 
 
 
-      
 
         private void refreshBtn_Click(object sender, EventArgs e)
         {
