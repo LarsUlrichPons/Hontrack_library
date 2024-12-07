@@ -25,7 +25,7 @@ namespace Hontrack_library
         public DashMain()
         {
             InitializeComponent();
-         
+            genreComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
 
 
 
@@ -197,7 +197,7 @@ namespace Hontrack_library
                 );
             }
         }
-        private void LoadGenres()
+        private void LoadGenres(string selectedGenre = "All Genres")
         {
             try
             {
@@ -220,10 +220,20 @@ namespace Hontrack_library
                 }
 
                 // Configure the ComboBox
-                genreComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+              
                 genreComboBox.IntegralHeight = false;
                 genreComboBox.MaxDropDownItems = 5;  // Set limit for visible items
-              //  genreComboBox.DropDownHeight = 100;  // Adjust dropdown height for scroll bar
+                                                     //  genreComboBox.DropDownHeight = 100;  // Adjust dropdown height for scroll bar
+
+
+                if (genreComboBox.Items.Contains(selectedGenre))
+                {
+                    genreComboBox.SelectedItem = selectedGenre; // Select the specified genre
+                }
+                else
+                {
+                    genreComboBox.SelectedIndex = 0; // Default to "All Genres" if the genre is not found
+                }
             }
             catch (Exception ex)
             {
