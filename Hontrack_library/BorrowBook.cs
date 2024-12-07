@@ -335,7 +335,7 @@ namespace Hontrack_library
                                         // If the stock reaches zero, set the status to 'Unavailable'
                                         if (newStock == 0)
                                         {
-                                            string updateStatusQuery = "UPDATE tbl_book SET bookStatus = 'outofstock' WHERE bookISBN = @book_num";
+                                            string updateStatusQuery = "UPDATE tbl_book SET bookStatus = 'Unavailable' WHERE bookISBN = @book_num";
                                             MySqlCommand updateStatusCmd = new MySqlCommand(updateStatusQuery, conn, transaction);
                                             updateStatusCmd.Parameters.AddWithValue("@book_num", IDTextBox.Text.Trim());
 

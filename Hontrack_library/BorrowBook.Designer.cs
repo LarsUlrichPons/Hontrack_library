@@ -39,6 +39,8 @@
             this.refreshBtn = new System.Windows.Forms.Button();
             this.SearchBox = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.bookGenre = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
             this.bookCondition = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
             this.StartBtn = new System.Windows.Forms.Button();
@@ -57,8 +59,6 @@
             this.label6 = new System.Windows.Forms.Label();
             this.BookTitle = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.bookGenre = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
@@ -189,7 +189,7 @@
             // SearchBox
             // 
             this.SearchBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SearchBox.Location = new System.Drawing.Point(14, 193);
+            this.SearchBox.Location = new System.Drawing.Point(14, 186);
             this.SearchBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.SearchBox.Name = "SearchBox";
             this.SearchBox.Size = new System.Drawing.Size(236, 25);
@@ -229,8 +229,28 @@
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(362, 664);
+            this.panel1.Size = new System.Drawing.Size(364, 664);
             this.panel1.TabIndex = 2;
+            // 
+            // bookGenre
+            // 
+            this.bookGenre.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bookGenre.Location = new System.Drawing.Point(153, 401);
+            this.bookGenre.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.bookGenre.Name = "bookGenre";
+            this.bookGenre.Size = new System.Drawing.Size(182, 32);
+            this.bookGenre.TabIndex = 33;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.ForeColor = System.Drawing.Color.White;
+            this.label11.Location = new System.Drawing.Point(61, 408);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(58, 20);
+            this.label11.TabIndex = 34;
+            this.label11.Text = "Genre:";
             // 
             // bookCondition
             // 
@@ -258,7 +278,7 @@
             // 
             // StartBtn
             // 
-            this.StartBtn.Location = new System.Drawing.Point(256, 150);
+            this.StartBtn.Location = new System.Drawing.Point(256, 143);
             this.StartBtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.StartBtn.Name = "StartBtn";
             this.StartBtn.Size = new System.Drawing.Size(90, 32);
@@ -270,7 +290,7 @@
             // Camera
             // 
             this.Camera.FormattingEnabled = true;
-            this.Camera.Location = new System.Drawing.Point(14, 154);
+            this.Camera.Location = new System.Drawing.Point(14, 147);
             this.Camera.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Camera.Name = "Camera";
             this.Camera.Size = new System.Drawing.Size(236, 28);
@@ -278,11 +298,12 @@
             // 
             // CameraFrame
             // 
-            this.CameraFrame.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.CameraFrame.Location = new System.Drawing.Point(17, 12);
+            this.CameraFrame.BackColor = System.Drawing.Color.Black;
+            this.CameraFrame.Dock = System.Windows.Forms.DockStyle.Top;
+            this.CameraFrame.Location = new System.Drawing.Point(0, 0);
             this.CameraFrame.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.CameraFrame.Name = "CameraFrame";
-            this.CameraFrame.Size = new System.Drawing.Size(318, 128);
+            this.CameraFrame.Size = new System.Drawing.Size(362, 136);
             this.CameraFrame.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.CameraFrame.TabIndex = 29;
             this.CameraFrame.TabStop = false;
@@ -291,7 +312,7 @@
             // 
             this.searchBtn.BackColor = System.Drawing.Color.White;
             this.searchBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.searchBtn.Location = new System.Drawing.Point(256, 190);
+            this.searchBtn.Location = new System.Drawing.Point(256, 183);
             this.searchBtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.searchBtn.Name = "searchBtn";
             this.searchBtn.Size = new System.Drawing.Size(90, 32);
@@ -420,26 +441,6 @@
             this.label5.Size = new System.Drawing.Size(79, 18);
             this.label5.TabIndex = 8;
             this.label5.Text = "Book Title:";
-            // 
-            // bookGenre
-            // 
-            this.bookGenre.Font = new System.Drawing.Font("Tahoma", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bookGenre.Location = new System.Drawing.Point(153, 401);
-            this.bookGenre.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.bookGenre.Name = "bookGenre";
-            this.bookGenre.Size = new System.Drawing.Size(182, 32);
-            this.bookGenre.TabIndex = 33;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.ForeColor = System.Drawing.Color.White;
-            this.label11.Location = new System.Drawing.Point(61, 408);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(58, 20);
-            this.label11.TabIndex = 34;
-            this.label11.Text = "Genre:";
             // 
             // BorrowBook
             // 

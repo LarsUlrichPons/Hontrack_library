@@ -17,6 +17,7 @@ using System.Diagnostics;
 using MySql.Data.MySqlClient;
 using System.Drawing;
 using Color = System.Drawing.Color;
+using System.Runtime.InteropServices.ComTypes;
 
 
 namespace Hontrack_library
@@ -172,18 +173,34 @@ namespace Hontrack_library
 
             try
             {
-                // Get selected date from the DateTimePicker
-                DateTime selectedDate = datetime.Value.Date;
+                // Get selected date range from DateTimePickers
+                DateTime startDate = startDatePicker.Value.Date;
+                DateTime endDate = endDatePicker.Value.Date;
 
-                // Fetch data from the database using the selected date
-                var borrowingHistory = FetchBorrowingHistoryFromDatabase(selectedDate);
-                var borrowedBooks = FetchBorrowedBooksFromDatabase(selectedDate);
-                var returnedBooks = FetchReturnedBooksFromDatabase(selectedDate);
-                var borrowCountData = FetchBorrowCountFromDatabase(selectedDate);
-                var popularGenreData = FetchPopularGenresFromDatabase(selectedDate);
+                if (startDate > endDate)
+                {
+                    MessageBox.Show("The start date cannot be later than the end date. Please select a valid date range.",
+                                    "Invalid Date Range",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
+                    return; // Exit the method without proceeding further
+                }
+                // Fetch data from the database using the selected date range
+                var borrowingHistory = FetchBorrowingHistoryFromDatabase(startDate, endDate);
+                var borrowedBooks = FetchBorrowedBooksFromDatabase(startDate, endDate);
+                var returnedBooks = FetchReturnedBooksFromDatabase(startDate, endDate);
+                var borrowCountData = FetchBorrowCountFromDatabase(startDate, endDate);
+                var popularGenreData = FetchPopularGenresFromDatabase(startDate, endDate);
 
                 // Create the MigraDoc document
-                Document document = CreateDocument(borrowingHistory, borrowedBooks, returnedBooks, borrowCountData, popularGenreData);
+                Document document = CreateDocument(
+                    borrowingHistory,
+                    borrowedBooks,
+                    returnedBooks,
+                    borrowCountData,
+                    popularGenreData,
+                    startDate,
+                    endDate);
 
                 // Render the document into a PDF
                 PdfDocumentRenderer renderer = new PdfDocumentRenderer();
@@ -206,8 +223,7 @@ namespace Hontrack_library
         }
 
 
-
-        private List<(string Borrower, string BookTitle, string BookNum, string BorrowDate, string ReturnDate, string Status)> FetchBorrowingHistoryFromDatabase(DateTime selectedDate)
+        private List<(string Borrower, string BookTitle, string BookNum, string BorrowDate, string ReturnDate, string Status)> FetchBorrowingHistoryFromDatabase(DateTime startDate, DateTime endDate)
         {
             var historyData = new List<(string Borrower, string BookTitle, string BookNum, string BorrowDate, string ReturnDate, string Status)>();
             try
@@ -216,13 +232,14 @@ namespace Hontrack_library
                 {
                     conn.Open();
                     string query = @"
-                SELECT borrowerID, borrowDate, returnDate, Status, bookISBN, bookTitle 
-                FROM tbl_booktransac 
-                WHERE DATE(borrowDate) = @SelectedDate";  // Filter by selected date
+            SELECT borrowerID, borrowDate, returnDate, Status, bookISBN, bookTitle 
+            FROM tbl_booktransac 
+            WHERE DATE(borrowDate) BETWEEN @StartDate AND @EndDate";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
-                        cmd.Parameters.AddWithValue("@SelectedDate", selectedDate.ToString("yyyy-MM-dd"));
+                        cmd.Parameters.AddWithValue("@StartDate", startDate.ToString("yyyy-MM-dd"));
+                        cmd.Parameters.AddWithValue("@EndDate", endDate.ToString("yyyy-MM-dd"));
 
                         using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
@@ -234,7 +251,7 @@ namespace Hontrack_library
                                 string borrowDate = Convert.ToDateTime(reader["borrowDate"]).ToShortDateString();
                                 string returnDate = reader["returnDate"] != DBNull.Value
                                     ? Convert.ToDateTime(reader["returnDate"]).ToShortDateString()
-                                    : "Not yet return";
+                                    : "Not yet returned";
                                 string status = reader["Status"].ToString();
                                 historyData.Add((borrower, bookTitle, bookNum, borrowDate, returnDate, status));
                             }
@@ -251,7 +268,8 @@ namespace Hontrack_library
         }
 
 
-        private List<(string BookTitle, string BookNum, string BookGenre, int BorrowCount)> FetchBorrowCountFromDatabase(DateTime selectedDate)
+
+        private List<(string BookTitle, string BookNum, string BookGenre, int BorrowCount)> FetchBorrowCountFromDatabase(DateTime startDate, DateTime endDate)
         {
             var borrowCountData = new List<(string BookTitle, string BookNum, string BookGenre, int BorrowCount)>();
             try
@@ -259,14 +277,17 @@ namespace Hontrack_library
                 using (MySqlConnection conn = new MySqlConnection(connect))
                 {
                     conn.Open();
-                    string query = "SELECT bookTitle, COUNT(*) AS borrowCount, bookISBN, bookGenre " +
-                                   "FROM tbl_booktransac WHERE DATE(borrowDate) = @SelectedDate " +
-                                   "GROUP BY bookTitle, bookISBN " +
-                                   "ORDER BY borrowCount DESC"; // Filter by selected date
+                    string query = @"
+            SELECT bookTitle, COUNT(*) AS borrowCount, bookISBN, bookGenre 
+            FROM tbl_booktransac 
+            WHERE DATE(borrowDate) BETWEEN @StartDate AND @EndDate
+            GROUP BY bookTitle, bookISBN
+            ORDER BY borrowCount DESC";
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
-                        cmd.Parameters.AddWithValue("@SelectedDate", selectedDate.ToString("yyyy-MM-dd"));
+                        cmd.Parameters.AddWithValue("@StartDate", startDate.ToString("yyyy-MM-dd"));
+                        cmd.Parameters.AddWithValue("@EndDate", endDate.ToString("yyyy-MM-dd"));
 
                         using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
@@ -292,7 +313,7 @@ namespace Hontrack_library
 
 
 
-        private List<(string Borrower, string BookTitle, string BookNum, string BorrowDate, string ReturnDate, string Status)> FetchBorrowedBooksFromDatabase(DateTime selectedDate)
+        private List<(string Borrower, string BookTitle, string BookNum, string BorrowDate, string ReturnDate, string Status)> FetchBorrowedBooksFromDatabase(DateTime startDate, DateTime endDate)
         {
             var borrowedData = new List<(string Borrower, string BookTitle, string BookNum, string BorrowDate, string ReturnDate, string Status)>();
             try
@@ -301,11 +322,13 @@ namespace Hontrack_library
                 {
                     conn.Open();
                     string query = "SELECT borrowerID, borrowDate, returnDate, Status, bookISBN, bookTitle " +
-                                   "FROM tbl_booktransac WHERE Status = 'Borrowed' AND DATE(borrowDate) = @SelectedDate"; // Filter by selected date
+                                   "FROM tbl_booktransac WHERE Status = 'Borrowed' AND  DATE(borrowDate) BETWEEN @StartDate AND @EndDate"; // Filter by selected date
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
-                        cmd.Parameters.AddWithValue("@SelectedDate", selectedDate.ToString("yyyy-MM-dd"));
+                        cmd.Parameters.AddWithValue("@StartDate", startDate.ToString("yyyy-MM-dd"));
+                        cmd.Parameters.AddWithValue("@EndDate", endDate.ToString("yyyy-MM-dd"));
+
 
                         using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
@@ -333,7 +356,7 @@ namespace Hontrack_library
         }
 
 
-        private List<(string Borrower, string BookTitle, string BookNum, string BorrowDate, string ReturnDate, string Status)> FetchReturnedBooksFromDatabase(DateTime selectedDate)
+        private List<(string Borrower, string BookTitle, string BookNum, string BorrowDate, string ReturnDate, string Status)> FetchReturnedBooksFromDatabase(DateTime startDate, DateTime endDate)
         {
             var returnedData = new List<(string Borrower, string BookTitle, string BookNum, string BorrowDate, string ReturnDate, string Status)>();
             try
@@ -342,11 +365,12 @@ namespace Hontrack_library
                 {
                     conn.Open();
                     string query = "SELECT borrowerID, borrowDate, returnDate, Status, bookISBN, bookTitle " +
-                                   "FROM tbl_booktransac WHERE Status = 'Returned' AND DATE(returnDate) = @SelectedDate"; // Filter by selected date
+                                   "FROM tbl_booktransac WHERE Status = 'Returned' AND DATE(borrowDate) BETWEEN @StartDate AND @EndDate"; // Filter by selected date
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
-                        cmd.Parameters.AddWithValue("@SelectedDate", selectedDate.ToString("yyyy-MM-dd"));
+                        cmd.Parameters.AddWithValue("@StartDate", startDate.ToString("yyyy-MM-dd"));
+                        cmd.Parameters.AddWithValue("@EndDate", endDate.ToString("yyyy-MM-dd"));
 
                         using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
@@ -373,7 +397,7 @@ namespace Hontrack_library
 
 
 
-        private List<(string Genre, int BorrowCount)> FetchPopularGenresFromDatabase(DateTime selectedDate)
+        private List<(string Genre, int BorrowCount)> FetchPopularGenresFromDatabase(DateTime startDate, DateTime endDate)
         {
             var genreData = new List<(string Genre, int BorrowCount)>();
             try
@@ -384,13 +408,14 @@ namespace Hontrack_library
                     string query = @"
                 SELECT bookGenre, COUNT(*) AS borrowCount 
                 FROM tbl_booktransac 
-                WHERE DATE(borrowDate) = @SelectedDate 
+                WHERE DATE(borrowDate) BETWEEN @StartDate AND @EndDate
                 GROUP BY bookGenre 
                 ORDER BY borrowCount DESC";  // Filter by selected date
 
                     using (MySqlCommand cmd = new MySqlCommand(query, conn))
                     {
-                        cmd.Parameters.AddWithValue("@SelectedDate", selectedDate.ToString("yyyy-MM-dd"));
+                        cmd.Parameters.AddWithValue("@StartDate", startDate.ToString("yyyy-MM-dd"));
+                        cmd.Parameters.AddWithValue("@EndDate", endDate.ToString("yyyy-MM-dd"));
 
                         using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
@@ -415,43 +440,44 @@ namespace Hontrack_library
 
         // Create MigraDoc document from the fetched data
         private Document CreateDocument(
-            List<(string Borrower, string BookTitle, string BookNum, string BorrowDate, string ReturnDate, string Status)> historyData,
-           
-            List<(string Borrower, string BookTitle, string BookNum, string BorrowDate, string ReturnDate, string Status)> borrowedBooks,
-            List<(string Borrower, string BookTitle, string BookNum, string BorrowDate, string ReturnDate, string Status)> returnedBooks ,
-            List<(string BookTitle, string BookNum,string bookGenre ,int BorrowCount)> borrowCountData,
-           List<(string Genre, int BorrowCount)>genreData )
+         List<(string Borrower, string BookTitle, string BookNum, string BorrowDate, string ReturnDate, string Status)> historyData,
+         List<(string Borrower, string BookTitle, string BookNum, string BorrowDate, string ReturnDate, string Status)> borrowedBooks,
+         List<(string Borrower, string BookTitle, string BookNum, string BorrowDate, string ReturnDate, string Status)> returnedBooks,
+         List<(string BookTitle, string BookNum, string bookGenre, int BorrowCount)> borrowCountData,
+         List<(string Genre, int BorrowCount)> genreData,
+         DateTime startDate,
+         DateTime endDate) // Pass startDate and endDate
         {
             Document document = new Document();
             Style style = document.Styles["Normal"];
             style.Font.Name = "Arial";
             style.Font.Size = 11;
             Section section = document.AddSection();
-            DateTime selectedDate = datetime.Value.Date;
 
-
-            AddHeader(section, selectedDate);
+            // Add header with date range
+            AddHeader(section, startDate, endDate);
 
             // Create Borrowing History Table
             AddTableToSection(section, historyData, "Borrowing History");
-
-            // Create Borrow Count Table
-     
 
             // Create Borrowed Books Table
             AddTableToSection(section, borrowedBooks, "Borrowed Books");
 
             // Create Returned Books Table
             AddTableToSection(section, returnedBooks, "Returned Books");
-            
+
+            // Create Borrow Count Table
             AddBorrowCountTable(section, borrowCountData);
+
+            // Create Popular Genres Table
             AddPopularGenresTable(section, genreData);
 
             return document;
         }
 
-        private void AddHeader(Section section, DateTime selectedDate)
+        private void AddHeader(Section section, DateTime startDate, DateTime endDate)
         {
+            // Company Title
             Paragraph companyTitle = section.AddParagraph();
             companyTitle.AddFormattedText("Hontrack", TextFormat.Bold).Font.Color = Colors.Green;
             companyTitle.AddText(": Library Management");
@@ -460,20 +486,23 @@ namespace Hontrack_library
             companyTitle.Format.Alignment = ParagraphAlignment.Left;
             section.AddParagraph("\n");
 
-            // Date
+            // PDF Generation Date
+            // PDF Generated Date
             Paragraph dateParagraph = section.AddParagraph($"PDF Generated on: {DateTime.Now:MMMM dd, yyyy}");
             dateParagraph.Format.Font.Name = "Calibri";
             dateParagraph.Format.Font.Size = 10;
-            dateParagraph.Format.Font.Italic = true;
+            dateParagraph.Format.Font.Italic = true; // Enable italics here
             dateParagraph.Format.Alignment = ParagraphAlignment.Right;
             section.AddParagraph("\n");
 
-            Paragraph recordedDateParagraph = section.AddParagraph($"Data Recorded on: {selectedDate:MMMM dd, yyyy}");
-            recordedDateParagraph.Format.Font.Name = "Calibri";
-            recordedDateParagraph.Format.Font.Size = 10;
-            recordedDateParagraph.Format.Font.Italic = true;
-            recordedDateParagraph.Format.Alignment = ParagraphAlignment.Right;
+            // Date Range
+            Paragraph dateRangeParagraph = section.AddParagraph($"Data Recorded from: {startDate:MMMM dd, yyyy} to {endDate:MMMM dd, yyyy}");
+            dateRangeParagraph.Format.Font.Name = "Calibri";
+            dateRangeParagraph.Format.Font.Size = 10;
+            dateRangeParagraph.Format.Font.Italic = true; // Enable italics here as well
+            dateRangeParagraph.Format.Alignment = ParagraphAlignment.Right;
             section.AddParagraph("\n");
+
         }
 
         private void AddTableToSection(Section section, List<(string Borrower, string BookTitle, string BookNum, string BorrowDate, string ReturnDate, string Status)> data, string title)

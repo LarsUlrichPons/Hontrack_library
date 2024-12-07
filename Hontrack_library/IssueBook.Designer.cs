@@ -377,11 +377,12 @@
             // 
             // CameraFrame
             // 
-            this.CameraFrame.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.CameraFrame.Location = new System.Drawing.Point(8, 12);
+            this.CameraFrame.BackColor = System.Drawing.Color.Black;
+            this.CameraFrame.Dock = System.Windows.Forms.DockStyle.Top;
+            this.CameraFrame.Location = new System.Drawing.Point(0, 0);
             this.CameraFrame.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.CameraFrame.Name = "CameraFrame";
-            this.CameraFrame.Size = new System.Drawing.Size(372, 139);
+            this.CameraFrame.Size = new System.Drawing.Size(397, 149);
             this.CameraFrame.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.CameraFrame.TabIndex = 2;
             this.CameraFrame.TabStop = false;
@@ -390,8 +391,8 @@
             // 
             this.Status.FormattingEnabled = true;
             this.Status.Items.AddRange(new object[] {
-            "available",
-            "outofstock"});
+            "Available",
+            "Unavailable"});
             this.Status.Location = new System.Drawing.Point(159, 431);
             this.Status.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Status.Name = "Status";

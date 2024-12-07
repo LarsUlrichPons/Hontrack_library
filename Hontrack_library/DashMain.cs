@@ -25,17 +25,18 @@ namespace Hontrack_library
         public DashMain()
         {
             InitializeComponent();
-            genreComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            
+         
 
-        
+
+
+
 
 
             // Call display methods to initialize data
 
         }
 
-     
+
 
         private void DashMain_Load(object sender, EventArgs e)
         {
@@ -44,7 +45,10 @@ namespace Hontrack_library
             displayRb();
             LoadGenres();
             LoadChart();
-            //  SetupRealTimeUpdates();
+            SetupRealTimeUpdates();
+
+           
+
         }
 
 
@@ -52,7 +56,7 @@ namespace Hontrack_library
         {
             refreshTimer = new Timer();
             refreshTimer.Interval = 5000; // Update every 5 seconds (5000 ms)
-            //refreshTimer.Tick += RefreshData; // Bind to the Tick event
+          //  refreshTimer.Tick += RefreshData; // Bind to the Tick event
             refreshTimer.Start(); // Start the timer
         }
 
@@ -205,28 +209,28 @@ namespace Hontrack_library
                     {
                         using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
-                            genreComboBox.Items.Clear(); // Clear existing items
-
-                            // Add "All Genres" option to the ComboBox (if needed)
+                            genreComboBox.Items.Clear();
                             genreComboBox.Items.Add("All Genres");
-                         
-
                             while (reader.Read())
                             {
                                 genreComboBox.Items.Add(reader.GetString("bookGenre"));
                             }
-
-                            // Set the default selected item (e.g., "All Genres")
-                            genreComboBox.SelectedIndex = 0;
                         }
                     }
                 }
+
+                // Configure the ComboBox
+                genreComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+                genreComboBox.IntegralHeight = false;
+                genreComboBox.MaxDropDownItems = 5;  // Set limit for visible items
+              //  genreComboBox.DropDownHeight = 100;  // Adjust dropdown height for scroll bar
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error loading genres: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private bool isLoadingChart = false;
         private bool isDisposed = false;

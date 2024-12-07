@@ -29,9 +29,39 @@ namespace Hontrack_library
             Status.DropDownStyle = ComboBoxStyle.DropDownList;
             Camera.DropDownStyle = ComboBoxStyle.DropDownList;
             bookCondition.DropDownStyle = ComboBoxStyle.DropDownList;
-          
-          
-           
+
+
+              dataGridView1.Refresh();
+            dataGridView1.AutoGenerateColumns = true;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
+            // Header styling
+            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 11, FontStyle.Bold);
+            dataGridView1.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView1.ColumnHeadersDefaultCellStyle.Padding = new Padding(5);
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+
+            // Row styling
+            dataGridView1.DefaultCellStyle.Font = new Font("Arial", 9);
+            dataGridView1.DefaultCellStyle.BackColor = Color.WhiteSmoke;
+            dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.LightGray;
+            dataGridView1.DefaultCellStyle.SelectionBackColor = Color.Blue;
+            dataGridView1.DefaultCellStyle.SelectionForeColor = Color.White;
+            dataGridView1.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView1.DefaultCellStyle.Padding = new Padding(5);
+
+            // Borders and grid lines
+            dataGridView1.CellBorderStyle = DataGridViewCellBorderStyle.Single;
+            dataGridView1.GridColor = Color.Gray;
+
+            // Disable extra rows
+            dataGridView1.AllowUserToAddRows = false;
+
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+
+
+
 
             filterInfoCollection = new FilterInfoCollection(FilterCategory.VideoInputDevice);
 
@@ -66,33 +96,10 @@ namespace Hontrack_library
             BookData bookData = new BookData();
             List<BookData> listdata = bookData.BookListData();
             dataGridView1.DataSource = listdata;
-            dataGridView1.Refresh();
+          
 
             // Enable data auto-generation and auto-sizing
-            dataGridView1.AutoGenerateColumns = true;
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-
-            // Header styling
-            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Arial", 11, FontStyle.Bold);
-            dataGridView1.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.ColumnHeadersDefaultCellStyle.Padding = new Padding(5);
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-
-            // Row styling
-            dataGridView1.DefaultCellStyle.Font = new Font("Arial", 9);
-            dataGridView1.DefaultCellStyle.BackColor = Color.WhiteSmoke;
-            dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.LightGray;
-            dataGridView1.DefaultCellStyle.SelectionBackColor = Color.Blue;
-            dataGridView1.DefaultCellStyle.SelectionForeColor = Color.White;
-            dataGridView1.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView1.DefaultCellStyle.Padding = new Padding(5);
-
-            // Borders and grid lines
-            dataGridView1.CellBorderStyle = DataGridViewCellBorderStyle.Single;
-            dataGridView1.GridColor = Color.Gray;
-
-            // Disable extra rows
-            dataGridView1.AllowUserToAddRows = false;
+         
 
             // Ensure correct column headers
            // dataGridView1.Columns[0].HeaderText = "Book ID";
@@ -105,7 +112,11 @@ namespace Hontrack_library
             dataGridView1.Columns[6].HeaderText = "Condition";
             dataGridView1.Columns[7].HeaderText = "Quantity";
 
-            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            if (dataGridView1.Columns[4] != null)
+            {
+                dataGridView1.Columns[4].DefaultCellStyle.Format = "yyyy-MM-dd";
+            }
+
 
         }
 
@@ -169,19 +180,6 @@ namespace Hontrack_library
         }
 
 
-        /*  private void BorrowBook_VisibleChanged(object sender, EventArgs e)
-          {
-              if (this.Visible && !isCameraRunning)
-              {
-                  StartCamera();
-                  //refreshTimer.Start();  
-              }
-              else if (!this.Visible && isCameraRunning)
-              {
-                  StopCamera();
-                 // refreshTimer.Stop();
-              }
-          }*/
 
         private void VideoCaptureDevice_NewFrame(object sender, AForge.Video.NewFrameEventArgs eventArgs)
         {
@@ -193,19 +191,74 @@ namespace Hontrack_library
             var result = reader.Decode(resizedBitmap);
             if (result != null && !string.IsNullOrEmpty(result.Text))
             {
-                BookNumTxt.Invoke(new MethodInvoker(delegate
+                string scannedBarcode = result.Text;
+
+                // Ensure barcode is processed only once
+                if (BookNumTxt.InvokeRequired)
                 {
-                    BookNumTxt.Text = result.Text;
-                }));
-            }
-            else
-            {
-               
-                Console.WriteLine("Barcode not recognized or empty.");
+                    BookNumTxt.Invoke(new MethodInvoker(delegate
+                    {
+                        if (BookNumTxt.Text != scannedBarcode)
+                        {
+                            BookNumTxt.Text = scannedBarcode;
+                            FetchBookDetails(scannedBarcode); // Call the method to fetch details
+                        }
+                    }));
+                }
+                else
+                {
+                    if (BookNumTxt.Text != scannedBarcode)
+                    {
+                        BookNumTxt.Text = scannedBarcode;
+                        FetchBookDetails(scannedBarcode);
+                    }
+                }
             }
 
             CameraFrame.Image = resizedBitmap;
         }
+
+
+        private void FetchBookDetails(string barcode)
+        {
+            using (MySqlConnection conn = new MySqlConnection(connect))
+            {
+                try
+                {
+                    conn.Open();
+
+                    string query = "SELECT bookTitle, bookAuthor, bookStock, bookStatus,bookCondition,bookGenre FROM tbl_book WHERE bookISBN = @barcode";
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@barcode", barcode);
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            // Populate fields with book details
+                            bookTitle.Text = reader["bookTitle"].ToString();
+                            author.Text = reader["bookAuthor"].ToString();
+                            BQuantityTXT.Text = reader["bookStock"].ToString();
+                            bookGenre.Text = reader["bookGenre"].ToString();
+                            Status.Text = reader["bookStatus"].ToString();
+                            bookCondition.Text = reader["bookCondition"].ToString();
+                        }
+                        else
+                        {
+                            // Clear fields and show an error if the book is not found
+                            
+                            MessageBox.Show($"No book registered with the scanned barcode.\nBook Number: {barcode}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error fetching book details: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+
 
         private void AddBtn_Click(object sender, EventArgs e)
         {
@@ -475,33 +528,86 @@ namespace Hontrack_library
 
         private void search_Click(object sender, EventArgs e)
         {
+            MySqlConnection conn = new MySqlConnection(connect);
+
             try
             {
-                string searchQuery = searchBox.Text.Trim(); // Assuming you have a TextBox named searchBox
-                BookData bookData = new BookData();
-                Console.WriteLine("Search Query: " + searchQuery); // Add this to log the search query
-
-
-                List<BookData> filteredData = bookData.BookListData(
-                 searchQuery
-
-
-                );
-
-                // Refresh the DataGridView
-                dataGridView1.Refresh();
-                dataGridView1.DataSource = filteredData;
-
-                if (filteredData.Count == 0)
+                // Open the connection if it's closed
+                if (conn.State == ConnectionState.Closed)
                 {
-                    MessageBox.Show("No records found for the specified search query.", "Search Result", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    conn.Open();
+
+                    // Create a DataTable to hold the search results
+                    using (DataTable dt = new DataTable())
+                    {
+                        // Modify the query so that 'bookTitle' is the first column and 'bookISBN' comes after
+                        string searchData = @"
+                    SELECT bookTitle, bookISBN, bookAuthor, 
+                           bookGenre, datePublished, 
+                           bookStatus, bookCondition, bookStock 
+                    FROM tbl_book 
+                    WHERE bookISBN LIKE @SearchQuery 
+                    OR bookTitle LIKE @SearchQuery 
+                    OR bookAuthor LIKE @SearchQuery
+                    OR bookGenre LIKE @SearchQuery";
+
+                        // Create the command and add parameters
+                        using (MySqlCommand cmd = new MySqlCommand(searchData, conn))
+                        {
+                            string searchQuery = "%" + searchBox.Text.Trim() + "%"; // Add wildcards for LIKE search
+                            cmd.Parameters.AddWithValue("@SearchQuery", searchQuery); // Use @SearchQuery for all fields
+
+                            // Execute the command and fill the DataTable
+                            using (MySqlDataAdapter adapter = new MySqlDataAdapter(cmd))
+                            {
+                                adapter.Fill(dt);
+                            }
+
+                            // Bind the DataTable to the DataGridView
+                            dataGridView1.DataSource = dt;
+
+
+
+                            // Set the custom headers after binding the data
+                            dataGridView1.Columns[0].HeaderText = "Title";
+                            dataGridView1.Columns[1].HeaderText = "Book Number";
+                            dataGridView1.Columns[2].HeaderText = "Author";
+                            dataGridView1.Columns[3].HeaderText = "Genre";
+                            dataGridView1.Columns[4].HeaderText = "Published Date";
+                            dataGridView1.Columns[5].HeaderText = "Status";
+                            dataGridView1.Columns[6].HeaderText = "Condition";
+                            dataGridView1.Columns[7].HeaderText = "Quantity";
+
+                            // Optional: Adjust column width and alignment for readability
+
+
+                            // Optional: Format the 'Published Date' column (if it's a DateTime type)
+                            if (dataGridView1.Columns[4] != null)
+                            {
+                                dataGridView1.Columns[4].DefaultCellStyle.Format = "yyyy-MM-dd";
+                            }
+                        }
+                    }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message + "\nStack Trace: " + ex.StackTrace, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                // Ensure the connection is closed properly
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
             }
         }
+
+
+
+
+
 
 
         private string ToProperCase(string input)
