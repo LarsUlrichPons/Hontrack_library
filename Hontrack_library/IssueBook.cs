@@ -250,8 +250,12 @@ namespace Hontrack_library
                         else
                         {
                             // Clear fields and show an error if the book is not found
-                            
-                            MessageBox.Show($"No book registered with the scanned barcode.\nBook Number: {barcode}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                            DialogResult dialogResult = MessageBox.Show(
+                                                 $"No book registered with the scanned barcode.\nBook Number: {barcode}\n\nWould you like to add a new book with this barcode?",
+                                                 "Book Not Found",
+                                                 MessageBoxButtons.YesNo,
+                                                 MessageBoxIcon.Question);
                         }
                     }
                 }
@@ -479,7 +483,7 @@ namespace Hontrack_library
             bookCondition.SelectedIndex = -1;
         }
 
-        private void RemoveBtn_Click(object sender, EventArgs e)
+      /*  private void RemoveBtn_Click(object sender, EventArgs e)
         {
             DialogResult check = MessageBox.Show("Are you sure you want to delete Book Title: " + bookTitle.Text.Trim() + "?", "Confirmation Message", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
             if (check == DialogResult.Yes)
@@ -508,7 +512,7 @@ namespace Hontrack_library
                     MessageBox.Show("Error: " + ex.Message + "\nStack Trace: " + ex.StackTrace, "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-        }
+        }*/
 
        
 

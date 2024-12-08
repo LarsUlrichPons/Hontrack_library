@@ -40,14 +40,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.addEmployee_ST = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.clear = new System.Windows.Forms.Button();
             this.addEmployee_id = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.refreshBtn = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label7 = new System.Windows.Forms.Label();
-            this.addEmployee_ST = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -210,6 +210,29 @@
             this.panel2.Size = new System.Drawing.Size(924, 262);
             this.panel2.TabIndex = 3;
             // 
+            // addEmployee_ST
+            // 
+            this.addEmployee_ST.FormattingEnabled = true;
+            this.addEmployee_ST.Items.AddRange(new object[] {
+            "Active",
+            "Suspended"});
+            this.addEmployee_ST.Location = new System.Drawing.Point(532, 113);
+            this.addEmployee_ST.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.addEmployee_ST.Name = "addEmployee_ST";
+            this.addEmployee_ST.Size = new System.Drawing.Size(191, 28);
+            this.addEmployee_ST.TabIndex = 23;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.Color.White;
+            this.label7.Location = new System.Drawing.Point(422, 116);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(60, 20);
+            this.label7.TabIndex = 22;
+            this.label7.Text = "Status:";
+            // 
             // clear
             // 
             this.clear.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(133)))), ((int)(((byte)(60)))));
@@ -290,29 +313,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(924, 392);
             this.panel1.TabIndex = 2;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.ForeColor = System.Drawing.Color.White;
-            this.label7.Location = new System.Drawing.Point(422, 116);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(60, 20);
-            this.label7.TabIndex = 22;
-            this.label7.Text = "Status:";
-            // 
-            // addEmployee_ST
-            // 
-            this.addEmployee_ST.FormattingEnabled = true;
-            this.addEmployee_ST.Items.AddRange(new object[] {
-            "Active",
-            "Suspended"});
-            this.addEmployee_ST.Location = new System.Drawing.Point(532, 113);
-            this.addEmployee_ST.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.addEmployee_ST.Name = "addEmployee_ST";
-            this.addEmployee_ST.Size = new System.Drawing.Size(191, 28);
-            this.addEmployee_ST.TabIndex = 23;
             // 
             // UserManagement
             // 

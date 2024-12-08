@@ -20,9 +20,12 @@ namespace Hontrack_library
         {
             InitializeComponent();
             displayEmployeeData();
+            addEmployee_Pass.PasswordChar = '\0';
+
             addEmployee_UT.DropDownStyle = ComboBoxStyle.DropDownList;
 
             addEmployee_id.ReadOnly = true;
+            addEmployee_ST.DropDownStyle = ComboBoxStyle.DropDownList;
            
         }
         private void RefreshTimer_Tick(object sender, EventArgs e)
@@ -88,7 +91,6 @@ namespace Hontrack_library
         {
             if (e.RowIndex >= 0)
             {
-                addEmployee_Pass.PasswordChar = '*';
                 DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
                 addEmployee_id.Text = row.Cells[0].Value.ToString();
                 addEmployee_FN.Text = row.Cells[1].Value.ToString();
@@ -96,6 +98,9 @@ namespace Hontrack_library
                 addEmployee_Pass.Text = row.Cells[3].Value.ToString();
                 addEmployee_UT.Text = row.Cells[4].Value.ToString();
                 addEmployee_ST.Text = row.Cells[5].Value.ToString();
+                addEmployee_Pass.PasswordChar = '*';
+
+
             }
         }
 
@@ -180,15 +185,17 @@ namespace Hontrack_library
                 }
 
                 // Insert new data
-                string insertData = "INSERT INTO tbl_users (fullname, username, password, usertype, insertdate) VALUES (@fullname, @username, @password, @usertype, @insertDate)";
+                string insertData = "INSERT INTO tbl_users (fullname, username, password, usertype, accountStatus,insertdate) VALUES (@fullname, @username, @password, @usertype, @status,@insertDate)";
 
                 using (MySqlCommand cmd = new MySqlCommand(insertData, mysql))
                 {
-                    cmd.Parameters.AddWithValue("@fullname", addEmployee_FN.Text.Trim());
+                    cmd.Parameters.AddWithValue("@username", addEmployee_UN.Text.Trim());
                     cmd.Parameters.AddWithValue("@fullname", ToProperCase(addEmployee_FN.Text.Trim()));
                     cmd.Parameters.AddWithValue("@password", addEmployee_Pass.Text.Trim());
                     cmd.Parameters.AddWithValue("@usertype", addEmployee_UT.Text.Trim());
                     cmd.Parameters.AddWithValue("@insertDate", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@status",addEmployee_ST.Text.Trim());
+
 
                     cmd.ExecuteNonQuery();
                     MessageBox.Show("Added Successfully!", "Information Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -324,6 +331,7 @@ namespace Hontrack_library
             {
                 MessageBox.Show("Error refreshing data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            clearfield();
         }
 
 
@@ -335,6 +343,8 @@ namespace Hontrack_library
             addEmployee_UN.Clear();
             addEmployee_UT.SelectedIndex = -1;
             addEmployee_ST.SelectedIndex = -1;
+            addEmployee_Pass.PasswordChar = '\0';
+
         }
 
         private void clear_Click(object sender, EventArgs e)

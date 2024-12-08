@@ -38,7 +38,6 @@
             this.publishedDate = new System.Windows.Forms.DateTimePicker();
             this.AddBtn = new System.Windows.Forms.Button();
             this.UpdateBtn = new System.Windows.Forms.Button();
-            this.RemoveBtn = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.bookGenre = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -197,24 +196,6 @@
             this.UpdateBtn.UseVisualStyleBackColor = false;
             this.UpdateBtn.Click += new System.EventHandler(this.UpdateBtn_Click);
             // 
-            // RemoveBtn
-            // 
-            this.RemoveBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(133)))), ((int)(((byte)(60)))));
-            this.RemoveBtn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.RemoveBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.RemoveBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(173)))), ((int)(((byte)(61)))));
-            this.RemoveBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.RemoveBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RemoveBtn.ForeColor = System.Drawing.Color.White;
-            this.RemoveBtn.Location = new System.Drawing.Point(247, 603);
-            this.RemoveBtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.RemoveBtn.Name = "RemoveBtn";
-            this.RemoveBtn.Size = new System.Drawing.Size(102, 38);
-            this.RemoveBtn.TabIndex = 16;
-            this.RemoveBtn.Text = "Remove";
-            this.RemoveBtn.UseVisualStyleBackColor = false;
-            this.RemoveBtn.Click += new System.EventHandler(this.RemoveBtn_Click);
-            // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(37)))), ((int)(((byte)(41)))));
@@ -236,7 +217,6 @@
             this.panel2.Controls.Add(this.label2);
             this.panel2.Controls.Add(this.bookTitle);
             this.panel2.Controls.Add(this.author);
-            this.panel2.Controls.Add(this.RemoveBtn);
             this.panel2.Controls.Add(this.UpdateBtn);
             this.panel2.Controls.Add(this.AddBtn);
             this.panel2.Controls.Add(this.publishedDate);
@@ -457,7 +437,6 @@
         private System.Windows.Forms.DateTimePicker publishedDate;
         private System.Windows.Forms.Button AddBtn;
         private System.Windows.Forms.Button UpdateBtn;
-        private System.Windows.Forms.Button RemoveBtn;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.TextBox bookTitle;
         private System.Windows.Forms.TextBox author;
