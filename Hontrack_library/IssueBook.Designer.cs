@@ -154,6 +154,7 @@
             // 
             // publishedDate
             // 
+            this.publishedDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.publishedDate.Location = new System.Drawing.Point(159, 518);
             this.publishedDate.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.publishedDate.Name = "publishedDate";

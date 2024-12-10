@@ -30,9 +30,9 @@ namespace Hontrack_library
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea9 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend9 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
@@ -53,11 +53,12 @@ namespace Hontrack_library
             this.label1 = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.applyFilterButton = new System.Windows.Forms.Button();
             this.filterDatePicker = new System.Windows.Forms.DateTimePicker();
+            this.genreComboBox = new System.Windows.Forms.ComboBox();
+            this.applyFilterButton = new System.Windows.Forms.Button();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.genreComboBox = new System.Windows.Forms.ComboBox();
+            this.genreText = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
@@ -263,6 +264,7 @@ namespace Hontrack_library
             // panel5
             // 
             this.panel5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(37)))), ((int)(((byte)(41)))));
+            this.panel5.Controls.Add(this.genreText);
             this.panel5.Controls.Add(this.filterDatePicker);
             this.panel5.Controls.Add(this.genreComboBox);
             this.panel5.Controls.Add(this.applyFilterButton);
@@ -274,10 +276,33 @@ namespace Hontrack_library
             this.panel5.Size = new System.Drawing.Size(924, 448);
             this.panel5.TabIndex = 2;
             // 
+            // filterDatePicker
+            // 
+            this.filterDatePicker.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.filterDatePicker.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.filterDatePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.filterDatePicker.Location = new System.Drawing.Point(526, 6);
+            this.filterDatePicker.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.filterDatePicker.Name = "filterDatePicker";
+            this.filterDatePicker.Size = new System.Drawing.Size(135, 25);
+            this.filterDatePicker.TabIndex = 1;
+            // 
+            // genreComboBox
+            // 
+            this.genreComboBox.FormattingEnabled = true;
+            this.genreComboBox.Items.AddRange(new object[] {
+            "All Genres",
+            "Fiction",
+            "Sci-Fi"});
+            this.genreComboBox.Location = new System.Drawing.Point(667, 7);
+            this.genreComboBox.Name = "genreComboBox";
+            this.genreComboBox.Size = new System.Drawing.Size(141, 28);
+            this.genreComboBox.TabIndex = 3;
+            // 
             // applyFilterButton
             // 
             this.applyFilterButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.applyFilterButton.Location = new System.Drawing.Point(309, 8);
+            this.applyFilterButton.Location = new System.Drawing.Point(814, 7);
             this.applyFilterButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.applyFilterButton.Name = "applyFilterButton";
             this.applyFilterButton.Size = new System.Drawing.Size(93, 29);
@@ -286,31 +311,21 @@ namespace Hontrack_library
             this.applyFilterButton.UseVisualStyleBackColor = true;
             this.applyFilterButton.Click += new System.EventHandler(this.applyFilterButton_Click);
             // 
-            // filterDatePicker
-            // 
-            this.filterDatePicker.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.filterDatePicker.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.filterDatePicker.Location = new System.Drawing.Point(15, 7);
-            this.filterDatePicker.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.filterDatePicker.Name = "filterDatePicker";
-            this.filterDatePicker.Size = new System.Drawing.Size(141, 25);
-            this.filterDatePicker.TabIndex = 1;
-            // 
             // chart1
             // 
             this.chart1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(37)))), ((int)(((byte)(41)))));
-            chartArea5.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea5);
-            legend5.Name = "Legend1";
-            this.chart1.Legends.Add(legend5);
+            chartArea9.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea9);
+            legend9.Name = "Legend1";
+            this.chart1.Legends.Add(legend9);
             this.chart1.Location = new System.Drawing.Point(0, 45);
             this.chart1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chart1.Name = "chart1";
-            series5.ChartArea = "ChartArea1";
-            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
-            series5.Legend = "Legend1";
-            series5.Name = "bookChart";
-            this.chart1.Series.Add(series5);
+            series9.ChartArea = "ChartArea1";
+            series9.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Bar;
+            series9.Legend = "Legend1";
+            series9.Name = "bookChart";
+            this.chart1.Series.Add(series9);
             this.chart1.Size = new System.Drawing.Size(924, 400);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
@@ -325,17 +340,16 @@ namespace Hontrack_library
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
             // 
-            // genreComboBox
+            // genreText
             // 
-            this.genreComboBox.FormattingEnabled = true;
-            this.genreComboBox.Items.AddRange(new object[] {
-            "All Genres",
-            "Fiction",
-            "Sci-Fi"});
-            this.genreComboBox.Location = new System.Drawing.Point(162, 8);
-            this.genreComboBox.Name = "genreComboBox";
-            this.genreComboBox.Size = new System.Drawing.Size(141, 28);
-            this.genreComboBox.TabIndex = 3;
+            this.genreText.AutoSize = true;
+            this.genreText.Font = new System.Drawing.Font("Century", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.genreText.ForeColor = System.Drawing.Color.Silver;
+            this.genreText.Location = new System.Drawing.Point(3, 0);
+            this.genreText.Name = "genreText";
+            this.genreText.Size = new System.Drawing.Size(72, 23);
+            this.genreText.TabIndex = 4;
+            this.genreText.Text = "Genre";
             // 
             // DashMain
             // 
@@ -359,6 +373,7 @@ namespace Hontrack_library
             this.panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
@@ -395,5 +410,6 @@ namespace Hontrack_library
         private System.Windows.Forms.DateTimePicker filterDatePicker;
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.ComboBox genreComboBox;
+        private System.Windows.Forms.Label genreText;
     }
 }

@@ -197,7 +197,7 @@ namespace Hontrack_library
                 );
             }
         }
-        private void LoadGenres(string selectedGenre = "All Genres")
+        private void LoadGenres(string selectedGenre = null)
         {
             try
             {
@@ -209,37 +209,42 @@ namespace Hontrack_library
                     {
                         using (MySqlDataReader reader = cmd.ExecuteReader())
                         {
+                            // Clear and initialize the ComboBox
                             genreComboBox.Items.Clear();
                             genreComboBox.Items.Add("All Genres");
+
                             while (reader.Read())
                             {
-                                genreComboBox.Items.Add(reader.GetString("bookGenre"));
+                                string genre = reader.GetString("bookGenre");
+                                genreComboBox.Items.Add(genre);
                             }
                         }
                     }
                 }
 
                 // Configure the ComboBox
-              
                 genreComboBox.IntegralHeight = false;
-                genreComboBox.MaxDropDownItems = 5;  // Set limit for visible items
-                                                     //  genreComboBox.DropDownHeight = 100;  // Adjust dropdown height for scroll bar
+                genreComboBox.MaxDropDownItems = 5;
 
-
-                if (genreComboBox.Items.Contains(selectedGenre))
+                // Restore the previously selected genre
+                if (!string.IsNullOrEmpty(selectedGenre) && genreComboBox.Items.Contains(selectedGenre))
                 {
-                    genreComboBox.SelectedItem = selectedGenre; // Select the specified genre
+                    genreComboBox.SelectedItem = selectedGenre;
                 }
                 else
                 {
-                    genreComboBox.SelectedIndex = 0; // Default to "All Genres" if the genre is not found
+                    genreComboBox.SelectedIndex = 0; // Default to "All Genres"
                 }
+
+                // Update the TextBox with the selected genre
+                genreText.Text = genreComboBox.SelectedItem?.ToString();
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error loading genres: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
 
         private bool isLoadingChart = false;
@@ -418,10 +423,16 @@ namespace Hontrack_library
 
         private void applyFilterButton_Click(object sender, EventArgs e)
         {
-         
+            // Store the currently selected genre
+            string selectedGenre = genreComboBox.SelectedItem?.ToString();
 
+            // Reload the chart
             LoadChart();
-            LoadGenres();
+
+            // Reload genres but retain the selection
+            LoadGenres(selectedGenre);
+
+            // Notify the user
             MessageBox.Show("Filter applied successfully.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 

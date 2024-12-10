@@ -323,6 +323,7 @@
             // 
             // ReturnDue
             // 
+            this.ReturnDue.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.ReturnDue.Location = new System.Drawing.Point(153, 448);
             this.ReturnDue.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ReturnDue.Name = "ReturnDue";
