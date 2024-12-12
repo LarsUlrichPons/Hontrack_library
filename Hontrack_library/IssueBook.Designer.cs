@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.Refresh = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.label5 = new System.Windows.Forms.Label();
@@ -55,12 +56,11 @@
             this.label2 = new System.Windows.Forms.Label();
             this.bookTitle = new System.Windows.Forms.TextBox();
             this.author = new System.Windows.Forms.TextBox();
-            this.Refresh = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Refresh)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CameraFrame)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Refresh)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -76,6 +76,19 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(536, 664);
             this.panel1.TabIndex = 0;
+            // 
+            // Refresh
+            // 
+            this.Refresh.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.Refresh.Dock = System.Windows.Forms.DockStyle.Right;
+            this.Refresh.Image = global::Hontrack_library.Properties.Resources.icons8_refresh_50;
+            this.Refresh.Location = new System.Drawing.Point(455, 0);
+            this.Refresh.Name = "Refresh";
+            this.Refresh.Size = new System.Drawing.Size(77, 70);
+            this.Refresh.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.Refresh.TabIndex = 29;
+            this.Refresh.TabStop = false;
+            this.Refresh.Click += new System.EventHandler(this.Refresh_Click);
             // 
             // label1
             // 
@@ -146,10 +159,10 @@
             // 
             // AddBtn
             // 
-            this.AddBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(133)))), ((int)(((byte)(60)))));
+            this.AddBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(175)))), ((int)(((byte)(80)))));
             this.AddBtn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.AddBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.AddBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(173)))), ((int)(((byte)(61)))));
+            this.AddBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.AddBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(187)))), ((int)(((byte)(106)))));
             this.AddBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.AddBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.AddBtn.ForeColor = System.Drawing.Color.White;
@@ -164,10 +177,10 @@
             // 
             // UpdateBtn
             // 
-            this.UpdateBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(133)))), ((int)(((byte)(60)))));
+            this.UpdateBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(175)))), ((int)(((byte)(80)))));
             this.UpdateBtn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.UpdateBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.UpdateBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(173)))), ((int)(((byte)(61)))));
+            this.UpdateBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.UpdateBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(187)))), ((int)(((byte)(106)))));
             this.UpdateBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.UpdateBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UpdateBtn.ForeColor = System.Drawing.Color.White;
@@ -390,19 +403,6 @@
             this.author.Size = new System.Drawing.Size(200, 26);
             this.author.TabIndex = 18;
             // 
-            // Refresh
-            // 
-            this.Refresh.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.Refresh.Dock = System.Windows.Forms.DockStyle.Right;
-            this.Refresh.Image = global::Hontrack_library.Properties.Resources.icons8_refresh_50;
-            this.Refresh.Location = new System.Drawing.Point(455, 0);
-            this.Refresh.Name = "Refresh";
-            this.Refresh.Size = new System.Drawing.Size(77, 70);
-            this.Refresh.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.Refresh.TabIndex = 29;
-            this.Refresh.TabStop = false;
-            this.Refresh.Click += new System.EventHandler(this.Refresh_Click);
-            // 
             // IssueBook
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -415,11 +415,11 @@
             this.Size = new System.Drawing.Size(924, 664);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Refresh)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CameraFrame)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Refresh)).EndInit();
             this.ResumeLayout(false);
 
         }

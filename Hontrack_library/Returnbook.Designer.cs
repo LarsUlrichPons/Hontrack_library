@@ -145,10 +145,10 @@
             // 
             // ReturnBtn
             // 
-            this.ReturnBtn.BackColor = System.Drawing.Color.SeaGreen;
+            this.ReturnBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(175)))), ((int)(((byte)(80)))));
             this.ReturnBtn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.ReturnBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.ReturnBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(173)))), ((int)(((byte)(61)))));
+            this.ReturnBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.ReturnBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(175)))), ((int)(((byte)(80)))));
             this.ReturnBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ReturnBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ReturnBtn.ForeColor = System.Drawing.Color.White;
@@ -163,10 +163,10 @@
             // 
             // ClearBtn
             // 
-            this.ClearBtn.BackColor = System.Drawing.Color.SeaGreen;
+            this.ClearBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(175)))), ((int)(((byte)(80)))));
             this.ClearBtn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.ClearBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.ClearBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(173)))), ((int)(((byte)(61)))));
+            this.ClearBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.ClearBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(175)))), ((int)(((byte)(80)))));
             this.ClearBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ClearBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ClearBtn.ForeColor = System.Drawing.Color.White;
