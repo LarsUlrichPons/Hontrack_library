@@ -49,11 +49,14 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.refreshBtn = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.Refresh = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Refresh)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // searchBtn
@@ -302,37 +305,44 @@
             this.label3.TabIndex = 2;
             this.label3.Text = "School ID:";
             // 
-            // refreshBtn
-            // 
-            this.refreshBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(133)))), ((int)(((byte)(60)))));
-            this.refreshBtn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.refreshBtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.refreshBtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(173)))), ((int)(((byte)(61)))));
-            this.refreshBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.refreshBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.refreshBtn.ForeColor = System.Drawing.Color.White;
-            this.refreshBtn.Location = new System.Drawing.Point(436, 22);
-            this.refreshBtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.refreshBtn.Name = "refreshBtn";
-            this.refreshBtn.Size = new System.Drawing.Size(88, 38);
-            this.refreshBtn.TabIndex = 28;
-            this.refreshBtn.Text = "Refresh";
-            this.refreshBtn.UseVisualStyleBackColor = false;
-            this.refreshBtn.Click += new System.EventHandler(this.refreshBtn_Click);
-            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel1.Controls.Add(this.pictureBox1);
+            this.panel1.Controls.Add(this.Refresh);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.dataGridView1);
-            this.panel1.Controls.Add(this.refreshBtn);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel1.Location = new System.Drawing.Point(380, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(544, 664);
             this.panel1.TabIndex = 2;
+            // 
+            // Refresh
+            // 
+            this.Refresh.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.Refresh.Dock = System.Windows.Forms.DockStyle.Right;
+            this.Refresh.Image = global::Hontrack_library.Properties.Resources.icons8_refresh_50;
+            this.Refresh.Location = new System.Drawing.Point(463, 0);
+            this.Refresh.Name = "Refresh";
+            this.Refresh.Size = new System.Drawing.Size(77, 68);
+            this.Refresh.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.Refresh.TabIndex = 28;
+            this.Refresh.TabStop = false;
+            this.Refresh.Click += new System.EventHandler(this.Refresh_Click_1);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::Hontrack_library.Properties.Resources.icons8_sort_32;
+            this.pictureBox1.Location = new System.Drawing.Point(391, 1);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(66, 64);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 31;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // BorrowingHistory
             // 
@@ -349,6 +359,8 @@
             this.panel2.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Refresh)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -370,12 +382,13 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox status;
         private System.Windows.Forms.TextBox searchBox;
-        private System.Windows.Forms.Button refreshBtn;
         private System.Windows.Forms.Button PdfBtn;
         private System.Windows.Forms.TextBox bookTitle;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.DateTimePicker startDatePicker;
         private System.Windows.Forms.DateTimePicker endDatePicker;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.PictureBox Refresh;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

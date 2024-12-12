@@ -319,20 +319,7 @@ namespace Hontrack_library
 
    
 
-        private void refreshBtn_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                // Refresh data instantly
-                displayEmployeeData();
-                MessageBox.Show("Data refreshed successfully.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error refreshing data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            clearfield();
-        }
+       
 
 
         public void clearfield() 
@@ -380,6 +367,50 @@ namespace Hontrack_library
             }
         }
 
-      
+        private int rotationAngle = 0;
+
+
+        private void Refresh_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Refresh data instantly
+                displayEmployeeData();
+
+                // Update rotation angle
+                rotationAngle = (rotationAngle + 90) % 360;
+
+                // Rotate the image and update the PictureBox
+                Refresh.Image = RotateImage(Properties.Resources.icons8_refresh_50, rotationAngle);
+
+                //MessageBox.Show("Data refreshed successfully.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error refreshing data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            clearfield();
+        }
+
+        private Bitmap RotateImage(Image image, float angle)
+        {
+            // Determine the size of the rotated image
+            float offset = Math.Max(image.Width, image.Height) * (float)Math.Sqrt(2); // Diagonal
+            Bitmap rotatedImage = new Bitmap((int)offset, (int)offset);
+            rotatedImage.SetResolution(image.HorizontalResolution, image.VerticalResolution); // Maintain resolution
+
+            using (Graphics g = Graphics.FromImage(rotatedImage))
+            {
+                g.Clear(Color.Transparent); // Set a transparent background
+                g.TranslateTransform(offset / 2, offset / 2); // Move to the center
+                g.RotateTransform(angle); // Rotate the image
+                g.TranslateTransform(-image.Width / 2, -image.Height / 2); // Move back to original top-left
+                g.DrawImage(image, new Point(0, 0)); // Draw the image
+            }
+
+            return rotatedImage;
+        }
+
     }
 }

@@ -61,6 +61,7 @@ namespace Hontrack_library
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
 
+
         }
 
 
@@ -359,5 +360,88 @@ namespace Hontrack_library
         {
 
         }
+
+        private int rotationAngle = 0;
+
+        private void Refresh_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Refresh data instantly
+                displayBookData();
+
+                // Update rotation angle
+                rotationAngle = (rotationAngle + 90) % 360;
+
+                // Rotate the image and update the PictureBox
+                Refresh.Image = RotateImage(Properties.Resources.icons8_refresh_50, rotationAngle);
+
+                //MessageBox.Show("Data refreshed successfully.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error refreshing data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            clearField();
+        }
+
+        private Bitmap RotateImage(Image image, float angle)
+        {
+            // Determine the size of the rotated image
+            float offset = Math.Max(image.Width, image.Height) * (float)Math.Sqrt(2); // Diagonal
+            Bitmap rotatedImage = new Bitmap((int)offset, (int)offset);
+            rotatedImage.SetResolution(image.HorizontalResolution, image.VerticalResolution); // Maintain resolution
+
+            using (Graphics g = Graphics.FromImage(rotatedImage))
+            {
+                g.Clear(Color.Transparent); // Set a transparent background
+                g.TranslateTransform(offset / 2, offset / 2); // Move to the center
+                g.RotateTransform(angle); // Rotate the image
+                g.TranslateTransform(-image.Width / 2, -image.Height / 2); // Move back to original top-left
+                g.DrawImage(image, new Point(0, 0)); // Draw the image
+            }
+
+            return rotatedImage;
+        }
+
+        private bool isAscending = true; // Tracks the current sort order (default to Ascending)
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Retrieve the book data
+                borrowedBookData bookData = new borrowedBookData();
+                List<borrowedBookData> listdata = bookData.BookListTransaction();
+
+                // Sort the data based on the current order
+                if (isAscending)
+                {
+                    listdata = listdata.OrderBy(b => b.Borrow).ToList();
+                    pictureBox1.Image = Properties.Resources.icons8_sort_32; // Set the image to Descending
+                }
+                else
+                {
+                    listdata = listdata.OrderByDescending(b => b.Borrow).ToList();
+                    pictureBox1.Image = Properties.Resources.icons8_sort_32__1_; // Set the image to Ascending
+                }
+
+                // Toggle the sort order for the next click
+                isAscending = !isAscending;
+
+                // Update the DataGridView
+                dataGridView1.DataSource = null; // Clear the current data
+                dataGridView1.DataSource = listdata; // Bind the sorted list
+                dataGridView1.Refresh(); // Refresh the display
+
+                MessageBox.Show("Books sorted successfully.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred while sorting: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
     }
 }
